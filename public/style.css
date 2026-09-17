@@ -1,0 +1,171 @@
+/* あおこ 紹介ページ
+   色はこの3つだけ。変えるときはここを直す */
+:root{
+  --paper:#fbfaf7;   /* 背景（紙の色） */
+  --ink:#242220;     /* 文字 */
+  --ink-soft:#5d5852;/* 補足の文字 */
+  --line:#ddd8d0;    /* 細い線 */
+  --accent:#2f4f63;  /* 差し色（藍）リンクと線だけに使う */
+  --tint:#eeeae3;    /* 作例の枠（画像が入るまでの色） */
+}
+
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Hiragino Sans","ヒラギノ角ゴシック","Hiragino Kaku Gothic ProN","Yu Gothic","游ゴシック体",sans-serif;
+  font-size:16px;
+  line-height:1.85;
+  letter-spacing:.02em;
+}
+main,.head,.foot{max-width:620px;margin:0 auto;padding-left:22px;padding-right:22px;}
+p{margin:0 0 1em;}
+a{color:var(--accent);}
+
+/* 名前は小さく、上に置くだけ */
+.head{padding-top:26px;padding-bottom:0;}
+.name{
+  margin:0;
+  font-size:14px;
+  color:var(--ink-soft);
+  letter-spacing:.12em;
+}
+
+/* 最初の画面 */
+.lead{padding:22px 0 30px;}
+.lead h1{
+  margin:0 0 26px;
+  font-size:24px;
+  line-height:1.7;
+  font-weight:600;
+  letter-spacing:.01em;
+}
+/* 語の途中で改行させないための区切り */
+.lead h1 span,.support h2 span,.contact h2 span{display:inline-block;}
+.three{
+  list-style:none;
+  margin:0;
+  padding:14px 0 0;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 18px;
+  font-size:13.5px;
+}
+.three a{
+  color:var(--ink-soft);
+  text-decoration:none;
+  border-bottom:1px solid var(--line);
+  padding-bottom:2px;
+}
+.three a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* 主役：サポート */
+.support{padding:14px 0 6px;}
+.support h2{
+  margin:0 0 14px;
+  font-size:21px;
+  line-height:1.6;
+  font-weight:600;
+}
+.say{color:var(--ink-soft);font-size:15px;}
+
+.steps{
+  list-style:none;
+  margin:30px 0 0;
+  padding:0;
+  counter-reset:step;
+}
+.steps li{
+  position:relative;
+  padding:0 0 22px 46px;
+  margin:0 0 22px;
+  border-bottom:1px solid var(--line);
+}
+.steps li:last-child{border-bottom:none;}
+.steps li::before{
+  counter-increment:step;
+  content:counter(step);
+  position:absolute;
+  left:0;
+  top:3px;
+  width:30px;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-size:14px;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  border-radius:50%;
+}
+.steps h3{margin:0 0 4px;font-size:17px;font-weight:600;}
+.steps p{margin:0;font-size:15px;color:var(--ink-soft);}
+
+.cases{
+  margin:10px 0 0;
+  padding:20px 22px 6px;
+  background:#f4f1ec;
+}
+.cases h3{margin:0 0 10px;font-size:14px;font-weight:600;color:var(--ink-soft);}
+.cases ul{margin:0;padding:0 0 0 1.1em;font-size:15px;}
+.cases li{margin:0 0 .5em;}
+
+/* こんなこともできます */
+.others{padding:46px 0 10px;}
+.others h2{
+  margin:0 0 18px;
+  font-size:16px;
+  font-weight:600;
+  color:var(--ink-soft);
+  padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.item h3{margin:10px 0 3px;font-size:14.5px;font-weight:600;line-height:1.6;}
+.item p{margin:0;font-size:13px;line-height:1.75;color:var(--ink-soft);}
+
+/* 作例の枠。public/images/ に同じ名前で画像を置くと、ここに出る */
+.shot{
+  aspect-ratio:4/3;
+  background-color:var(--tint);
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+.shot-1{background-image:url("images/work-01.jpg");}
+.shot-2{background-image:url("images/work-02.jpg");}
+
+/* 連絡先 */
+.contact{padding:50px 0 60px;text-align:center;}
+.contact h2{margin:0 0 10px;font-size:19px;font-weight:600;}
+.btn{
+  display:inline-block;
+  margin-top:6px;
+  padding:13px 34px;
+  background:var(--accent);
+  color:#fff;
+  text-decoration:none;
+  font-size:15.5px;
+}
+.btn:hover{opacity:.88;}
+
+.foot{
+  padding-top:20px;
+  padding-bottom:30px;
+  border-top:1px solid var(--line);
+  color:var(--ink-soft);
+  font-size:13px;
+  letter-spacing:.2em;
+}
+.foot p{margin:0;}
+
+/* パソコンなど、画面が広いとき */
+@media (min-width:600px){
+  body{font-size:16.5px;}
+  .lead h1{font-size:30px;}
+  .two{gap:26px;}
+  .item h3{font-size:16px;}
+  .item p{font-size:14.5px;}
+}
