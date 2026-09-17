@@ -20,7 +20,12 @@ body{
   line-height:1.85;
   letter-spacing:.02em;
 }
-main,.head,.foot{max-width:620px;margin:0 auto;padding-left:22px;padding-right:22px;}
+main,.head,/* 送信後のページ */
+.result{padding:60px 0 70px;}
+.result h1{margin:0 0 16px;font-size:22px;font-weight:600;line-height:1.6;}
+.result p{font-size:15.5px;}
+
+.foot{max-width:620px;margin:0 auto;padding-left:22px;padding-right:22px;}
 p{margin:0 0 1em;}
 a{color:var(--accent);}
 
@@ -170,6 +175,9 @@ a{color:var(--accent);}
   box-shadow:0 0 0 1px var(--accent);
 }
 .field ::placeholder{color:#a8a29a;}
+/* 自動送信よけ。画面には出さないが、機械には見える欄 */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+
 .submit{margin:24px 0 0;text-align:center;}
 .submit button{
   width:100%;
@@ -190,6 +198,11 @@ a{color:var(--accent);}
   font-size:12.5px;
   color:var(--ink-soft);
 }
+
+/* 送信後のページ */
+.result{padding:60px 0 70px;}
+.result h1{margin:0 0 16px;font-size:22px;font-weight:600;line-height:1.6;}
+.result p{font-size:15.5px;}
 
 .foot{
   padding-top:20px;

@@ -2,8 +2,19 @@
   // Worker の名前。名刺に印刷したURL（life.aokoworks.workers.dev）と直結しているので変更しないこと
   "name": "life",
   "compatibility_date": "2025-09-01",
+
+  // フォームの受付係。/api/contact への送信だけ、この中で処理する
+  "main": "src/worker.js",
+
   "assets": {
     // 公開するフォルダ。この中のファイルがそのままサイトになる
-    "directory": "./public"
+    "directory": "./public",
+    // 受付係からファイルを返すための名前。変更しない
+    "binding": "ASSETS"
+  },
+
+  // 動かなかったときに、原因をCloudflareの画面で見られるようにする
+  "observability": {
+    "enabled": true
   }
 }
