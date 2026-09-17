@@ -75,12 +75,28 @@
     </div>
   </section>
 
-  <!-- 連絡先：差し替えはここ1か所だけ -->
-  <section class="contact">
+  <!-- 問い合わせフォーム。送信先（action）は Worker 側で受ける -->
+  <section id="contact" class="contact">
     <h2><span>まずは</span><span>お気軽にご相談ください</span></h2>
     <p class="say">「これ、頼めますか」の一行からで大丈夫です。</p>
-    <!-- TODO: 連絡先 ここの href と、ボタンの文字を差し替える -->
-    <p><a class="btn" href="#">ご相談はこちらから</a></p>
+
+    <!-- TODO: 連絡先 action の送信先を、用意ができたら差し替える -->
+    <form class="form" method="post" action="/api/contact">
+      <p class="field">
+        <label for="f-name">お名前</label>
+        <input id="f-name" name="name" type="text" required autocomplete="name">
+      </p>
+      <p class="field">
+        <label for="f-email">メールアドレス</label>
+        <input id="f-email" name="email" type="email" required autocomplete="email" inputmode="email">
+      </p>
+      <p class="field">
+        <label for="f-body">ご相談内容</label>
+        <textarea id="f-body" name="body" rows="5" required placeholder="うまくまとまっていなくて大丈夫です"></textarea>
+      </p>
+      <p class="submit"><button type="submit">まずは相談してみる</button></p>
+      <p class="note">いただいた内容は、ご相談へのお返事にだけ使います。</p>
+    </form>
   </section>
 
 </main>

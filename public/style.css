@@ -137,19 +137,59 @@ a{color:var(--accent);}
 .shot-1{background-image:url("images/work-01.jpg");}
 .shot-2{background-image:url("images/work-02.jpg");}
 
-/* 連絡先 */
-.contact{padding:50px 0 60px;text-align:center;}
-.contact h2{margin:0 0 10px;font-size:19px;font-weight:600;}
-.btn{
-  display:inline-block;
-  margin-top:6px;
-  padding:13px 34px;
-  background:var(--accent);
-  color:#fff;
-  text-decoration:none;
-  font-size:15.5px;
+/* 問い合わせフォーム */
+.contact{padding:50px 0 60px;}
+.contact h2{margin:0 0 8px;font-size:19px;font-weight:600;text-align:center;}
+.contact .say{text-align:center;}
+.form{margin:26px 0 0;}
+.field{margin:0 0 18px;}
+.field label{
+  display:block;
+  margin-bottom:6px;
+  font-size:14px;
+  color:var(--ink-soft);
 }
-.btn:hover{opacity:.88;}
+.field input,
+.field textarea{
+  display:block;
+  width:100%;
+  padding:11px 12px;
+  font-family:inherit;
+  font-size:16px;          /* スマホで拡大されないように16px以上にする */
+  line-height:1.7;
+  color:var(--ink);
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:2px;
+}
+.field textarea{resize:vertical;}
+.field input:focus,
+.field textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 1px var(--accent);
+}
+.field ::placeholder{color:#a8a29a;}
+.submit{margin:24px 0 0;text-align:center;}
+.submit button{
+  width:100%;
+  max-width:320px;
+  padding:14px 20px;
+  font-family:inherit;
+  font-size:16px;
+  color:#fff;
+  background:var(--accent);
+  border:none;
+  border-radius:2px;
+  cursor:pointer;
+}
+.submit button:hover{opacity:.88;}
+.note{
+  margin:14px 0 0;
+  text-align:center;
+  font-size:12.5px;
+  color:var(--ink-soft);
+}
 
 .foot{
   padding-top:20px;
