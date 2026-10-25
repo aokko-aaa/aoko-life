@@ -112,6 +112,12 @@
   .pillar h3{margin-bottom:10px;}
   .pillar ul{font-size:14px;}
   .pillar .extra{font-size:13px;color:var(--muted);margin-top:10px;}
+  .pillar-lead{font-size:14px;font-weight:700;line-height:1.7;margin-bottom:10px;}
+  .ways{margin-top:28px;}
+  .ways-title{font-weight:700;margin-bottom:12px;}
+  .ways-grid{display:grid;gap:10px;}
+  .way{border:2px solid var(--brand);padding:14px 18px;font-size:14px;line-height:1.7;}
+  .way-name{font-weight:700;color:var(--brand);font-size:15px;margin-bottom:4px;line-height:1.5;}
   .help-note{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);}
   .scope{margin-top:16px;padding:16px 18px;border:1px dashed var(--gray);font-size:13px;color:var(--muted);}
   .scope-title{font-weight:700;color:var(--ink);margin-bottom:6px;}
@@ -288,7 +294,7 @@
     <span class="num">03</span>
     <h2><span class="wb">あれこれサポートで</span><span class="wb">できること</span></h2>
     <p class="motto">効率はAIで。彩りは人で。</p>
-    <p><span class="wb">AIは、わたしが使う道具です。</span><span class="wb">新しいツールを覚えたり、</span><span class="wb">設定したりする手間は、</span><span class="wb">わたしの側で引き受けます。</span></p>
+    <p><span class="wb">AIは、わたしが使う道具です。</span><span class="wb">新しいツールを覚えたり、</span><span class="wb">設定したりする手間は、</span><span class="wb">わたしが巻き取ります！</span></p>
     <div class="pillars">
       <div class="pillar">
         <span class="pillar-tag">A</span>
@@ -316,11 +322,25 @@
       <div class="pillar">
         <span class="pillar-tag">C</span>
         <h3>AIを活用した効率化</h3>
+        <p class="pillar-lead"><span class="wb">「AIで効率化できるのは</span><span class="wb">わかっているけど、</span><span class="wb">あと一歩、手が出ない…」</span><br><span class="wb">そんな一歩目のサポートもします！</span></p>
         <ul class="dots">
           <li><span class="wb">AIで下調べ・</span><span class="wb">資料作成を効率化</span></li>
           <li><span class="wb">定型業務の見直し・</span><span class="wb">ツール活用支援</span></li>
         </ul>
         <p class="extra"><span class="wb">AIの出力は人が確認し、</span><span class="wb">目的や相手に合わせて仕上げます。</span></p>
+      </div>
+    </div>
+    <div class="ways">
+      <p class="ways-title"><span class="wb">頼み方は、</span><span class="wb">2通りから選べます</span></p>
+      <div class="ways-grid">
+        <div class="way">
+          <p class="way-name">まるっとお任せ</p>
+          <p><span class="wb">業務をそのまま</span><span class="wb">丸投げしてください。</span><span class="wb">わたしが巻き取ります。</span></p>
+        </div>
+        <div class="way">
+          <p class="way-name">自分たちで回せるように</p>
+          <p><span class="wb">いずれ自社で完結できるよう、</span><br><span class="wb">仕組みづくりから</span><span class="wb">一緒に整えます。</span></p>
+        </div>
       </div>
     </div>
     <div class="help-note">
@@ -496,7 +516,7 @@
   (function(){
     var targets = document.querySelectorAll(
       '#hero > *, #extra-hand > *, section > .num, section > h2, .worries li, .closing, .motto, .pillar, .help-note,' +
-      '.flow li, .acc details, .meanings > div, .belief, .portrait, #profile p, .career li, #contact > p, #contact .btn'
+      '.ways-title, .way, .flow li, .acc details, .meanings > div, .belief, .portrait, #profile p, .career li, #contact > p, #contact .btn'
     );
     targets.forEach(function(el){
       el.classList.add('reveal');
