@@ -183,6 +183,27 @@
   .plan-price{font-weight:700;font-size:20px;color:var(--brand);white-space:nowrap;}
   .onsite{margin:10px 0 8px;padding:10px 14px;background:var(--soft);}
   .onsite li+li{margin-top:4px;}
+  .onsite-acc{margin:10px 0 8px;}
+  .onsite-acc summary{
+    list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+    min-height:44px;font-size:14px;font-weight:700;color:var(--brand);
+  }
+  .onsite-acc summary::-webkit-details-marker{display:none;}
+  .onsite-acc summary::after{
+    content:"";width:7px;height:7px;border-right:2px solid var(--brand);border-bottom:2px solid var(--brand);
+    transform:rotate(45deg) translateY(-2px);transition:transform .25s ease;
+  }
+  .onsite-acc[open] summary::after{transform:rotate(-135deg) translateY(-2px);}
+  .onsite-acc .more-close, .onsite-acc[open] .more-open{display:none;}
+  .onsite-acc[open] .more-close{display:inline;}
+  .onsite-acc .onsite{margin-top:4px;}
+  /* 外側の料金メニュー（.acc）の見た目が、中の折りたたみに効かないように打ち消す */
+  .acc .onsite-acc{border-bottom:none;}
+  .acc .onsite-acc summary{padding:0;min-height:44px;justify-content:flex-start;}
+  .acc details.onsite-acc summary::after{width:7px;height:7px;margin-right:0;transform:rotate(45deg) translateY(-2px);}
+  .acc details.onsite-acc[open] summary::after{transform:rotate(-135deg) translateY(-2px);}
+  .onsite-acc[open] .onsite{animation:accOpen .35s ease;}
+  .onsite-more{font-weight:700;margin:-2px 0 8px;}
   .plan-small{font-size:13px;color:var(--muted);}
   .trial{margin-top:14px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--soft);font-size:13px;line-height:1.8;}
   .price-sub{font-size:12px;color:var(--muted);}
@@ -260,6 +281,8 @@
     .acc details[open] .acc-body{animation:none;}
     .more[open] .more-body{animation:none;}
     .more summary::after{transition:none;}
+    .onsite-acc summary::after{transition:none;}
+    .onsite-acc[open] .onsite{animation:none;}
   }
 </style>
 </head>
@@ -423,17 +446,21 @@
           <div class="plan-card">
             <p class="plan-head"><span class="plan-name">フルサポート</span><span class="plan-price">月9万円</span></p>
             <p><span class="wb">スタンダードに加えて、</span><span class="wb">現場でのお手伝いも。</span></p>
-            <ul class="dots onsite">
-              <li>現場での撮影</li>
-              <li>会社での書類整理</li>
-              <li>イベントの臨時スタッフ</li>
-              <li>留守番</li>
-              <li>電話番</li>
-              <li>店頭対応</li>
-            </ul>
-            <p class="plan-small"><span class="wb">必要なときに、</span><span class="wb">適宜応じます。</span><br><span class="wb">（事前予約制・西尾市周辺）</span></p>
+            <details class="onsite-acc">
+              <summary><span class="more-open">現場でのお手伝いの例を見る</span><span class="more-close">閉じる</span></summary>
+              <ul class="dots onsite">
+                <li>現場での撮影</li>
+                <li>会社での書類整理</li>
+                <li>イベントの臨時スタッフ</li>
+                <li>留守番</li>
+                <li>電話番</li>
+                <li>店頭対応</li>
+              </ul>
+              <p class="onsite-more">など…!!</p>
+            </details>
+            <p class="plan-small"><span class="wb">必要なときに、</span><span class="wb">適宜応じます。</span><br><span class="wb">（※西三河/名古屋方面のみ）</span></p>
           </div>
-          <p class="trial"><span class="wb">はじめての方は、</span><span class="wb">スタンダードを1ヶ月だけ</span><span class="wb">3.5万円でお試しいただけます</span><span class="wb">（1回限り）。</span><br><span class="wb">続けるかどうかは</span><span class="wb">一緒に決めます。</span></p>
+          <p class="trial"><span class="wb">はじめての方は、</span><span class="wb">スタンダードを1ヶ月だけ</span><span class="wb">3.5万円でお試しいただけます</span><span class="wb">（1回限り）。</span></p>
         </div>
       </details>
       <details>
@@ -452,16 +479,6 @@
         <div class="acc-body">
           <p>頭の中にあることを、そのまま話してください。</p>
           <p class="first-free"><span class="first-time">60分</span>無料</p>
-        </div>
-      </details>
-      <details>
-        <summary>共通のこと</summary>
-        <div class="acc-body">
-          <ul class="dots">
-            <li>相談はいつでも、なんでもOK</li>
-            <li>新しいツールを覚えなくても大丈夫です</li>
-            <li>いつでもやめられます</li>
-          </ul>
         </div>
       </details>
     </div>
