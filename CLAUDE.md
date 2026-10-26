@@ -20,7 +20,10 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 
 ## ファイル
 
-- `public/index.html`：ページ本体。CSS・画像（ロゴ、カラス、似顔絵）はすべてこの1枚に埋め込んである。アップロードはこの1枚でよい
+- `public/index.html`：ページ本体。CSS・画像（ロゴ、カラス、似顔絵）はすべてこの1枚に埋め込んである
+- `public/movie.html`：紹介動画だけの別ページ（https://life.aokoworks.workers.dev/movie.html）。SNSやLINEで動画を見せるときは、このURLを貼る。トップページ（index.html）には動画を入れない
+- 動画ページで使うファイル：`public/hitoiro-promo.mp4`（動画本体。Remotionで作成、元データはMacの `~/Developer/remotion-studio`）、`public/movie-poster.jpg`（読み込み中に出す絵）、`public/movie-og.jpg`（リンクを貼ったときに出るカード画像）
+- **公開するときは index.html・movie.html・hitoiro-promo.mp4・movie-poster.jpg・movie-og.jpg の5つを毎回まとめてアップロードする**（1つでも抜けると、そのファイルがサイトから消える）
 - `design/form-header.png`：Googleフォームのヘッダー画像（サイトには載せない素材）
 - `src/worker.js`・`public/style.css`・`public/thanks.html`・`public/sorry.html`・`SETUP.md`：以前の自作フォーム用。今は相談をGoogleフォームで受けているので使っていない
 
