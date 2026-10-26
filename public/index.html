@@ -176,6 +176,18 @@
   .acc-body{padding:0 0 20px;font-size:14px;}
   .acc details[open] .acc-body{animation:accOpen .35s ease;}
   @keyframes accOpen{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+  .price-note{font-size:13px;color:var(--muted);margin:-12px 0 16px;}
+  .plan-card{border:2px solid var(--brand);padding:14px 16px;margin-top:12px;}
+  .plan-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;}
+  .plan-name{font-weight:700;font-size:16px;}
+  .plan-price{font-weight:700;font-size:20px;color:var(--brand);white-space:nowrap;}
+  .onsite{margin:10px 0 8px;padding:10px 14px;background:var(--soft);}
+  .onsite li+li{margin-top:4px;}
+  .plan-small{font-size:13px;color:var(--muted);}
+  .trial{margin-top:14px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--soft);font-size:13px;line-height:1.8;}
+  .price-sub{font-size:12px;color:var(--muted);}
+  .first-free{margin-top:8px;font-weight:700;font-size:16px;}
+  .first-time{display:inline-block;margin-right:10px;padding:0 8px;border:1px solid var(--brand);color:var(--brand);font-size:13px;}
   .price{width:100%;border-collapse:collapse;margin-top:8px;}
   .price td{padding:10px 0;border-bottom:1px dashed var(--line);vertical-align:top;}
   .price td:last-child{text-align:right;white-space:nowrap;padding-left:12px;}
@@ -394,29 +406,44 @@
     </ol>
   </section>
 
-  <!-- 05 料金（金額は未確定のため出さない） -->
+  <!-- 05 料金（税込） -->
   <section id="plans">
     <span class="num">05</span>
     <h2>料金</h2>
+    <p class="price-note">表示の金額は、すべて税込です。</p>
     <div class="acc">
       <details>
         <summary>月額でお任せ</summary>
         <div class="acc-body">
           <p><span class="wb">内容やご予算に合わせて、</span><span class="wb">プランをご提案します。</span></p>
-          <table class="price">
-            <tr><td class="tbd">[プラン名]</td><td class="tbd">[金額]</td></tr><!-- TODO: 月額プランと金額 -->
-            <tr><td class="tbd">[プラン名]</td><td class="tbd">[金額]</td></tr>
-          </table>
+          <div class="plan-card">
+            <p class="plan-head"><span class="plan-name">スタンダード</span><span class="plan-price">月6万円</span></p>
+            <p><span class="wb">思考の整理から実務まで、</span><span class="wb">まるごと</span></p>
+          </div>
+          <div class="plan-card">
+            <p class="plan-head"><span class="plan-name">フルサポート</span><span class="plan-price">月9万円</span></p>
+            <p><span class="wb">スタンダードに加えて、</span><span class="wb">現場でのお手伝いも。</span></p>
+            <ul class="dots onsite">
+              <li>現場での撮影</li>
+              <li>会社での書類整理</li>
+              <li>イベントの臨時スタッフ</li>
+              <li>留守番</li>
+              <li>電話番</li>
+              <li>店頭対応</li>
+            </ul>
+            <p class="plan-small"><span class="wb">必要なときに、</span><span class="wb">適宜応じます。</span><br><span class="wb">（事前予約制・西尾市周辺）</span></p>
+          </div>
+          <p class="trial"><span class="wb">はじめての方は、</span><span class="wb">スタンダードを1ヶ月だけ</span><span class="wb">3.5万円でお試しいただけます</span><span class="wb">（1回限り）。</span><br><span class="wb">続けるかどうかは</span><span class="wb">一緒に決めます。</span></p>
         </div>
       </details>
       <details>
         <summary>スポット（これだけ頼みたい）</summary>
         <div class="acc-body">
           <table class="price">
-            <tr><td>リサーチ・比較資料作成</td><td class="tbd">[金額]</td></tr><!-- TODO: スポットのメニューと金額 -->
-            <tr><td>デザイン・資料・文章作成</td><td class="tbd">[金額]</td></tr>
-            <tr><td>イラスト制作</td><td class="tbd">[金額]</td></tr>
-            <tr><td>SNS運用サポート</td><td class="tbd">[金額]</td></tr>
+            <tr><td>リサーチ・比較資料作成</td><td>1万5,000円〜</td></tr>
+            <tr><td><span class="wb">印刷物等販促品作成</span><br><span class="price-sub">（印刷費は別途）</span></td><td>1万円〜</td></tr>
+            <tr><td>イラスト制作</td><td>5,000円〜</td></tr>
+            <tr><td>SNS運用サポート</td><td>3万5,000円〜</td></tr>
           </table>
         </div>
       </details>
@@ -424,7 +451,7 @@
         <summary>はじめての相談</summary>
         <div class="acc-body">
           <p>頭の中にあることを、そのまま話してください。</p>
-          <p class="tbd">[初回相談の料金]</p><!-- TODO: 初回相談の料金 -->
+          <p class="first-free"><span class="first-time">60分</span>無料</p>
         </div>
       </details>
       <details>
