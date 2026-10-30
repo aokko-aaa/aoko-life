@@ -104,6 +104,7 @@ pouch/skills/matometekopipe/
 
 - できあがった zip を自分で置きたいときは、`public/pouch/files/` に入れて `"skill_zip": "pouch/files/〇〇.zip"` と書きます
 - ページに出す「使い方の3ステップ」は、`"skill_steps": ["1つめ", "2つめ", "3つめ"]` で道具ごとに変えられます。書かなければ、いつもの3ステップが出ます
+- ステップの下に出す補足は `"skill_note": ["1行目", "2行目"]` に書きます（1つずつ改行して出ます。なければ出ません）
 
 **画像**は `public/pouch/images/` に置き、`"image": "pouch/images/〇〇.jpg"` と書きます。横幅 800px くらい・200KB 以下にしておくと、スマホでも軽く開けます。
 

@@ -142,6 +142,7 @@ CSS = """
   .steps li::before{content:counter(step);width:28px;height:28px;border-radius:50%;background:var(--deep);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:1px;}
   .tools{font-size:13px;color:var(--muted);margin-top:10px;}
   .enjoy{font-size:14px;}
+  .skill-note{font-size:13px;background:var(--lav-soft);border-radius:6px;padding:12px 14px;margin-bottom:12px;}
   .notes{list-style:none;display:grid;gap:8px;}
   .notes a{display:flex;align-items:center;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px;line-height:1.6;}
   .notes a::after{content:"";flex:none;margin-left:auto;padding-left:10px;width:8px;height:8px;border-right:2px solid var(--brand);border-top:2px solid var(--brand);transform:rotate(45deg);}
@@ -264,6 +265,10 @@ def build_tool(t):
     </section>""")
 
     steps = "\n".join(f"        <li><span>{wb(x)}</span></li>" for x in (t.get("skill_steps") or DEFAULT_STEPS))
+    note = t.get("skill_note") or []
+    if isinstance(note, str):
+        note = [note]
+    skill_note = f'      <p class="skill-note">{"<br>".join(wb(x) for x in note)}</p>' if note else ""
     zip_ok = file_exists(t.get("skill_zip"))
     if zip_ok:
         dl = f'<a class="btn btn-sub" href="/{t["skill_zip"].lstrip("/")}" download>スキルをダウンロード</a>'
@@ -278,6 +283,7 @@ def build_tool(t):
       <ol class="steps">
 {steps}
       </ol>
+{skill_note}
       <p class="enjoy">{wb('仕様を好みにカスタマイズしたり、デザインを変えたりして楽しんでください。')}</p>
       <div style="margin-top:16px">{dl}</div>
       {tools_line}

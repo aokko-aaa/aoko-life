@@ -77,6 +77,7 @@
   .steps li::before{content:counter(step);width:28px;height:28px;border-radius:50%;background:var(--deep);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:1px;}
   .tools{font-size:13px;color:var(--muted);margin-top:10px;}
   .enjoy{font-size:14px;}
+  .skill-note{font-size:13px;background:var(--lav-soft);border-radius:6px;padding:12px 14px;margin-bottom:12px;}
   .notes{list-style:none;display:grid;gap:8px;}
   .notes a{display:flex;align-items:center;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px;line-height:1.6;}
   .notes a::after{content:"";flex:none;margin-left:auto;padding-left:10px;width:8px;height:8px;border-right:2px solid var(--brand);border-top:2px solid var(--brand);transform:rotate(45deg);}
@@ -109,8 +110,9 @@
       <ol class="steps">
         <li><span><span class="wb"><span class="wb">zipを</span><span class="wb">ダウンロードして、</span></span><span class="wb">解凍します。</span></span></li>
         <li><span><span class="wb"><span class="wb">中の</span><span class="wb">2つの</span><span class="wb">フォルダを、</span></span><span class="wb"><span class="wb">パソコンの</span><span class="wb">「~/.claude/skills/」に</span><span class="wb">入れます。</span></span></span></li>
-        <li><span><span class="wb"><span class="wb">まとめて</span><span class="wb">COPIPEの</span><span class="wb">コードの</span><span class="wb">フォルダで</span><span class="wb">Claude Codeを</span><span class="wb">開き、</span></span><span class="wb"><span class="wb">「まとめて</span><span class="wb">COPIPEを</span><span class="wb">立てたい」と</span><span class="wb">話しかけます。</span></span></span></li>
+        <li><span><span class="wb"><span class="wb">空の</span><span class="wb">フォルダを</span><span class="wb">1つ作り、</span></span><span class="wb"><span class="wb">そこで</span><span class="wb">Claude Codeを</span><span class="wb">開いて、</span></span><span class="wb"><span class="wb">「まとめて</span><span class="wb">COPIPEを</span><span class="wb">作りたい」と</span><span class="wb">話しかけます。</span></span></span></li>
       </ol>
+      <p class="skill-note"><span class="wb"><span class="wb">この</span><span class="wb">スキルには、</span></span><span class="wb"><span class="wb">アプリの</span><span class="wb">コードは</span><span class="wb">入っていません。</span></span><br><span class="wb"><span class="wb">作り方の</span><span class="wb">説明を</span><span class="wb">読んで、</span></span><span class="wb"><span class="wb">Claudeが</span><span class="wb">あなた用に</span><span class="wb">一から</span><span class="wb">作ります。</span></span><br><span class="wb">見た目は、</span><span class="wb"><span class="wb">好きな</span><span class="wb">色や</span><span class="wb">雰囲気に</span><span class="wb">アレンジできます。</span></span></p>
       <p class="enjoy"><span class="wb"><span class="wb">仕様を</span><span class="wb">好みに</span><span class="wb">カスタマイズしたり、</span></span><span class="wb"><span class="wb">デザインを</span><span class="wb">変えたりして</span><span class="wb">楽しんでください。</span></span></p>
       <div style="margin-top:16px"><a class="btn btn-sub" href="/pouch/files/matometekopipe-skills.zip" download>スキルをダウンロード</a></div>
       <p class="tools">使えるツール：Claude Code、Codex</p>
