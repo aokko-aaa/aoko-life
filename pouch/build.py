@@ -11,6 +11,7 @@ pouch/tools.json（道具のデータ）を読んで、
 import json
 import re
 import shutil
+import zipfile
 from html import escape
 from pathlib import Path
 
@@ -44,6 +45,35 @@ def wb(text):
         inner = "".join(f'<span class="wb">{escape(p)}</span>' for p in phrases) if len(phrases) > 1 else escape(c)
         out.append(f'<span class="wb">{inner}</span>')
     return "".join(out)
+
+
+SKILLS = ROOT / "pouch" / "skills"
+
+DEFAULT_STEPS = [
+    "zipをダウンロードして、解凍します。",
+    "Claude CodeやCodexに、そのフォルダを読ませます。",
+    "「このスキルで自分用のアプリを作って」と頼みます。",
+]
+
+
+def make_skill_zip(slug):
+    """pouch/skills/<slug>/ があれば、中身を public/pouch/files/<slug>-skills.zip にまとめる。
+    zip の中の日付は固定にして、中身が同じなら毎回同じファイルになるようにする。"""
+    src = SKILLS / slug
+    if not src.is_dir():
+        return ""
+    rel = f"pouch/files/{slug}-skills.zip"
+    dest = ROOT / "public" / rel
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(dest, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(src.rglob("*")):
+            if f.is_file() and not f.name.startswith("."):
+                info = zipfile.ZipInfo(f"{slug}-skills/{f.relative_to(src).as_posix()}", (2026, 1, 1, 0, 0, 0))
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.external_attr = 0o644 << 16
+                info.flag_bits |= 0x800  # 日本語のファイル名を文字化けさせない
+                z.writestr(info, f.read_bytes())
+    return rel
 
 
 def file_exists(rel):
@@ -233,6 +263,7 @@ def build_tool(t):
       <p class="note">{wb('スマホやパソコンのブラウザで、そのまま使えます。')}</p>
     </section>""")
 
+    steps = "\n".join(f"        <li><span>{wb(x)}</span></li>" for x in (t.get("skill_steps") or DEFAULT_STEPS))
     zip_ok = file_exists(t.get("skill_zip"))
     if zip_ok:
         dl = f'<a class="btn btn-sub" href="/{t["skill_zip"].lstrip("/")}" download>スキルをダウンロード</a>'
@@ -245,9 +276,7 @@ def build_tool(t):
       <h2>自分で作りたい方</h2>
       <p>{wb('スキルは、AIに作り方を教えるための説明書のようなファイルです。')}</p>
       <ol class="steps">
-        <li><span>{wb('zipをダウンロードして、解凍します。')}</span></li>
-        <li><span>{wb('Claude CodeやCodexに、そのフォルダを読ませます。')}</span></li>
-        <li><span>{wb('「このスキルで自分用のアプリを作って」と頼みます。')}</span></li>
+{steps}
       </ol>
       <p class="enjoy">{wb('仕様を好みにカスタマイズしたり、デザインを変えたりして楽しんでください。')}</p>
       <div style="margin-top:16px">{dl}</div>
@@ -282,6 +311,10 @@ def main():
             raise SystemExit(f"{t.get('name', '?')}: 必須の項目がありません → {', '.join(missing)}")
         if not re.fullmatch(r"[a-z0-9-]+", t["slug"]):
             raise SystemExit(f"{t['name']}: slug は英小文字・数字・ハイフンだけにしてください → {t['slug']}")
+    for t in tools:
+        z = make_skill_zip(t["slug"])
+        if z and not t.get("skill_zip"):
+            t["skill_zip"] = z
     shown = sorted((t for t in tools if t["published"] is True), key=lambda t: t["date"], reverse=True)
 
     # 公開しない・消した道具の古いページを残さないよう、道具ページのフォルダを作り直す

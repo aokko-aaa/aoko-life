@@ -1,0 +1,20 @@
+まとめてCOPIPE のスキル
+
+このzipには、2つのスキルが入っています。
+スキルは、AI（Claude Code）に作業の手順を教えるための説明書のようなファイルです。
+
+■ 入っているもの
+・matometekopipe-setup … まとめてCOPIPE を、自分の Cloudflare に立てる手順
+・cloudflare-setup …… Cloudflare のアカウントやログインを整える手順
+
+■ 置き方
+1. 2つのフォルダ（matometekopipe-setup と cloudflare-setup）を、
+   パソコンの「~/.claude/skills/」の中に入れます。
+   skills フォルダがなければ作ります。
+2. まとめてCOPIPE のコードのフォルダで Claude Code を開き、
+   「まとめてCOPIPEを立てたい」と話しかけます。
+
+仕様を好みにカスタマイズしたり、デザインを変えたりして楽しんでください。
+
+my pouch｜HITO IRO
+https://life.aokoworks.workers.dev/pouch/

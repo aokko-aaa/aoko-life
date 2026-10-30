@@ -90,15 +90,22 @@ Claude は、データを直してページを作り直し、スマホで見た�
 - `skill_zip` が空、またはファイルがまだ置かれていないときは、ボタンが「スキルは準備中です」になります（壊れたリンクにはなりません）
 - `image` も、ファイルがまだ置かれていなければ表示されません
 
-## 2. スキルのzipと画像を置く場所
+## 2. スキルと画像を置く場所
 
-| もの | 置く場所 | tools.json での書き方 |
-|---|---|---|
-| スキルのzip | `public/pouch/files/` | `"skill_zip": "pouch/files/〇〇.zip"` |
-| 画像 | `public/pouch/images/` | `"image": "pouch/images/〇〇.jpg"` |
+**スキル**は、`pouch/skills/（英字の名前）/` のフォルダに、配りたいファイルをそのまま入れます。
+`python3 pouch/build.py` を実行すると、自動で zip にまとめて `public/pouch/files/（英字の名前）-skills.zip` に置き、ダウンロードボタンにつなぎます（`skill_zip` は空のままでよい）。
 
-- スキルは、フォルダごと zip にしてから置きます
-- 画像は横幅 800px くらい・200KB 以下にしておくと、スマホでも軽く開けます
+```
+pouch/skills/matometekopipe/
+  はじめにお読みください.txt
+  matometekopipe-setup/SKILL.md
+  cloudflare-setup/SKILL.md
+```
+
+- できあがった zip を自分で置きたいときは、`public/pouch/files/` に入れて `"skill_zip": "pouch/files/〇〇.zip"` と書きます
+- ページに出す「使い方の3ステップ」は、`"skill_steps": ["1つめ", "2つめ", "3つめ"]` で道具ごとに変えられます。書かなければ、いつもの3ステップが出ます
+
+**画像**は `public/pouch/images/` に置き、`"image": "pouch/images/〇〇.jpg"` と書きます。横幅 800px くらい・200KB 以下にしておくと、スマホでも軽く開けます。
 
 ## 3. ページを作り直す
 
@@ -141,6 +148,7 @@ pouch/
   tools.json        ← 道具のデータ（ここだけ直す）
   build.py          ← ページを作る仕組み
   README.md         ← このメモ
+  skills/〇〇/      ← 配るスキルの元のファイル
 public/pouch/
   index.html        ← 一覧ページ（自動で作られる）
   〇〇/index.html   ← 道具ごとのページ（自動で作られる）
@@ -148,6 +156,6 @@ public/pouch/
   mypouch-icon-64.png ← トップページの入口の小さいアイコン
   hitoiro-logo.webp ← my pouch の上と下に出す HITO IRO のロゴ
   og.png            ← リンクを貼ったときに出るカード画像（道具の画像がないとき）
-  files/            ← スキルのzip
+  files/            ← スキルのzip（pouch/skills/ から自動で作られる）
   images/           ← 道具の画像
 ```

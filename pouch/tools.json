@@ -8,6 +8,11 @@
     "image": "",
     "app_url": "https://matometekopipe-share.aokoworks.workers.dev",
     "skill_zip": "",
+    "skill_steps": [
+      "zipをダウンロードして、解凍します。",
+      "中の2つのフォルダを、パソコンの「~/.claude/skills/」に入れます。",
+      "まとめてCOPIPEのコードのフォルダでClaude Codeを開き、「まとめてCOPIPEを立てたい」と話しかけます。"
+    ],
     "tools": [
       "Claude Code",
       "Codex"
