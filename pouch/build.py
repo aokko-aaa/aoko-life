@@ -69,8 +69,17 @@ CSS = """
   .page{max-width:var(--max);margin:0 auto;background:var(--paper);min-height:100vh;border-top:8px solid var(--accent);}
   .wb{display:inline-block;}
   a{color:var(--brand);}
-  .crumb{padding:14px var(--gutter);font-size:13px;border-bottom:1px solid var(--line);}
-  .crumb a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;}
+  .topnav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px var(--gutter);border-bottom:1px solid var(--line);}
+  .topnav a{display:inline-flex;align-items:center;gap:8px;min-height:48px;text-decoration:none;}
+  .topnav .home img{width:96px;height:auto;display:block;}
+  .topnav .home span{font-size:11px;color:var(--muted);line-height:1.3;}
+  .topnav .to-list{font-size:13px;font-weight:700;color:var(--deep);}
+  .topnav .to-list img{width:22px;height:22px;}
+  .hitoiro-banner{margin:48px var(--gutter) 0;padding:24px 20px;border:2px solid var(--brand);border-radius:6px;text-align:center;}
+  .hitoiro-banner .by{font-size:12px;color:var(--muted);}
+  .hitoiro-banner img{width:150px;height:auto;display:block;margin:6px auto 4px;}
+  .hitoiro-banner .svc{font-size:13px;font-weight:700;color:var(--brand);letter-spacing:.08em;}
+  .hitoiro-banner .catch{font-weight:700;font-size:16px;line-height:1.6;margin:10px 0 16px;}
   main{padding:32px var(--gutter) 48px;}
   .pouch-head{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
   .pouch-head img{width:72px;height:72px;flex:none;}
@@ -138,6 +147,22 @@ def head(title, description, url, image):
 """
 
 
+TOPNAV_HOME = """  <nav class="topnav">
+    <a class="home" href="/" aria-label="HITO IRO のトップへ"><img src="/pouch/hitoiro-logo.webp" alt="hitoiro" width="360" height="105"><span>あれこれサポート<br>トップへ</span></a>
+"""
+
+TOPNAV_LIST = """    <a class="to-list" href="/pouch/"><img src="/pouch/mypouch-icon-64.png" alt="" width="22" height="22">my pouch</a>
+"""
+
+BANNER = """  <aside class="hitoiro-banner">
+    <p class="by">my pouch をつくっている</p>
+    <img src="/pouch/hitoiro-logo.webp" alt="hitoiro" width="360" height="105" loading="lazy">
+    <p class="svc">あれこれサポート</p>
+    <p class="catch"><span class="wb">頭の中の「あれこれ」を、</span><span class="wb">一緒にカタチに。</span></p>
+    <a class="btn btn-sub" href="/">HITO IRO を見る</a>
+  </aside>
+"""
+
 FOOT = """  <footer>
     <p><a href="/">HITO IRO（あれこれサポート）</a></p>
     <p>© AOKOWORKS</p>
@@ -170,8 +195,7 @@ def build_index(tools):
         </a>
       </li>""")
     body = "\n".join(cards) if cards else '      <li class="empty">道具は準備中です。</li>'
-    return head(title, desc, f"{SITE}/pouch/", f"{SITE}/pouch/og.png") + f"""  <p class="crumb"><a href="/">HITO IRO のトップへ</a></p>
-  <main>
+    return head(title, desc, f"{SITE}/pouch/", f"{SITE}/pouch/og.png") + TOPNAV_HOME + "  </nav>\n" + f"""  <main>
     <div class="pouch-head">
       <img src="/pouch/mypouch-icon.png" alt="" width="72" height="72">
       <h1>my pouch</h1>
@@ -184,7 +208,7 @@ def build_index(tools):
 {body}
     </ul>
   </main>
-""" + FOOT
+""" + BANNER + FOOT
 
 
 def build_tool(t):
@@ -240,11 +264,11 @@ def build_tool(t):
     </section>""")
 
     parts.append("""    <p class="back"><a href="/pouch/">my pouch の一覧へ</a></p>""")
-    return head(title, t["tsumari"], f"{SITE}/pouch/{t['slug']}/", og) + """  <p class="crumb"><a href="/pouch/">my pouch の一覧へ</a></p>
+    return head(title, t["tsumari"], f"{SITE}/pouch/{t['slug']}/", og) + TOPNAV_HOME + TOPNAV_LIST + """  </nav>
   <main>
 """ + "\n".join(parts) + """
   </main>
-""" + FOOT
+""" + BANNER + FOOT
 
 
 def main():

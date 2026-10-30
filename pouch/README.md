@@ -143,6 +143,7 @@ public/pouch/
   〇〇/index.html   ← 道具ごとのページ（自動で作られる）
   mypouch-icon.png  ← 一覧ページのアイコン
   mypouch-icon-64.png ← トップページの入口の小さいアイコン
+  hitoiro-logo.webp ← my pouch の上と下に出す HITO IRO のロゴ
   og.png            ← リンクを貼ったときに出るカード画像（道具の画像がないとき）
   files/            ← スキルのzip
   images/           ← 道具の画像
