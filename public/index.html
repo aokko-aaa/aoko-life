@@ -296,6 +296,66 @@
     .onsite-acc summary::after{transition:none;}
     .onsite-acc[open] .onsite{animation:none;}
   }
+
+  /* ===== パソコン用（画面の幅が900px以上のときだけ）。スマホの見え方は変えない ===== */
+  @media (min-width: 900px){
+    :root{--max:1040px;--gutter:64px;}
+    body{font-size:16px;}
+    .page{box-shadow:0 0 0 1px var(--line);}
+    section{padding:88px var(--gutter);}
+    h2{font-size:32px;margin-bottom:32px;}
+    .num{font-size:13px;}
+
+    /* 01 ファーストビュー：左に言葉とボタン、右にカラスとロゴ */
+    #hero{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;align-items:center;padding-top:80px;padding-bottom:80px;}
+    #hero > *{grid-column:1;}
+    #hero .hero-visual{grid-column:2;grid-row:1 / span 4;margin-bottom:0;}
+    .catch{font-size:34px;margin-bottom:16px;white-space:nowrap;}
+    .sub{font-size:17px;}
+    #hero .btn{width:340px;margin-top:36px;}
+    .crow{width:52%;}
+
+    /* 02 お悩み：2列 */
+    .worries{grid-template-columns:1fr 1fr;gap:14px;}
+    .closing{max-width:760px;}
+
+    /* 03 できること：A・B・C を横に3つ、関わり方を横に2つ */
+    .pillars{grid-template-columns:repeat(3,1fr);align-items:stretch;}
+    .ways-grid{grid-template-columns:1fr 1fr;}
+    .help-note{max-width:760px;}
+
+    /* 03のあと：人を増やすと → あれこれサポートなら を横に */
+    .hand-lead{font-size:24px;}
+    .hand-compare{display:grid;grid-template-columns:1fr 40px 1fr;align-items:stretch;}
+    .hand-arrow{align-self:center;margin:0 auto;transform:rotate(-45deg);}
+    #extra-hand .btn{width:420px;margin:0 auto;}
+
+    /* 04 流れ：読みやすい幅に */
+    .flow{max-width:760px;}
+
+    /* 05 料金：月額プランを横に2つ */
+    .acc-body:has(.plan-card){display:grid;grid-template-columns:1fr 1fr;column-gap:16px;}
+    .acc-body:has(.plan-card) > :not(.plan-card){grid-column:1 / -1;}
+    .plan-card{margin-top:12px;align-self:start;}
+    .price{max-width:640px;}
+
+    /* 06 名前の由来：2列 */
+    .meanings{grid-template-columns:1fr 1fr;gap:24px 40px;}
+
+    /* 07 プロフィール：左に似顔絵、右に自己紹介と経歴 */
+    #profile{display:grid;grid-template-columns:260px 1fr;column-gap:64px;text-align:left;align-items:start;}
+    #profile > .num, #profile > h2{grid-column:1 / -1;}
+    #profile .portrait{grid-column:1;grid-row:3;width:220px;height:220px;margin:0 auto 16px;}
+    #profile .profile-role{grid-column:1;grid-row:4;text-align:center;}
+    #profile .bio{grid-column:2;grid-row:3 / span 3;}
+    #profile .bio-head{text-align:left;}
+    #profile .bio-close{text-align:left;}
+    #profile .career{grid-column:2;}
+    #profile .more summary{margin:0;}
+
+    /* 08 お問い合わせ */
+    #contact .btn{width:420px;margin:0 auto;}
+  }
 </style>
 </head>
 <body>

@@ -173,6 +173,15 @@ CSS = """
   .back a{display:inline-flex;align-items:center;min-height:44px;}
   footer{padding:24px var(--gutter);text-align:center;font-size:12px;color:var(--muted);border-top:1px solid var(--line);}
   footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44px;}
+  /* パソコン用（画面の幅が900px以上のときだけ）。スマホの見え方は変えない */
+  @media (min-width: 900px){
+    :root{--max:760px;--gutter:48px;}
+    body{font-size:16px;}
+    main{padding:48px var(--gutter) 64px;}
+    .cards{grid-template-columns:1fr 1fr;}
+    .hitoiro-banner{max-width:520px;margin:56px auto 0;}
+    .btn{max-width:420px;margin-left:auto;margin-right:auto;}
+  }
 """
 
 
