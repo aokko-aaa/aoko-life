@@ -8,7 +8,7 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 - 公開URL：https://life.aokoworks.workers.dev
 - ホスティング：Cloudflare Workers（Worker名 `life`）
 - **このURLは名刺に印刷済み。Worker名とサブドメインは絶対に変更しないこと**
-- 現在の公開方法：Cloudflare の管理画面で `life` を開き「新規展開」から `public/index.html` を手動アップロードしている（GitHubとは自動ではつながっていない）
+- 現在の公開方法：Cloudflare の管理画面で `life` を開き「新規展開」から `public/` フォルダの中身を全部まとめて手動アップロードしている（GitHubとは自動ではつながっていない）
 
 ## 作業する人について
 
@@ -24,7 +24,9 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 - `public/movie.html`：紹介動画だけの別ページ（https://life.aokoworks.workers.dev/movie.html）。SNSやLINEで動画を見せるときは、このURLを貼る。トップページ（index.html）には動画を入れない
 - 動画ページで使うファイル：`public/hitoiro-promo.mp4`（動画本体。Remotionで作成、元データはMacの `~/Developer/remotion-studio`）、`public/movie-poster.jpg`（読み込み中に出す絵）、`public/movie-og.jpg`（リンクを貼ったときに出るカード画像）
 - `public/favicon.ico`・`public/apple-touch-icon.png`：ブックマークやタブに出るアイコン（ロゴの頭文字「Hi」の部分）。index.html と movie.html の `<head>` で読み込んでいる
-- **公開するときは index.html・movie.html・hitoiro-promo.mp4・movie-poster.jpg・movie-og.jpg・favicon.ico・apple-touch-icon.png の7つを毎回まとめてアップロードする**（1つでも抜けると、そのファイルがサイトから消える）
+- `public/pouch/`：自作の道具を配る「my pouch」（https://life.aokoworks.workers.dev/pouch/）。中の html は `pouch/tools.json`（道具のデータ）から `python3 pouch/build.py` で自動で作る。手で直さない。道具の足し方は `pouch/README.md`
+- トップページから my pouch への入口は、フッターの「my pouch」ボタン1つだけ
+- **公開するときは `public/` フォルダの中身を毎回まとめて全部アップロードする**（新規展開はサイト全体を入れ替えるので、1つでも抜けるとそのファイルがサイトから消える）
 - `design/form-header.png`：Googleフォームのヘッダー画像（サイトには載せない素材）
 - `src/worker.js`・`public/style.css`・`public/thanks.html`・`public/sorry.html`・`SETUP.md`：以前の自作フォーム用。今は相談をGoogleフォームで受けているので使っていない
 

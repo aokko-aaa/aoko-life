@@ -1,0 +1,18 @@
+[
+  {
+    "name": "まとめてCOPIPE",
+    "slug": "matometekopipe",
+    "tsumari": "お店をLINEで送るたびに、GoogleマップとLINEを行ったり来たりしてしまう",
+    "description": "Googleマップの保存リストや共有したお店から送りたいものを選ぶと、番号つきの一覧ができあがります。そのままLINEなどに貼って送れます。",
+    "image": "",
+    "app_url": "https://matometekopipe-share.aokoworks.workers.dev",
+    "skill_zip": "",
+    "tools": ["Claude Code", "Codex"],
+    "notes": [
+      {"title": "「お店、3つ送るね」が億劫すぎて、アプリを作った話", "url": "https://note.com/aokoworks/n/n730a202df82c"},
+      {"title": "「お店、3つ送るね」億劫すぎてアプリを作った話2", "url": "https://note.com/aokoworks/n/n0f7a39cd253b"}
+    ],
+    "date": "2026-10-30",
+    "published": true
+  }
+]

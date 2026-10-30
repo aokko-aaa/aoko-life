@@ -1,0 +1,275 @@
+"""my pouch のページを書き出す。
+
+pouch/tools.json（道具のデータ）を読んで、
+  public/pouch/index.html            … 一覧ページ
+  public/pouch/<slug>/index.html     … 道具ごとのページ
+を作り直す。道具を足したり直したりしたら、リポジトリの一番上で
+  python3 pouch/build.py
+を実行する。手で public/pouch/ の html を直さないこと（次に書き出したとき消える）。
+"""
+
+import json
+import re
+import shutil
+from html import escape
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DATA = ROOT / "pouch" / "tools.json"
+OUT = ROOT / "public" / "pouch"
+SITE = "https://life.aokoworks.workers.dev"
+
+REQUIRED = ["name", "slug", "tsumari", "description", "date", "published"]
+
+try:
+    # 日本語を文節（意味のまとまり）で区切る道具。なくても動くが、改行が少し雑になる
+    #   入れ方： pip install budoux
+    import budoux
+    _parser = budoux.load_default_japanese_parser()
+except ImportError:
+    _parser = None
+
+
+def wb(text):
+    """言葉の途中で改行されないようにする（index.html と同じ <span class="wb"> の方法）。
+    まず読点・句点で区切り、それでも1行に収まらないときは文節の切れ目で折り返す。"""
+    clauses = re.findall(r"[^、。！？]*[、。！？]+[」』）]*|[^、。！？]+$", text)
+    out = []
+    for c in clauses:
+        if not c:
+            continue
+        phrases = _parser.parse(c) if _parser else [c]
+        inner = "".join(f'<span class="wb">{escape(p)}</span>' for p in phrases) if len(phrases) > 1 else escape(c)
+        out.append(f'<span class="wb">{inner}</span>')
+    return "".join(out)
+
+
+def file_exists(rel):
+    """public/ からの相対パス（例 pouch/files/x.zip）のファイルが実際にあるか"""
+    return bool(rel) and (ROOT / "public" / rel.lstrip("/")).is_file()
+
+
+CSS = """
+  :root{
+    --ink:#333333;
+    --paper:#fff;
+    --line:#dcdcdc;
+    --muted:#666;
+    --soft:#f4f4f4;
+    --brand:#7b4fa0;
+    --accent:#b4ff3f;   /* 黄緑：文字には使わず、帯や線だけ */
+    --lav:#957bb1;      /* my pouch のラベンダー */
+    --deep:#4a4660;     /* my pouch のこい紫 */
+    --lav-soft:#f3eff7;
+    --max:440px;
+    --gutter:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--soft);color:var(--ink);line-height:1.8;font-size:15px;-webkit-text-size-adjust:100%;}
+  .page{max-width:var(--max);margin:0 auto;background:var(--paper);min-height:100vh;border-top:8px solid var(--accent);}
+  .wb{display:inline-block;}
+  a{color:var(--brand);}
+  .crumb{padding:14px var(--gutter);font-size:13px;border-bottom:1px solid var(--line);}
+  .crumb a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;}
+  main{padding:32px var(--gutter) 48px;}
+  .pouch-head{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+  .pouch-head img{width:72px;height:72px;flex:none;}
+  h1{font-size:26px;font-weight:700;line-height:1.35;color:var(--deep);}
+  .pouch-head h1{font-size:30px;letter-spacing:.02em;}
+  .lead{margin-bottom:28px;}
+  .lead p+p{margin-top:8px;}
+  .cards{list-style:none;display:grid;gap:14px;}
+  .card{display:block;border:2px solid var(--lav);border-radius:6px;overflow:hidden;text-decoration:none;color:var(--ink);background:var(--paper);}
+  .card img{display:block;width:100%;height:auto;border-bottom:1px solid var(--line);}
+  .card-body{padding:16px 18px;}
+  .card-name{font-size:18px;font-weight:700;color:var(--deep);margin-bottom:4px;}
+  .card-tsumari{font-size:14px;color:var(--muted);line-height:1.7;}
+  .card-more{display:block;margin-top:10px;font-size:13px;font-weight:700;color:var(--brand);}
+  .empty{color:var(--muted);}
+  .hero-img{display:block;width:100%;height:auto;border-radius:6px;margin-bottom:20px;}
+  .tool-label{display:inline-block;font-size:12px;font-weight:700;color:var(--paper);background:var(--lav);padding:0 10px;border-radius:999px;margin-bottom:8px;}
+  section{margin-top:32px;}
+  h2{font-size:18px;font-weight:700;line-height:1.5;margin-bottom:12px;padding-left:12px;border-left:4px solid var(--accent);}
+  .tsumari{background:var(--lav-soft);border-radius:6px;padding:16px 18px;font-weight:700;line-height:1.7;margin:16px 0;}
+  .tsumari::before{content:"つまり";display:block;font-size:12px;color:var(--deep);letter-spacing:.1em;margin-bottom:4px;font-weight:700;}
+  .btn{display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px 20px;background:var(--brand);color:var(--paper);font-weight:700;font-size:15px;letter-spacing:.06em;text-decoration:none;border-radius:999px;}
+  .btn-sub{background:var(--paper);color:var(--brand);border:2px solid var(--brand);}
+  .btn-off{background:var(--soft);color:var(--muted);border:2px dashed var(--line);cursor:default;}
+  .note{font-size:13px;color:var(--muted);margin-top:8px;}
+  .steps{list-style:none;counter-reset:step;margin:16px 0 12px;display:grid;gap:10px;}
+  .steps li{counter-increment:step;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:14px;}
+  .steps li::before{content:counter(step);width:28px;height:28px;border-radius:50%;background:var(--deep);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:1px;}
+  .tools{font-size:13px;color:var(--muted);margin-top:10px;}
+  .enjoy{font-size:14px;}
+  .notes{list-style:none;display:grid;gap:8px;}
+  .notes a{display:flex;align-items:center;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px;line-height:1.6;}
+  .notes a::after{content:"";flex:none;margin-left:auto;padding-left:10px;width:8px;height:8px;border-right:2px solid var(--brand);border-top:2px solid var(--brand);transform:rotate(45deg);}
+  .notes .src{display:block;font-size:11px;color:var(--muted);}
+  .back{margin-top:40px;text-align:center;font-size:14px;}
+  .back a{display:inline-flex;align-items:center;min-height:44px;}
+  footer{padding:24px var(--gutter);text-align:center;font-size:12px;color:var(--muted);border-top:1px solid var(--line);}
+  footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44px;}
+"""
+
+
+def head(title, description, url, image):
+    return f"""<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{escape(title)}</title>
+<meta name="description" content="{escape(description)}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{escape(title)}">
+<meta property="og:description" content="{escape(description)}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{image}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>{CSS}</style>
+</head>
+<body>
+<div class="page">
+"""
+
+
+FOOT = """  <footer>
+    <p><a href="/">HITO IRO（あれこれサポート）</a></p>
+    <p>© AOKOWORKS</p>
+  </footer>
+</div>
+</body>
+</html>
+"""
+
+
+def image_url(tool):
+    return f"/{tool['image'].lstrip('/')}" if file_exists(tool.get("image")) else ""
+
+
+def build_index(tools):
+    title = "my pouch｜HITO IRO"
+    desc = "暮らしや仕事の小さな「つまり」を、ほどくために作った道具を置いています。"
+    cards = []
+    for t in tools:
+        img = image_url(t)
+        img_tag = f'<img src="{img}" alt="" loading="lazy">' if img else ""
+        cards.append(f"""      <li>
+        <a class="card" href="/pouch/{t['slug']}/">
+          {img_tag}
+          <div class="card-body">
+            <p class="card-name">{escape(t['name'])}</p>
+            <p class="card-tsumari">{wb(t['tsumari'])}</p>
+            <span class="card-more">くわしく見る</span>
+          </div>
+        </a>
+      </li>""")
+    body = "\n".join(cards) if cards else '      <li class="empty">道具は準備中です。</li>'
+    return head(title, desc, f"{SITE}/pouch/", f"{SITE}/pouch/og.png") + f"""  <p class="crumb"><a href="/">HITO IRO のトップへ</a></p>
+  <main>
+    <div class="pouch-head">
+      <img src="/pouch/mypouch-icon.png" alt="" width="72" height="72">
+      <h1>my pouch</h1>
+    </div>
+    <div class="lead">
+      <p>{wb('暮らしや仕事の小さな「つまり」を、仕組みでほどくために作った道具を置いています。')}</p>
+      <p>{wb('気になるものがあれば、自由に使ってください。')}</p>
+    </div>
+    <ul class="cards">
+{body}
+    </ul>
+  </main>
+""" + FOOT
+
+
+def build_tool(t):
+    title = f"{t['name']}｜my pouch"
+    img = image_url(t)
+    og = f"{SITE}{img}" if img else f"{SITE}/pouch/og.png"
+    parts = []
+    if img:
+        parts.append(f'    <img class="hero-img" src="{img}" alt="">')
+    parts.append(f"""    <span class="tool-label">my pouch</span>
+    <h1>{escape(t['name'])}</h1>
+    <p class="tsumari">{wb(t['tsumari'])}</p>
+    <p>{wb(t['description'])}</p>""")
+
+    if t.get("app_url"):
+        parts.append(f"""    <section>
+      <h2>すぐ使いたい方</h2>
+      <a class="btn" href="{escape(t['app_url'])}" target="_blank" rel="noopener">アプリを開く</a>
+      <p class="note">{wb('スマホやパソコンのブラウザで、そのまま使えます。')}</p>
+    </section>""")
+
+    zip_ok = file_exists(t.get("skill_zip"))
+    if zip_ok:
+        dl = f'<a class="btn btn-sub" href="/{t["skill_zip"].lstrip("/")}" download>スキルをダウンロード</a>'
+    else:
+        dl = '<span class="btn btn-off" aria-disabled="true">スキルは準備中です</span>'
+    tools_line = ""
+    if t.get("tools"):
+        tools_line = f'<p class="tools">使えるツール：{escape("、".join(t["tools"]))}</p>'
+    parts.append(f"""    <section>
+      <h2>自分で作りたい方</h2>
+      <p>{wb('スキルは、AIに作り方を教えるための説明書のようなファイルです。')}</p>
+      <ol class="steps">
+        <li><span>{wb('zipをダウンロードして、解凍します。')}</span></li>
+        <li><span>{wb('Claude CodeやCodexに、そのフォルダを読ませます。')}</span></li>
+        <li><span>{wb('「このスキルで自分用のアプリを作って」と頼みます。')}</span></li>
+      </ol>
+      <p class="enjoy">{wb('仕様を好みにカスタマイズしたり、デザインを変えたりして楽しんでください。')}</p>
+      <div style="margin-top:16px">{dl}</div>
+      {tools_line}
+    </section>""")
+
+    notes = [n for n in t.get("notes", []) if n.get("title") and n.get("url")]
+    if notes:
+        items = "\n".join(
+            f'        <li><a href="{escape(n["url"])}" target="_blank" rel="noopener"><span>{escape(n["title"])}<span class="src">note</span></span></a></li>'
+            for n in notes)
+        parts.append(f"""    <section>
+      <h2>くわしくはnoteで</h2>
+      <ul class="notes">
+{items}
+      </ul>
+    </section>""")
+
+    parts.append("""    <p class="back"><a href="/pouch/">my pouch の一覧へ</a></p>""")
+    return head(title, t["tsumari"], f"{SITE}/pouch/{t['slug']}/", og) + """  <p class="crumb"><a href="/pouch/">my pouch の一覧へ</a></p>
+  <main>
+""" + "\n".join(parts) + """
+  </main>
+""" + FOOT
+
+
+def main():
+    tools = json.loads(DATA.read_text(encoding="utf-8"))
+    for t in tools:
+        missing = [k for k in REQUIRED if t.get(k) in (None, "")]
+        if missing:
+            raise SystemExit(f"{t.get('name', '?')}: 必須の項目がありません → {', '.join(missing)}")
+        if not re.fullmatch(r"[a-z0-9-]+", t["slug"]):
+            raise SystemExit(f"{t['name']}: slug は英小文字・数字・ハイフンだけにしてください → {t['slug']}")
+    shown = sorted((t for t in tools if t["published"] is True), key=lambda t: t["date"], reverse=True)
+
+    # 公開しない・消した道具の古いページを残さないよう、道具ページのフォルダを作り直す
+    keep = {"files", "images"}
+    for d in OUT.iterdir():
+        if d.is_dir() and d.name not in keep:
+            shutil.rmtree(d)
+
+    (OUT / "index.html").write_text(build_index(shown), encoding="utf-8")
+    for t in shown:
+        d = OUT / t["slug"]
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "index.html").write_text(build_tool(t), encoding="utf-8")
+    print(f"書き出しました：一覧と道具 {len(shown)} 件（非公開 {len(tools) - len(shown)} 件）")
+
+
+if __name__ == "__main__":
+    main()

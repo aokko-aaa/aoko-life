@@ -10,6 +10,11 @@
 ```
 public/
   index.html           ← ページ本体。色・画像もすべてこの1枚に入っている
+  movie.html           ← 紹介動画だけのページ（動画・ポスター・アイコンも public/ に入っている）
+  pouch/               ← 自作の道具を配る「my pouch」（自動で作られるページ）
+pouch/
+  tools.json           ← my pouch の道具のデータ。道具を足すときはここを直す
+  README.md            ← my pouch の足し方メモ
 design/
   form-header.png      ← Googleフォームのヘッダー画像（サイトには載せない）
 wrangler.jsonc         ← 公開するときの設定。Worker名 life は変更しないこと
@@ -28,10 +33,12 @@ src/worker.js, public/style.css, public/thanks.html, public/sorry.html, SETUP.md
 
 ## 公開のしかた（今のやり方）
 
-1. `public/index.html` をパソコンに保存し、新しいフォルダに `index.html` だけを入れる
+1. `public` フォルダを、中身を全部そろえたままパソコンに用意する
 2. Cloudflare の管理画面で Worker `life` を開き、右上の「新規展開」を押す
-3. フォルダをドラッグして「デプロイ」を押す
+3. `public` フォルダの中身を全部ドラッグして「デプロイ」を押す
 4. https://life.aokoworks.workers.dev を開いて確認する
+
+新規展開は、アップロードしたファイルでサイト全体を入れ替えます。1つでも抜けると、そのファイルはサイトから消えるので、必ず全部まとめてアップロードしてください。
 
 ## パソコンで見た目を確かめる
 
