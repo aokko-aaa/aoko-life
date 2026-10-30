@@ -114,7 +114,30 @@ CSS = """
   .hitoiro-banner .catch{font-weight:700;font-size:16px;line-height:1.6;margin:10px 0 16px;}
   main{padding:32px var(--gutter) 48px;}
   .pouch-head{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
-  .pouch-head img{width:72px;height:72px;flex:none;}
+  .pouch-head{margin-top:20px;}
+  .pouch-icon{position:relative;width:72px;height:72px;flex:none;}
+  .pouch-icon img{width:72px;height:72px;display:block;position:relative;z-index:1;}
+  /* あめちゃん：ポーチの口から飛び出して、まわりに落ち着く */
+  .candy{position:absolute;left:24px;top:6px;width:24px;height:12px;z-index:2;
+    transform:translate(var(--x),var(--y)) rotate(var(--r));}
+  .candy svg{display:block;width:100%;height:100%;}
+  .c1{--x:-22px;--y:-14px;--r:-28deg;}
+  .c2{--x:6px;--y:-26px;--r:12deg;}
+  .c3{--x:36px;--y:-10px;--r:34deg;}
+  @media (prefers-reduced-motion: no-preference){
+    .candy{animation:pop 1.1s cubic-bezier(.25,.9,.35,1.15) both;}
+    .c1{animation-delay:.5s;}
+    .c2{animation-delay:.75s;}
+    .c3{animation-delay:1s;}
+    .pouch-icon img{animation:wiggle .9s ease .35s both;}
+  }
+  @keyframes pop{
+    0%{transform:translate(0,12px) rotate(0) scale(.2);opacity:0;}
+    25%{opacity:1;}
+    55%{transform:translate(calc(var(--x) * .7),calc(var(--y) - 14px)) rotate(calc(var(--r) * 2)) scale(1);}
+    100%{transform:translate(var(--x),var(--y)) rotate(var(--r)) scale(1);opacity:1;}
+  }
+  @keyframes wiggle{0%,100%{transform:rotate(0);}25%{transform:rotate(-6deg);}50%{transform:rotate(5deg);}75%{transform:rotate(-2deg);}}
   h1{font-size:26px;font-weight:700;line-height:1.35;color:var(--deep);}
   .pouch-head h1{font-size:30px;letter-spacing:.02em;}
   .lead{margin-bottom:28px;}
@@ -181,6 +204,22 @@ def head(title, description, url, image):
 """
 
 
+def candy(cls, body, stripe):
+    """ラッピングされた、あめちゃんの絵"""
+    return (f'        <span class="candy {cls}" aria-hidden="true"><svg viewBox="0 0 40 20">'
+            f'<path d="M11 10 1 2.5 3.5 10 1 17.5Z" fill="#4a4660"/>'
+            f'<path d="M29 10 39 2.5 36.5 10 39 17.5Z" fill="#4a4660"/>'
+            f'<ellipse cx="20" cy="10" rx="10.5" ry="8" fill="{body}"/>'
+            f'<path d="M14 4.5c3 3 3 8 0 11M20 2.2c3 3.5 3 12 0 15.6M26 4.5c3 3 3 8 0 11" stroke="{stripe}" stroke-width="1.6" fill="none"/>'
+            f'</svg></span>')
+
+
+CANDIES = "\n".join([
+    candy("c1", "#aef63d", "#4a4660"),
+    candy("c2", "#957bb1", "#ffffff"),
+    candy("c3", "#f5a623", "#ffffff"),
+])
+
 TOPNAV_HOME = """  <nav class="topnav">
     <a class="home" href="/" aria-label="HITO IRO のトップへ"><img src="/pouch/hitoiro-logo.webp" alt="hitoiro" width="360" height="105"><span>あれこれサポート<br>トップへ</span></a>
 """
@@ -213,7 +252,7 @@ def image_url(tool):
 
 def build_index(tools):
     title = "my pouch｜HITO IRO"
-    desc = "暮らしや仕事の小さな「つまり」を、ほどくために作った道具を置いています。"
+    desc = "暮らしのちょっとした不便を解決した、「あめちゃん」をおひとつどうぞ。"
     cards = []
     for t in tools:
         img = image_url(t)
@@ -231,11 +270,14 @@ def build_index(tools):
     body = "\n".join(cards) if cards else '      <li class="empty">道具は準備中です。</li>'
     return head(title, desc, f"{SITE}/pouch/", f"{SITE}/pouch/og.png") + TOPNAV_HOME + "  </nav>\n" + f"""  <main>
     <div class="pouch-head">
-      <img src="/pouch/mypouch-icon.png" alt="" width="72" height="72">
+      <div class="pouch-icon">
+        <img src="/pouch/mypouch-icon.png" alt="" width="72" height="72">
+{CANDIES}
+      </div>
       <h1>my pouch</h1>
     </div>
     <div class="lead">
-      <p>{wb('暮らしや仕事の小さな「つまり」を、仕組みでほどくために作った道具を置いています。')}</p>
+      <p>{wb('暮らしのちょっとした不便を解決した、')}<br>{wb('「あめちゃん」をおひとつどうぞ。')}</p>
       <p>{wb('気になるものがあれば、自由に使ってください。')}</p>
     </div>
     <ul class="cards">
