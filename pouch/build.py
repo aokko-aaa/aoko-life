@@ -32,8 +32,10 @@ except ImportError:
 
 def wb(text):
     """言葉の途中で改行されないようにする（index.html と同じ <span class="wb"> の方法）。
-    まず読点・句点で区切り、それでも1行に収まらないときは文節の切れ目で折り返す。"""
-    clauses = re.findall(r"[^、。！？]*[、。！？]+[」』）]*|[^、。！？]+$", text)
+    まず読点・句点で区切り、それでも1行に収まらないときは文節の切れ目で折り返す。
+    データの文に「|」を入れると、そこでも区切る（折り返してほしい場所の目印。ページには出ない）。"""
+    clauses = [c for seg in text.split("|")
+               for c in re.findall(r"[^、。！？]*[、。！？]+[」』）]*|[^、。！？]+$", seg)]
     out = []
     for c in clauses:
         if not c:
@@ -90,9 +92,9 @@ CSS = """
   .cards{list-style:none;display:grid;gap:14px;}
   .card{display:block;border:2px solid var(--lav);border-radius:6px;overflow:hidden;text-decoration:none;color:var(--ink);background:var(--paper);}
   .card img{display:block;width:100%;height:auto;border-bottom:1px solid var(--line);}
-  .card-body{padding:16px 18px;}
-  .card-name{font-size:18px;font-weight:700;color:var(--deep);margin-bottom:4px;}
-  .card-tsumari{font-size:14px;color:var(--muted);line-height:1.7;}
+  .card-name{font-size:20px;font-weight:700;line-height:1.4;color:var(--paper);background:var(--brand);padding:12px 18px;}
+  .card-body{padding:14px 18px 16px;}
+  .card-tsumari{font-size:14px;line-height:1.7;}
   .card-more{display:block;margin-top:10px;font-size:13px;font-weight:700;color:var(--brand);}
   .empty{color:var(--muted);}
   .hero-img{display:block;width:100%;height:auto;border-radius:6px;margin-bottom:20px;}
@@ -122,6 +124,7 @@ CSS = """
 
 
 def head(title, description, url, image):
+    description = description.replace("|", "")
     return f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -187,9 +190,9 @@ def build_index(tools):
         cards.append(f"""      <li>
         <a class="card" href="/pouch/{t['slug']}/">
           {img_tag}
+          <p class="card-name">{escape(t['name'])}</p>
           <div class="card-body">
-            <p class="card-name">{escape(t['name'])}</p>
-            <p class="card-tsumari">{wb(t['tsumari'])}</p>
+            <p class="card-tsumari">{wb(t.get('summary') or t['tsumari'])}</p>
             <span class="card-more">くわしく見る</span>
           </div>
         </a>
