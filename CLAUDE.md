@@ -25,7 +25,7 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 - 動画ページで使うファイル：`public/hitoiro-promo.mp4`（動画本体。Remotionで作成、元データはMacの `~/Developer/remotion-studio`）、`public/movie-poster.jpg`（読み込み中に出す絵）、`public/movie-og.jpg`（リンクを貼ったときに出るカード画像）
 - `public/favicon.ico`・`public/apple-touch-icon.png`：ブックマークやタブに出るアイコン（ロゴの頭文字「Hi」の部分）。index.html と movie.html の `<head>` で読み込んでいる
 - `public/pouch/`：自作の道具を配る「my pouch」（https://life.aokoworks.workers.dev/pouch/）。中の html は `pouch/tools.json`（道具のデータ）から `python3 pouch/build.py` で自動で作る。手で直さない。道具の足し方は `pouch/README.md`
-- トップページから my pouch への入口は、フッターの「my pouch」ボタン1つだけ
+- トップページから my pouch への入口は、フッターのいちばん下にある小さな「my pouch」の文字リンク1つだけ（目立たせない）。my pouch の各ページからは、上のロゴと下の案内から HITO IRO へ飛べるようにしている
 - **公開するときは `public/` フォルダの中身を毎回まとめて全部アップロードする**（新規展開はサイト全体を入れ替えるので、1つでも抜けるとそのファイルがサイトから消える）
 - `design/form-header.png`：Googleフォームのヘッダー画像（サイトには載せない素材）
 - `src/worker.js`・`public/style.css`・`public/thanks.html`・`public/sorry.html`・`SETUP.md`：以前の自作フォーム用。今は相談をGoogleフォームで受けているので使っていない
