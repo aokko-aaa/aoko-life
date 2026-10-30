@@ -314,6 +314,8 @@ def build_tool(t):
       <p class="note">{wb('スマホやパソコンのブラウザで、そのまま使えます。')}</p>
     </section>""")
 
+    # "skill": false の道具（ブラウザで使うだけのもの）は、「自分で作りたい方」の欄を出さない
+    show_skill = t.get("skill", True) is not False
     steps = "\n".join(f"        <li><span>{wb(x)}</span></li>" for x in (t.get("skill_steps") or DEFAULT_STEPS))
     note = t.get("skill_note") or []
     if isinstance(note, str):
@@ -327,7 +329,8 @@ def build_tool(t):
     tools_line = ""
     if t.get("tools"):
         tools_line = f'<p class="tools">使えるツール：{escape("、".join(t["tools"]))}</p>'
-    parts.append(f"""    <section>
+    if show_skill:
+      parts.append(f"""    <section>
       <h2>自分で作りたい方</h2>
       <p>{wb('スキルは、AIに作り方を教えるための説明書のようなファイルです。')}</p>
       <ol class="steps">
