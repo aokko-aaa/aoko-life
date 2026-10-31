@@ -80,6 +80,7 @@ Claude は、データを直してページを作り直し、スマホで見た�
 | `image` | カードとページの上に出す画像 | いいえ |
 | `app_url` | すぐ使える配布用アプリのURL | いいえ |
 | `skill_zip` | ダウンロードさせるスキルのzip | いいえ |
+| `skill` | `false` にすると「自分で作りたい方」（スキル）の欄を出さない。ブラウザで使うだけの道具用 | いいえ |
 | `tools` | 対応しているツール | いいえ |
 | `notes` | noteの記事（タイトルとURL。いくつでも） | いいえ |
 | `date` | 載せた日。新しい日付ほど一覧の上に来る | はい |
@@ -160,3 +161,18 @@ public/pouch/
   files/            ← スキルのzip（pouch/skills/ から自動で作られる）
   images/           ← 道具の画像
 ```
+
+## アプリごと my pouch に置いている道具（背景メーカー・メンフィスメーカー）
+
+この2つは、アプリ本体も my pouch の中に置いています。
+
+- 背景メーカー：`public/pouch/apps/bg-maker/`（https://aokoworks.com/pouch/apps/bg-maker/）
+- メンフィスメーカー：`public/pouch/apps/memphis-maker/`（https://aokoworks.com/pouch/apps/memphis-maker/）
+
+元のデータ（直すときはこちら）は、GitHub の別のリポジトリにあります。
+
+- 背景メーカー：`aokko-aaa/sns-bg-maker` の `public/`
+- メンフィスメーカー：`aokko-aaa/memphis-pattern-maker` の `public/`
+
+アプリを直したら、そのリポジトリの `public/` の中身を、上の `apps/` の中のフォルダにコピーし直してから公開します。
+Claude には「背景メーカーを直して、my pouch にも反映して」と頼めば、両方まとめて進めます。

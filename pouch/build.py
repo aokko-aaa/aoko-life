@@ -314,6 +314,8 @@ def build_tool(t):
       <p class="note">{wb('スマホやパソコンのブラウザで、そのまま使えます。')}</p>
     </section>""")
 
+    # "skill": false の道具（ブラウザで使うだけのもの）は、「自分で作りたい方」の欄を出さない
+    show_skill = t.get("skill", True) is not False
     steps = "\n".join(f"        <li><span>{wb(x)}</span></li>" for x in (t.get("skill_steps") or DEFAULT_STEPS))
     note = t.get("skill_note") or []
     if isinstance(note, str):
@@ -327,7 +329,8 @@ def build_tool(t):
     tools_line = ""
     if t.get("tools"):
         tools_line = f'<p class="tools">使えるツール：{escape("、".join(t["tools"]))}</p>'
-    parts.append(f"""    <section>
+    if show_skill:
+      parts.append(f"""    <section>
       <h2>自分で作りたい方</h2>
       <p>{wb('スキルは、AIに作り方を教えるための説明書のようなファイルです。')}</p>
       <ol class="steps">
@@ -374,7 +377,7 @@ def main():
     shown = sorted((t for t in tools if t["published"] is True), key=lambda t: t["date"], reverse=True)
 
     # 公開しない・消した道具の古いページを残さないよう、道具ページのフォルダを作り直す
-    keep = {"files", "images"}
+    keep = {"files", "images", "apps"}  # apps：アプリ本体ごと置いている道具（背景メーカーなど）
     for d in OUT.iterdir():
         if d.is_dir() and d.name not in keep:
             shutil.rmtree(d)

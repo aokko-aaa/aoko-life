@@ -34,5 +34,33 @@
     ],
     "date": "2026-10-30",
     "published": true
+  },
+  {
+    "name": "背景メーカー",
+    "slug": "bg-maker",
+    "tsumari": "SNSのヘッダーやnoteの見出しに、|ちょうどいい背景が見つからない",
+    "summary": "色と模様を選ぶだけで、|SNSやnoteの背景が作れるツール",
+    "description": "サイズを選んで、色と模様を選ぶだけ。X・インスタ・YouTube・noteなどにぴったりの大きさの背景画像ができあがります。写真から色を拾って、同じ雰囲気の配色にすることもできます。",
+    "image": "",
+    "app_url": "/pouch/apps/bg-maker/",
+    "skill": false,
+    "tools": [],
+    "notes": [],
+    "date": "2026-10-30",
+    "published": true
+  },
+  {
+    "name": "メンフィスメーカー",
+    "slug": "memphis-maker",
+    "tsumari": "ポップな柄の背景がほしいのに、|一から描くのは大変",
+    "summary": "ポップなメンフィス柄を、|ボタンひとつで作れるツール",
+    "description": "ボタンを押すたびに、80年代風のポップな柄ができあがります。色や図形は自由に変えられて、画像のほかに、動く背景の動画（MP4）も保存できます。",
+    "image": "",
+    "app_url": "/pouch/apps/memphis-maker/",
+    "skill": false,
+    "tools": [],
+    "notes": [],
+    "date": "2026-10-30",
+    "published": true
   }
 ]
