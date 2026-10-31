@@ -377,7 +377,7 @@ def main():
     shown = sorted((t for t in tools if t["published"] is True), key=lambda t: t["date"], reverse=True)
 
     # 公開しない・消した道具の古いページを残さないよう、道具ページのフォルダを作り直す
-    keep = {"files", "images"}
+    keep = {"files", "images", "apps"}  # apps：アプリ本体ごと置いている道具（背景メーカーなど）
     for d in OUT.iterdir():
         if d.is_dir() and d.name not in keep:
             shutil.rmtree(d)

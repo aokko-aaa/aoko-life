@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>メンフィスメーカー｜my pouch</title>
+<meta name="description" content="80年代のポップな「メンフィス柄」を、ボタンひとつで作れる無料ツール。動く背景の動画も保存できます。">
+<meta name="theme-color" content="#fffaf1">
+<meta property="og:title" content="メンフィスメーカー">
+<meta property="og:description" content="ポップなメンフィス柄を、ボタンひとつで。画像も動く動画も保存できます。">
+<meta property="og:image" content="https://aokoworks.com/pouch/apps/memphis-maker/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic',Arial,sans-serif;background:#e0e0e0;display:flex;height:100vh;overflow:hidden}
+
+#panel{width:320px;background:#fff;display:flex;flex-direction:column;box-shadow:2px 0 12px rgba(0,0,0,.13);flex-shrink:0;overflow:hidden}
+#ph{padding:14px 16px 0;flex-shrink:0}
+h1{font-size:17px;font-weight:900;color:#111;letter-spacing:-.3px;margin-bottom:12px}
+h1 small,#mob-hdr-title small{display:block;font-size:10px;font-weight:700;color:#bbb;letter-spacing:.5px;margin-top:1px}
+.chip.on{background:#FF6B6B;border-color:#FF6B6B;color:#fff}
+.credit{font-size:11px;color:#aaa;text-align:center;line-height:1.8;padding:10px 0 4px}
+.credit a{color:#7b4fa0;text-decoration:none;font-weight:700}
+
+.tabs{display:flex;gap:0;flex-shrink:0;border-bottom:2px solid #f0f0f0}
+.tab{flex:1;padding:9px 0;border:none;background:none;font-size:12px;font-weight:700;color:#bbb;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
+.tab.active{color:#FF6B6B;border-bottom-color:#FF6B6B}
+
+#pb{flex:1;overflow-y:auto;padding:14px 16px}
+.tc{display:none}.tc.active{display:block}
+
+.sec{margin-bottom:18px}
+.st{font-size:10px;font-weight:700;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+
+.bgrow{display:flex;align-items:center;gap:8px}
+input[type=color].cb{width:36px;height:36px;border-radius:6px;border:2px solid #eee;padding:2px;cursor:pointer}
+.hexlbl{font-size:11px;color:#777;font-family:monospace}
+
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.chip{padding:3px 9px;border-radius:20px;font-size:11px;cursor:pointer;border:1.5px solid #e0e0e0;background:#fff;transition:.15s}
+.chip:hover{background:#f5f5f5}
+.chip.active2{background:#FFE8E8;border-color:#FF6B6B;color:#FF6B6B}
+
+.pal{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.sw{width:30px;height:30px;border-radius:5px;position:relative;cursor:pointer;border:2px solid rgba(0,0,0,.08);flex-shrink:0}
+.sw input[type=color]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.sw .dx{display:none;position:absolute;top:-6px;right:-6px;width:14px;height:14px;background:#ff3b30;border-radius:50%;align-items:center;justify-content:center;font-size:9px;color:#fff;cursor:pointer;font-weight:900}
+.sw:hover .dx{display:flex}
+.addsw{width:30px;height:30px;border-radius:5px;border:2px dashed #ccc;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:#bbb;flex-shrink:0}
+.addsw:hover{border-color:#999;color:#999}
+
+.slr{margin-bottom:10px}
+.sll{display:flex;justify-content:space-between;font-size:12px;color:#555;margin-bottom:3px}
+.slv{font-weight:700;color:#222}
+input[type=range]{width:100%;accent-color:#FF6B6B}
+
+/* toggle row */
+.trow{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.trow span{font-size:12px;color:#444;font-weight:500}
+.tgl{position:relative;width:36px;height:19px;flex-shrink:0}
+.tgl input{opacity:0;position:absolute;width:0;height:0}
+.ttr{position:absolute;inset:0;background:#ddd;border-radius:10px;transition:.2s}
+.ttr::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tgl input:checked+.ttr{background:#FF6B6B}
+.tgl input:checked+.ttr::after{left:19px}
+
+/* select */
+select{width:100%;padding:6px 8px;border:1.5px solid #e0e0e0;border-radius:6px;font-size:12px;background:#fff;margin-bottom:10px;cursor:pointer}
+
+/* play btn */
+.btn{width:100%;padding:10px;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:7px;transition:opacity .15s,transform .1s}
+.btn:hover{opacity:.88}.btn:active{transform:scale(.97)}
+.br{background:#FF6B6B;color:#fff}
+.bt{background:#4ECDC4;color:#fff}
+.bp{background:#9B59B6;color:#fff}
+.bg2{background:#f5f5f5;color:#555;border:1.5px solid #e0e0e0}
+
+/* anim indicator */
+.aind{display:inline-block;width:8px;height:8px;border-radius:50%;background:#4CAF50;margin-right:6px;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.aind.off{background:#ccc;animation:none}
+
+/* shape list */
+.si{border:1.5px solid #eee;border-radius:10px;margin-bottom:6px;overflow:hidden}
+.sh{display:flex;align-items:center;gap:7px;padding:8px 10px;cursor:pointer;background:#fff;user-select:none}
+.sh:hover{background:#fafafa}
+.tgl2{position:relative;width:32px;height:17px;flex-shrink:0}
+.tgl2 input{opacity:0;position:absolute;width:0;height:0}
+.tgl2 .ttr2{position:absolute;inset:0;background:#ddd;border-radius:9px;transition:.2s}
+.tgl2 .ttr2::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tgl2 input:checked+.ttr2{background:#FF6B6B}
+.tgl2 input:checked+.ttr2::after{left:17px}
+.sico{width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#555}
+.sico svg{width:20px;height:20px}
+.snm{flex:1;font-size:12px;color:#333;font-weight:500}
+.cdot{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(0,0,0,.12);cursor:pointer;position:relative;flex-shrink:0}
+.cdot input[type=color]{position:absolute;inset:0;opacity:0;cursor:pointer;border-radius:50%}
+.cdot.pm{background:conic-gradient(#FF6B6B 0 33%,#FFE66D 33% 66%,#4ECDC4 66% 100%);border-style:dashed}
+.xpb{width:20px;height:20px;border:none;background:none;cursor:pointer;color:#bbb;font-size:11px;flex-shrink:0}
+.xpb:hover{color:#555}
+.ss{background:#f8f8f8;padding:10px 12px;border-top:1px solid #eee;display:none}
+.ss.open{display:block}
+.msl{margin-bottom:8px}
+.msl label{display:flex;justify-content:space-between;font-size:11px;color:#666;margin-bottom:2px}
+.msl label span{font-weight:700;color:#333}
+
+#ca{flex:1;display:flex;align-items:center;justify-content:center;background:#c8c8c8;background-image:linear-gradient(45deg,#bbb 25%,transparent 25%),linear-gradient(-45deg,#bbb 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#bbb 75%),linear-gradient(-45deg,transparent 75%,#bbb 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0;padding:20px;overflow:hidden}
+#cv{max-width:100%;max-height:100%;box-shadow:0 8px 32px rgba(0,0,0,.28)}
+
+/* ── モバイル要素（デスクトップでは非表示） ── */
+.mob-handle{display:none}
+#mob-hdr{display:none;position:fixed;top:0;left:0;right:0;height:48px;background:#fff;border-bottom:1px solid #eee;z-index:50;align-items:center;padding:0 14px;gap:10px}
+#mob-hdr-title{font-size:14px;font-weight:900;color:#111;flex:1}
+#mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1.5px solid #f0f0f0;z-index:50;align-items:center;padding:8px 12px;gap:8px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.mbb{flex:1;height:46px;border:none;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
+.mbb:active{transform:scale(.96)}
+.mbb-red{background:#FF6B6B;color:#fff}
+.mbb-teal{background:#4ECDC4;color:#fff}
+#sp-overlay{display:none}
+
+/* モバイル内プレビュー */
+#mob-preview{display:none;flex-shrink:0;padding:10px 12px 6px;background:#ebebeb}
+#mob-preview canvas{width:100%;height:auto;display:block;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+
+@media(max-width:768px){
+  body{overflow:hidden;flex-direction:column}
+
+  /* パネルを常時表示・フルスクリーン縦積み */
+  #panel{
+    width:100%!important;
+    height:calc(100dvh - 48px - 62px);
+    position:fixed;
+    top:48px;left:0;right:0;
+    border-radius:0;
+    box-shadow:none;
+    transform:none!important;
+    z-index:10;
+    overflow:hidden;
+  }
+  #pb{flex:1;overflow-y:auto}
+  #ph{padding:0 14px}
+  h1{display:none}
+
+  /* メインキャンバスエリアは非表示 */
+  #ca{display:none!important}
+
+  /* モバイルUI表示 */
+  #mob-hdr,#mob-bar,#mob-preview{display:flex}
+  #mob-preview{display:block}
+
+  /* タッチしやすいサイズ */
+  .tab{padding:12px 0;font-size:13px}
+  .btn{padding:12px;font-size:13px;min-height:46px}
+  .chip{padding:6px 11px;font-size:12px}
+  .sh{padding:12px}
+  .sll span{font-size:13px}
+  .slv{font-size:13px}
+  input[type=range]{height:6px}
+  .sw{width:36px;height:36px}
+  .addsw{width:36px;height:36px}
+  .tgl{width:40px;height:22px}
+  .ttr::after{width:18px;height:18px}
+  .tgl input:checked+.ttr::after{left:20px}
+  .tgl2{width:36px;height:19px}
+  select{padding:8px;font-size:13px;min-height:40px}
+  .sico svg{width:24px;height:24px}
+  .snm{font-size:13px}
+  .cdot{width:22px;height:22px}
+  .sec{margin-bottom:14px}
+}
+
+/* ===== ポップテーマ（共通） ===== */
+:root{
+  --cream:#fffaf1; --ink:#1f1d2b; --sub:#8a8597; --line:#efe7da;
+  --pink:#ff5fa2; --pink-soft:#fff0f7; --card:#ffffff;
+  --shadow:0 10px 30px rgba(120,90,60,.10),0 2px 6px rgba(120,90,60,.06);
+}
+html,body{background-color:var(--cream)!important;}
+body{
+  font-family:'M PLUS Rounded 1c','Hiragino Maru Gothic ProN','Hiragino Sans',sans-serif!important;
+  color:var(--ink);
+  background-image:radial-gradient(#e8dcc8 1.1px,transparent 1.3px)!important;
+  background-size:20px 20px!important;
+}
+button,input,select{font-family:inherit;}
+.pop-logo{font-weight:800;letter-spacing:.02em;}
+.pop-deco{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.pop-cloud{position:absolute;width:240px;height:240px;}
+.pop-cloud svg{width:100%;height:100%;display:block;}
+.pop-cloud.ctl{left:-70px;top:-70px;}
+.pop-cloud.ctr{right:-80px;top:-90px;}
+.pop-cloud.cbl{left:-90px;bottom:-80px;width:300px;height:300px;}
+.pop-cloud.cbl2{left:60px;bottom:-110px;}
+.pop-cloud.cbr{right:-80px;bottom:-80px;}
+.pop-bit{position:absolute;display:block;}
+.pop-bit svg{width:100%;height:100%;display:block;}
+@media(max-width:768px){
+  .pop-cloud{width:150px;height:150px;}
+  .pop-cloud.cbl{width:180px;height:180px;}
+  .pop-bit{display:none;}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pop-bit{animation:popfloat 6s ease-in-out infinite alternate;}
+  .pop-bit:nth-child(odd){animation-duration:7.5s;}
+}
+@keyframes popfloat{to{translate:0 -6px;}}
+
+/* ===== メンフィスメーカー用 ===== */
+body{gap:0;}
+#panel{position:relative;z-index:2;margin:18px 0 18px 18px;height:calc(100vh - 36px);border-radius:28px;background:var(--card);box-shadow:var(--shadow);border:1.5px solid var(--line);}
+#ph{padding:20px 20px 0;}
+h1{font-size:22px!important;margin-bottom:14px!important;}
+h1 small{color:var(--sub)!important;font-weight:700;letter-spacing:.12em!important;}
+.tabs{margin:0 14px;border-bottom:none!important;background:#f6f1e8;border-radius:999px;padding:4px;gap:4px;}
+.tab{border-radius:999px;border-bottom:none!important;margin-bottom:0!important;color:var(--sub)!important;padding:8px 0!important;}
+.tab.active{background:var(--ink);color:#fff!important;}
+#pb{padding:16px 18px!important;}
+.st{color:var(--sub)!important;font-size:11px!important;letter-spacing:.08em!important;}
+.chip{border-radius:999px!important;border-color:var(--line)!important;background:#fff;}
+.chip.on,.chip.active2{background:var(--ink)!important;border-color:var(--ink)!important;color:#fff!important;}
+.sw{border-radius:10px!important;}
+input[type=color].cb{border-radius:12px!important;}
+input[type=range]{accent-color:var(--pink)!important;}
+.tgl input:checked+.ttr,.tgl2 input:checked+.ttr2{background:var(--pink)!important;}
+.btn{border-radius:999px!important;padding:12px!important;font-weight:800!important;}
+.br{background:var(--ink)!important;color:#fff!important;box-shadow:0 4px 0 #000;}
+.br:active{transform:translateY(2px)!important;box-shadow:0 2px 0 #000;}
+.bt{background:#22bfe3!important;}
+.bp{background:#a57aff!important;}
+.bg2{background:#fff!important;border:1.5px solid var(--line)!important;color:var(--ink)!important;}
+select{border-radius:999px!important;border-color:var(--line)!important;}
+#ca{position:relative;z-index:1;background:transparent!important;background-image:none!important;padding:40px!important;}
+#cv{border-radius:22px;box-shadow:var(--shadow);outline:10px solid #fff;}
+@media(max-width:768px){
+  #panel{margin:0!important;border-radius:26px 26px 0 0!important;border:none;box-shadow:0 -6px 20px rgba(120,90,60,.08)!important;height:calc(100dvh - 56px - 70px)!important;top:56px!important;}
+  #mob-hdr{background:transparent!important;border-bottom:none!important;height:56px!important;z-index:5!important;}
+  #mob-hdr-title{font-size:19px!important;}
+  #mob-preview{background:transparent!important;padding:6px 14px 10px!important;}
+  #mob-preview canvas{border-radius:16px!important;border:1.5px solid var(--line);box-shadow:none!important;}
+  #mob-bar{background:rgba(255,250,241,.95)!important;border-top:1.5px solid var(--line)!important;}
+  .mbb{border-radius:999px!important;font-weight:800!important;}
+  .mbb-red{background:var(--ink)!important;}
+  .mbb-teal{background:#22bfe3!important;}
+  #recBtnMob{background:#a57aff!important;}
+}
+
+/* プリセット見本 */
+#pchips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px;}
+.pgroup{grid-column:1/-1;font-size:10px;font-weight:800;color:var(--sub,#999);margin-top:4px;}
+.pcard{border:1.5px solid var(--line,#eee);background:#fff;border-radius:14px;padding:5px 5px 4px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:transform .12s,border-color .12s;}
+.pcard:hover{transform:translateY(-1px);border-color:#d9cdb9;}
+.pcard.on{border-color:var(--ink,#111);box-shadow:0 0 0 2px var(--ink,#111);}
+.pcard-sw{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;align-content:center;height:30px;border-radius:9px;padding:3px;border:1px solid rgba(0,0,0,.05);}
+.pcard-sw i{display:block;width:8px;height:8px;border-radius:50%;}
+.pcard-name{font-size:9px;letter-spacing:-.02em;font-weight:700;color:var(--ink,#333);text-align:center;white-space:nowrap;}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="pop-deco" aria-hidden="true"><div class="pop-cloud ctl"><svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="#ffb3d6"><circle cx="40" cy="40" r="120"/><circle cx="170" cy="30" r="70"/><circle cx="60" cy="170" r="70"/><circle cx="150" cy="110" r="55"/></g></svg></div><div class="pop-cloud ctr"><svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="#9ff0f6"><circle cx="260" cy="40" r="110"/><circle cx="140" cy="20" r="60"/><circle cx="250" cy="160" r="60"/><circle cx="180" cy="95" r="45"/></g></svg></div><div class="pop-cloud cbl"><svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="#d6f59a"><circle cx="40" cy="260" r="130"/><circle cx="180" cy="270" r="70"/><circle cx="50" cy="120" r="70"/><circle cx="140" cy="200" r="55"/></g></svg></div><div class="pop-cloud cbl2"><svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="#ffe782"><circle cx="150" cy="300" r="70"/><circle cx="230" cy="290" r="45"/></g></svg></div><div class="pop-cloud cbr"><svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="#ffb3d6"><circle cx="260" cy="260" r="120"/><circle cx="130" cy="280" r="65"/><circle cx="270" cy="130" r="65"/><circle cx="170" cy="190" r="50"/></g></svg></div><i class="pop-bit" style="left:14%;top:30%;width:18px;height:18px;transform:rotate(0deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffc93c" d="M12 0c.8 6.4 3.6 9.6 12 12-8.4 2.4-11.2 5.6-12 12-.8-6.4-3.6-9.6-12-12C8.4 9.6 11.2 6.4 12 0z"/></svg></i><i class="pop-bit" style="left:26%;top:12%;width:14px;height:14px;transform:rotate(35deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="1" width="6" height="22" rx="3" fill="#ff7ab8"/></svg></i><i class="pop-bit" style="left:8%;top:58%;width:12px;height:12px;transform:rotate(0deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#7fd8f0"/></svg></i><i class="pop-bit" style="left:20%;top:82%;width:18px;height:18px;transform:rotate(0deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff7ab8" d="M12 0c.8 6.4 3.6 9.6 12 12-8.4 2.4-11.2 5.6-12 12-.8-6.4-3.6-9.6-12-12C8.4 9.6 11.2 6.4 12 0z"/></svg></i><i class="pop-bit" style="left:86%;top:22%;width:16px;height:16px;transform:rotate(0deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#b48cff" d="M12 0c.8 6.4 3.6 9.6 12 12-8.4 2.4-11.2 5.6-12 12-.8-6.4-3.6-9.6-12-12C8.4 9.6 11.2 6.4 12 0z"/></svg></i><i class="pop-bit" style="left:74%;top:9%;width:14px;height:14px;transform:rotate(-30deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="1" width="6" height="22" rx="3" fill="#ffa94d"/></svg></i><i class="pop-bit" style="left:92%;top:52%;width:12px;height:12px;transform:rotate(0deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ffc93c"/></svg></i><i class="pop-bit" style="left:80%;top:88%;width:18px;height:18px;transform:rotate(0deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#9adf5f" d="M12 0c.8 6.4 3.6 9.6 12 12-8.4 2.4-11.2 5.6-12 12-.8-6.4-3.6-9.6-12-12C8.4 9.6 11.2 6.4 12 0z"/></svg></i><i class="pop-bit" style="left:60%;top:94%;width:14px;height:14px;transform:rotate(50deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="1" width="6" height="22" rx="3" fill="#b48cff"/></svg></i><i class="pop-bit" style="left:40%;top:6%;width:10px;height:10px;transform:rotate(0deg)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#9adf5f"/></svg></i></div>
+
+<!-- モバイル：トップバー -->
+<div id="mob-hdr">
+  <span id="mob-hdr-title"><span class="pop-logo"><span style="color:#ff5fa2">メ</span><span style="color:#22bfe3">ン</span><span style="color:#ffb21f">フ</span><span style="color:#7fcf3f">ィ</span><span style="color:#a57aff">ス</span><span style="color:#ff8a3d">メ</span><span style="color:#ff5fa2">ー</span><span style="color:#22bfe3">カ</span><span style="color:#ffb21f">ー</span></span></span>
+</div>
+
+<div id="sp-overlay"></div>
+
+<div id="panel">
+  <div id="ph"><h1><span class="pop-logo"><span style="color:#ff5fa2">メ</span><span style="color:#22bfe3">ン</span><span style="color:#ffb21f">フ</span><span style="color:#7fcf3f">ィ</span><span style="color:#a57aff">ス</span><span style="color:#ff8a3d">メ</span><span style="color:#ff5fa2">ー</span><span style="color:#22bfe3">カ</span><span style="color:#ffb21f">ー</span></span><small>MEMPHIS PATTERN MAKER</small></h1></div>
+  <!-- モバイル用インラインプレビュー（全体調整の上） -->
+  <div id="mob-preview">
+    <canvas id="prev-cv"></canvas>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('g',this)">全体設定</button>
+    <button class="tab" onclick="showTab('s',this)">図形設定</button>
+  </div>
+  <div id="pb">
+    <!-- 全体設定 -->
+    <div id="tc-g" class="tc active">
+
+      <div class="sec">
+        <div class="st">背景色</div>
+        <div class="bgrow">
+          <input type="color" class="cb" id="bgColor" value="#FFFAF1">
+          <span class="hexlbl" id="bgHex">#FFFAF1</span>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="st">カラーパレット</div>
+        <!-- プリセット -->
+        <div style="font-size:10px;color:#bbb;margin-bottom:4px">プリセット</div>
+        <div id="pchips"></div>
+        <!-- 現在のパレット -->
+        <div class="pal" id="pal"></div>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <button class="btn bg2" style="flex:1;padding:7px;font-size:11px;margin:0" onclick="genRandPalette()">🎲 ランダム</button>
+        </div>
+        <!-- カラーハーモニー -->
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid #f0f0f0">
+          <div style="font-size:10px;color:#bbb;margin-bottom:6px">カラーハーモニー自動生成</div>
+          <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
+            <input type="color" class="cb" id="harmonyBase" value="#FF6B6B" style="width:30px;height:30px">
+            <select id="harmonyType" style="flex:1;padding:5px 6px;border:1.5px solid #e0e0e0;border-radius:6px;font-size:11px;background:#fff">
+              <option value="complementary">補色</option>
+              <option value="analogous">類似色</option>
+              <option value="triadic">三色配色</option>
+              <option value="tetradic">四色配色</option>
+              <option value="splitComp">スプリット補色</option>
+              <option value="monochromatic">モノクロマティック</option>
+            </select>
+            <button class="btn br" style="flex:0 0 auto;width:60px;padding:6px;font-size:11px;margin:0" onclick="applyHarmony()">適用</button>
+          </div>
+          <div id="harmonyPreview" style="display:flex;gap:4px;height:20px;border-radius:4px;overflow:hidden"></div>
+        </div>
+        <!-- 画像からパレット抽出 -->
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid #f0f0f0">
+          <div style="font-size:10px;color:#bbb;margin-bottom:6px">画像からパレット抽出</div>
+          <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="onImageUpload(this)">
+          <button class="btn bg2" style="padding:7px;font-size:11px;margin:0" onclick="document.getElementById('imgInput').click()">🖼 画像をアップロード</button>
+          <div id="imgPreview" style="display:none;margin-top:8px">
+            <img id="prevImg" style="width:100%;height:56px;object-fit:cover;border-radius:6px;margin-bottom:6px">
+            <div id="extColors" style="display:flex;gap:3px;margin-bottom:8px;height:22px;border-radius:4px;overflow:hidden"></div>
+            <div style="display:flex;gap:6px">
+              <button class="btn bt" style="flex:1;padding:6px;font-size:11px;margin:0" onclick="applyExtracted()">✓ このパレットを使用</button>
+              <button class="btn bg2" style="flex:0 0 auto;padding:6px;font-size:11px;margin:0" onclick="reExtract()" title="もう一度抽出">🔄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="st">全体調整</div>
+        <div class="slr"><div class="sll"><span>密度</span><span class="slv" id="vD">60</span></div><input type="range" id="density" min="5" max="300" value="60"></div>
+        <div class="slr"><div class="sll"><span>基本サイズ</span><span class="slv" id="vS">40</span></div><input type="range" id="gsize" min="5" max="120" value="40"></div>
+        <div class="slr"><div class="sll"><span>サイズのバラつき</span><span class="slv" id="vV">中</span></div><input type="range" id="svar" min="0" max="2" value="1"></div>
+        <div class="slr"><div class="sll"><span>回転</span><span class="slv" id="vR">自由</span></div><input type="range" id="rot" min="0" max="2" value="2"></div>
+        <div class="slr"><div class="sll"><span>透明度</span><span class="slv" id="vO">100%</span></div><input type="range" id="opac" min="20" max="100" value="100"></div>
+      </div>
+
+      <!-- アニメーション -->
+      <div class="sec">
+        <div class="st"><span class="aind off" id="aind"></span>アニメーション</div>
+        <div class="trow">
+          <span>アニメーションON</span>
+          <label class="tgl"><input type="checkbox" id="animOn" onchange="toggleAnim()"><span class="ttr"></span></label>
+        </div>
+        <div id="animCfg" style="display:none">
+          <div class="slr"><div class="sll"><span>速度</span><span class="slv" id="vSpd">1.0</span></div>
+            <input type="range" id="animSpeed" min="0.1" max="5" step="0.1" value="1" oninput="document.getElementById('vSpd').textContent=parseFloat(this.value).toFixed(1);restartAnim()"></div>
+          <div class="sll" style="margin-bottom:4px"><span style="font-size:12px;color:#555">動きの種類</span></div>
+          <select id="animType" onchange="restartAnim()">
+            <option value="all">全部（浮遊＋回転＋パルス）</option>
+            <option value="float">浮遊のみ</option>
+            <option value="rotate">回転のみ</option>
+            <option value="pulse">パルス（拡大縮小）のみ</option>
+            <option value="wave">ウェーブ（波打つ）</option>
+          </select>
+          <button class="btn bp" id="playPauseBtn" onclick="togglePlayPause()">⏸ 一時停止</button>
+        </div>
+      </div>
+
+      <!-- シームレスタイル -->
+      <div class="sec">
+        <div class="st">シームレスタイル</div>
+        <div class="trow">
+          <span>タイルモードON</span>
+          <label class="tgl"><input type="checkbox" id="tileOn" onchange="toggleTile()"><span class="ttr"></span></label>
+        </div>
+        <div id="tileCfg" style="display:none">
+          <div class="sll" style="margin-bottom:4px"><span style="font-size:12px;color:#555">タイルサイズ</span></div>
+          <div class="chips">
+            <span class="chip" id="tc200" onclick="setTile(200,this)">200px</span>
+            <span class="chip active2" id="tc300" onclick="setTile(300,this)">300px</span>
+            <span class="chip" id="tc400" onclick="setTile(400,this)">400px</span>
+            <span class="chip" id="tc600" onclick="setTile(600,this)">600px</span>
+          </div>
+          <div class="sll" style="margin-bottom:4px;margin-top:6px"><span style="font-size:12px;color:#555">配置方法</span></div>
+          <select id="tileArrange" onchange="gen()">
+            <option value="brick">レンガ積み（横ずらし）</option>
+            <option value="diagonal">斜めずらし</option>
+            <option value="grid">通常グリッド</option>
+          </select>
+          <div style="font-size:10px;color:#aaa;margin-bottom:4px">レンガ・斜めずらしで継ぎ目が目立ちにくくなります</div>
+        </div>
+      </div>
+
+      <!-- エフェクト -->
+      <div class="sec">
+        <div class="st">✨ エフェクト</div>
+        <div class="trow">
+          <span>ラメ（キラキラ）</span>
+          <label class="tgl"><input type="checkbox" id="glitterOn" onchange="onEffectToggle('glitter',this)"><span class="ttr"></span></label>
+        </div>
+        <div id="glitterCfg" style="display:none">
+          <div class="slr"><div class="sll"><span>密度</span><span class="slv" id="vGD">50</span></div>
+            <input type="range" id="glitterDensity" min="10" max="300" value="50" oninput="document.getElementById('vGD').textContent=this.value;onEffectChange()"></div>
+          <div class="slr"><div class="sll"><span>サイズ</span><span class="slv" id="vGS">8</span></div>
+            <input type="range" id="glitterSize" min="2" max="30" value="8" oninput="document.getElementById('vGS').textContent=this.value;onEffectChange()"></div>
+          <div style="font-size:12px;color:#555;margin-bottom:4px">カラー</div>
+          <div class="chips" id="glitterColorChips">
+            <span class="chip active2" onclick="setGlitterColor('gold',this)">ゴールド</span>
+            <span class="chip" onclick="setGlitterColor('silver',this)">シルバー</span>
+            <span class="chip" onclick="setGlitterColor('rainbow',this)">レインボー</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="st">キャンバスサイズ</div>
+        <div class="chips" id="szChips">
+          <span class="chip on" onclick="setSz(800,600,this)">800×600</span>
+          <span class="chip" onclick="setSz(1080,1080,this)">インスタ正方形</span>
+          <span class="chip" onclick="setSz(1080,1350,this)">インスタ縦 4:5</span>
+          <span class="chip" onclick="setSz(1080,1920,this)">ストーリーズ・リール</span>
+          <span class="chip" onclick="setSz(1500,500,this)">Xヘッダー</span>
+          <span class="chip" onclick="setSz(1280,670,this)">note見出し</span>
+          <span class="chip" onclick="setSz(1920,1080,this)">横長 16:9</span>
+        </div>
+      </div>
+
+      <div class="sec">
+        <button class="btn br" onclick="genNew()">🎲 ランダム生成</button>
+        <button class="btn bt" onclick="dlPNG()">⬇ 画像を保存（PNG）</button>
+        <div style="display:flex;gap:6px;align-items:center">
+          <select id="recDuration" style="flex:0 0 auto;width:70px;padding:6px 4px;border:1.5px solid #e0e0e0;border-radius:6px;font-size:12px;background:#fff">
+            <option value="3">3秒</option>
+            <option value="5" selected>5秒</option>
+            <option value="10">10秒</option>
+            <option value="15">15秒</option>
+          </select>
+          <button id="recBtn" class="btn bp" style="flex:1;margin:0" onclick="startRecording()">🎬 動画録画</button>
+        </div>
+        <div style="font-size:10px;color:#aaa;margin-top:2px" id="recNote">録画中は自動でアニメON</div>
+        <p class="credit">メンフィスメーカーは、<a href="https://aokoworks.com/pouch/" target="_blank" rel="noopener">my pouch</a> の道具です。<br>つくった人：<a href="https://aokoworks.com/" target="_blank" rel="noopener">HITO IRO</a></p>
+      </div>
+    </div>
+
+    <!-- 図形設定 -->
+    <div id="tc-s" class="tc">
+      <div style="font-size:11px;color:#aaa;margin-bottom:10px">▼ で個別設定を展開。色ドットをダブルクリックでパレット色に戻す。</div>
+      <div id="slist"></div>
+    </div>
+  </div>
+</div>
+<div id="ca"><canvas id="cv"></canvas></div>
+
+<!-- モバイル：ボトムバー -->
+<div id="mob-bar">
+  <button class="mbb mbb-red"  onclick="genNew()">🎲 ランダム生成</button>
+  <button class="mbb mbb-teal" onclick="dlPNG()">⬇ PNG</button>
+  <button id="recBtnMob" class="mbb" style="background:#9B59B6;color:#fff" onclick="startRecording()">🎬 録画</button>
+</div>
+
+<script>
+// =================== SHAPES DATA ===================
+const SHAPES = [
+  {id:'tri',     lbl:'三角形',  on:true,  ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'triout',  lbl:'三角枠',  on:false, ln:true,  hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'cir',     lbl:'円',      on:true,  ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'cirout',  lbl:'円枠',    on:false, ln:true,  hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'rect',    lbl:'四角形',  on:true,  ln:false, hr:true,  color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'rectout', lbl:'四角枠',  on:false, ln:true,  hr:true,  color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'dot',     lbl:'ドット',  on:true,  ln:false, hr:false, color:null, sm:.45, fr:1, wt:.10, rd:0},
+  {id:'line',    lbl:'直線',    on:true,  ln:true,  hr:false, color:null, sm:1.0, fr:1, wt:.12, rd:0},
+  {id:'dash',    lbl:'短線',    on:false, ln:true,  hr:false, color:null, sm:.6,  fr:1, wt:.16, rd:0},
+  {id:'zz',      lbl:'ジグザグ',on:true,  ln:true,  hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'wave',    lbl:'波線(〜)',on:true,  ln:true,  hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'sqg',     lbl:'くねくね',on:false, ln:true,  hr:false, color:null, sm:1.2, fr:1, wt:.09, rd:0},
+  {id:'semi',    lbl:'半円',    on:true,  ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'arc',     lbl:'弧線',    on:false, ln:true,  hr:false, color:null, sm:1.0, fr:1, wt:.12, rd:0},
+  {id:'donut',   lbl:'リング',  on:true,  ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'dia',     lbl:'菱形',    on:false, ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'cross',   lbl:'プラス',  on:false, ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'star',    lbl:'星',      on:false, ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'heart',   lbl:'ハート',  on:false, ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'spiral',  lbl:'うずまき',on:false, ln:true,  hr:false, color:null, sm:1.0, fr:1, wt:.08, rd:0},
+  {id:'arrow',   lbl:'矢印',    on:false, ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+  {id:'cloud',   lbl:'クラウド',on:false, ln:false, hr:false, color:null, sm:1.0, fr:1, wt:.10, rd:0},
+];
+
+const ICONS = {
+  tri:`<polygon points="12,2 22,22 2,22" fill="currentColor"/>`,
+  triout:`<polygon points="12,2 22,22 2,22" fill="none" stroke="currentColor" stroke-width="2.5"/>`,
+  cir:`<circle cx="12" cy="12" r="9" fill="currentColor"/>`,
+  cirout:`<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.5"/>`,
+  rect:`<rect x="2" y="6" width="20" height="12" rx="1" fill="currentColor"/>`,
+  rectout:`<rect x="2" y="6" width="20" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="2.5"/>`,
+  dot:`<circle cx="12" cy="12" r="4" fill="currentColor"/>`,
+  line:`<line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>`,
+  dash:`<line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>`,
+  zz:`<polyline points="2,17 7,7 12,17 17,7 22,17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+  wave:`<path d="M2,12 Q5.5,6 9,12 Q12.5,18 16,12 Q19.5,6 22,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>`,
+  sqg:`<path d="M2,13 Q4,9 6,13 Q8,17 10,13 Q12,9 14,13 Q16,17 18,13 Q20,9 22,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
+  semi:`<path d="M3,15 A9,9 0 0,1 21,15 Z" fill="currentColor"/>`,
+  arc:`<path d="M4,18 Q12,3 20,18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>`,
+  donut:`<circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="4"/>`,
+  dia:`<polygon points="12,2 21,12 12,22 3,12" fill="currentColor"/>`,
+  cross:`<line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>`,
+  star:`<polygon points="12,2 14.9,9.3 22.5,9.5 16.7,14.5 18.6,22 12,18 5.4,22 7.3,14.5 1.5,9.5 9.1,9.3" fill="currentColor"/>`,
+  heart:`<path d="M12,20 C3,14 2,7 7,5 C9,4 11,5.5 12,7 C13,5.5 15,4 17,5 C22,7 21,14 12,20Z" fill="currentColor"/>`,
+  spiral:`<path d="M12,12 Q14,10 14,12 Q14,15 11,15 Q8,15 8,11 Q8,7 13,7 Q18,7 18,13 Q18,20 10,20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
+  arrow:`<polygon points="22,12 14,6 14,10 2,10 2,14 14,14 14,18" fill="currentColor"/>`,
+  cloud:`<path d="M6,18 Q2,18 2,14 Q2,11 5,10.5 Q5,7 8,7 Q9,4 12,4 Q16,4 17,7.5 Q20,7 21,10 Q24,10.5 22,14 Q22,18 18,18Z" fill="currentColor"/>`,
+};
+
+const PRESETS = {
+  // ── ポップ ──
+  'ポップ':       { g:'ポップ',   bg:'#FFFAF1', c:['#FF5FA2','#22BFE3','#FFC93C','#7FCF3F','#A57AFF','#FF8A3D'] },
+  'クラシック':   { g:'ポップ',   bg:'#FFFFFF', c:['#FF6B6B','#FFE66D','#4ECDC4','#1A1A2E','#E84393','#00B4D8'] }, // 80年代メンフィスの王道
+  'キャンディ':   { g:'ポップ',   bg:'#FFF5FA', c:['#FF9EBB','#C8A0FF','#FFC98B','#9EE6A8','#7FD6F0','#FF7AA8'] },
+  'ゆめかわ':     { g:'ポップ',   bg:'#FDF3FF', c:['#FF8AD0','#B79CFF','#7FD8FF','#FFE16B','#FFB8DE','#9FA8FF'] },
+  // ── ビビッド ──
+  'ビタミン':     { g:'ビビッド', bg:'#FFFBE8', c:['#FF4D6D','#FF9F1C','#FFD60A','#2EC4B6','#3A86FF','#1F1D2B'] },
+  'ポップアート': { g:'ビビッド', bg:'#FFF9DB', c:['#E63946','#FFD60A','#1D4ED8','#111111','#FF7F11'] },
+  'トロピカル':   { g:'ビビッド', bg:'#F0FFF8', c:['#00C2C7','#5FD068','#FFD23F','#FF6F59','#FF3D8B','#145C5C'] },
+  'Y2K':          { g:'ビビッド', bg:'#F3E8FF', c:['#CC00FF','#FF33CC','#00CCFF','#7EE000','#FFCC00','#5B5BFF'] },
+  // ── おちついた ──
+  'くすみ':       { g:'おちついた', bg:'#F6EFE9', c:['#D8A7A0','#A9B8A2','#E3C78F','#9AA8C7','#C9A3B8','#6B5E5A'] },
+  'ミルクティー': { g:'おちついた', bg:'#F7F0E6', c:['#B89B7A','#D9C3A5','#8C6E54','#E8B4A0','#A7B29A','#4A3B30'] },
+  '北欧':         { g:'おちついた', bg:'#FBF8F2', c:['#E07A5F','#3D405B','#81B29A','#F2CC8F','#9FB4C7','#C97C8A'] },
+  'モノクロ':     { g:'おちついた', bg:'#FFFFFF', c:['#111111','#444444','#777777','#AAAAAA','#CFCFCF'] },
+  // ── 夜・レトロ ──
+  'ミッドナイト': { g:'夜・レトロ', bg:'#1F1D2B', c:['#FF5FA2','#22BFE3','#FFC93C','#7FCF3F','#A57AFF','#FFFFFF'] },
+  'ネオン':       { g:'夜・レトロ', bg:'#0D0D12', c:['#FF00E5','#00F0FF','#B6FF00','#FFE600','#FF6A00','#8A5CFF'] },
+  '昭和レトロ':   { g:'夜・レトロ', bg:'#F2E4CC', c:['#C0392B','#E8A838','#2C7744','#1A3A5C','#D4A853','#7B3F00'] },
+  '純喫茶':       { g:'夜・レトロ', bg:'#EDE0CC', c:['#3B1A0A','#8B4513','#D4A853','#556B2F','#8B0000','#C9A27E'] },
+};
+
+// =================== STATE ===================
+let colors = [...PRESETS['ポップ'].c];
+let bgColor = PRESETS['ポップ'].bg;
+let W = 800, H = 600;
+
+// animation
+let animating = false;
+let animPaused = false;
+let animId = null;
+let instances = [];
+
+// tile
+let tileMode = false;
+let tileSize = 300;
+let tileCache = null; // キャッシュ済みタイルcanvas
+
+// effects
+let glitterColor = 'gold';
+let effectCache = null;
+
+// current draw context (switched for tile mode)
+let gctx;
+
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+
+// =================== INIT ===================
+function init() {
+  cv.width = W; cv.height = H;
+  gctx = ctx;
+  const pc = document.getElementById('pchips');
+  let lastG = '';
+  Object.keys(PRESETS).forEach(n => {
+    const p=PRESETS[n];
+    if (p.g !== lastG) {
+      lastG = p.g;
+      const h = document.createElement('div'); h.className='pgroup'; h.textContent=p.g; pc.appendChild(h);
+    }
+    const c = document.createElement('button');
+    c.type='button'; c.className='pcard'+(n==='ポップ'?' on':''); c.dataset.name=n;
+    const dots=p.c.slice(0,6).map(col=>`<i style="background:${col}"></i>`).join('');
+    c.innerHTML=`<span class="pcard-sw" style="background:${p.bg}">${dots}</span><span class="pcard-name">${n}</span>`;
+    c.onclick = () => applyPreset(n);
+    pc.appendChild(c);
+  });
+  // ハーモニープレビュー初期化
+  document.getElementById('harmonyBase').addEventListener('input', updateHarmonyPreview);
+  document.getElementById('harmonyType').addEventListener('change', updateHarmonyPreview);
+  updateHarmonyPreview();
+  renderPal();
+  renderList();
+  setupListeners();
+  genNew();
+}
+
+// =================== PALETTE ===================
+function renderPal() {
+  const el = document.getElementById('pal');
+  el.innerHTML = '';
+  colors.forEach((col,i) => {
+    const sw = document.createElement('div');
+    sw.className='sw'; sw.style.background=col;
+    const inp = document.createElement('input');
+    inp.type='color'; inp.value=col;
+    inp.addEventListener('input', e => { colors[i]=e.target.value; sw.style.background=e.target.value; gen(); });
+    const dx = document.createElement('div');
+    dx.className='dx'; dx.textContent='×';
+    dx.onclick = e => { e.stopPropagation(); if(colors.length>1){colors.splice(i,1);renderPal();gen();} };
+    sw.appendChild(inp); sw.appendChild(dx); el.appendChild(sw);
+  });
+  const add = document.createElement('div');
+  add.className='addsw'; add.textContent='+';
+  add.onclick = () => { colors.push(rndHex()); renderPal(); gen(); };
+  el.appendChild(add);
+}
+
+function applyPreset(n) {
+  const p=PRESETS[n]; bgColor=p.bg; colors=[...p.c];
+  document.querySelectorAll('#pchips .pcard').forEach(c=>c.classList.toggle('on', c.dataset.name===n));
+  document.getElementById('bgColor').value=p.bg;
+  document.getElementById('bgHex').textContent=p.bg.toUpperCase();
+  renderPal(); gen();
+}
+
+// =================== SHAPE LIST ===================
+function renderList() {
+  const list = document.getElementById('slist');
+  list.innerHTML = '';
+  SHAPES.forEach(sh => {
+    const item = document.createElement('div'); item.className='si';
+    const hdr = document.createElement('div'); hdr.className='sh';
+
+    const tl = document.createElement('label'); tl.className='tgl2';
+    tl.innerHTML=`<input type="checkbox" ${sh.on?'checked':''}><span class="ttr2"></span>`;
+    tl.querySelector('input').addEventListener('change', e => { sh.on=e.target.checked; gen(); });
+    tl.addEventListener('click', e => e.stopPropagation());
+
+    const ico = document.createElement('div'); ico.className='sico';
+    ico.innerHTML=`<svg viewBox="0 0 24 24">${ICONS[sh.id]}</svg>`;
+
+    const nm = document.createElement('div'); nm.className='snm'; nm.textContent=sh.lbl;
+
+    const cd = document.createElement('div');
+    cd.className='cdot'+(sh.color?'':' pm');
+    if(sh.color) cd.style.background=sh.color;
+    const ci = document.createElement('input'); ci.type='color'; ci.value=sh.color||'#FF6B6B';
+    ci.addEventListener('input', e => { sh.color=e.target.value; cd.style.background=e.target.value; cd.classList.remove('pm'); gen(); });
+    cd.appendChild(ci);
+    cd.addEventListener('dblclick', e => { e.preventDefault(); sh.color=null; cd.style.background=''; cd.classList.add('pm'); gen(); });
+
+    const xb = document.createElement('button'); xb.className='xpb'; xb.textContent='▼';
+
+    hdr.appendChild(tl); hdr.appendChild(ico); hdr.appendChild(nm); hdr.appendChild(cd); hdr.appendChild(xb);
+
+    const sp = document.createElement('div'); sp.className='ss';
+    sp.innerHTML += mkSl('sm-'+sh.id,'サイズ倍率',sh.sm.toFixed(1)+'x',0.2,4,0.1,sh.sm,
+      `upd('${sh.id}','sm',parseFloat(this.value))`,`parseFloat(this.value).toFixed(1)+'x'`);
+    sp.innerHTML += mkSl('fr-'+sh.id,'出現頻度',sh.fr,1,5,1,sh.fr,
+      `upd('${sh.id}','fr',parseInt(this.value))`,`this.value`);
+    if(sh.ln) sp.innerHTML += mkSl('wt-'+sh.id,'太さ',Math.round(sh.wt*100)+'%',2,30,1,Math.round(sh.wt*100),
+      `upd('${sh.id}','wt',parseInt(this.value)/100)`,`this.value+'%'`);
+    if(sh.hr) sp.innerHTML += mkSl('rd-'+sh.id,'角の丸さ','0%',0,50,1,0,
+      `upd('${sh.id}','rd',parseInt(this.value)/100)`,`this.value+'%'`);
+
+    const toggle=()=>{const o=sp.classList.toggle('open');xb.textContent=o?'▲':'▼';};
+    xb.addEventListener('click',e=>{e.stopPropagation();toggle();});
+    hdr.addEventListener('click',toggle);
+    item.appendChild(hdr); item.appendChild(sp); list.appendChild(item);
+  });
+}
+
+function mkSl(id,lbl,iv,mn,mx,st,val,oi,de){
+  return `<div class="msl"><label>${lbl} <span id="${id}-v">${iv}</span></label>
+    <input type="range" min="${mn}" max="${mx}" step="${st}" value="${val}"
+     oninput="${oi};document.getElementById('${id}-v').textContent=${de}"></div>`;
+}
+
+function upd(id,prop,val){ const sh=SHAPES.find(s=>s.id===id); if(sh){sh[prop]=val;gen();} }
+
+// =================== LISTENERS ===================
+function setupListeners() {
+  document.getElementById('bgColor').addEventListener('input', e => {
+    bgColor=e.target.value; document.getElementById('bgHex').textContent=e.target.value.toUpperCase(); genNew();
+  });
+  ['density','gsize','svar','rot','opac'].forEach(id =>
+    document.getElementById(id).addEventListener('input',()=>{syncLbls();genNew();})
+  );
+}
+
+function syncLbls() {
+  document.getElementById('vD').textContent=document.getElementById('density').value;
+  document.getElementById('vS').textContent=document.getElementById('gsize').value;
+  document.getElementById('vV').textContent=['なし','中','大'][document.getElementById('svar').value];
+  document.getElementById('vR').textContent=['なし','少し','自由'][document.getElementById('rot').value];
+  document.getElementById('vO').textContent=document.getElementById('opac').value+'%';
+}
+
+function showTab(n,el) {
+  document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tc-'+n).classList.add('active');
+  el.classList.add('active');
+}
+
+function setSz(w,h,el){
+  W=w;H=h;cv.width=w;cv.height=h;
+  if(el) document.querySelectorAll('#szChips .chip').forEach(c=>c.classList.toggle('on',c===el));
+  gen();
+}
+
+// =================== ANIMATION CONTROLS ===================
+function toggleAnim() {
+  const on = document.getElementById('animOn').checked;
+  document.getElementById('animCfg').style.display = on ? 'block' : 'none';
+  const ind = document.getElementById('aind');
+  if (on) {
+    tileMode = false;
+    document.getElementById('tileOn').checked = false;
+    document.getElementById('tileCfg').style.display = 'none';
+    ind.classList.remove('off');
+    genNew();
+  } else {
+    stopAnim();
+    ind.classList.add('off');
+    genStatic();
+  }
+}
+
+function togglePlayPause() {
+  if (!animId) {
+    startAnimLoop();
+    document.getElementById('playPauseBtn').textContent = '⏸ 一時停止';
+  } else {
+    stopAnim();
+    document.getElementById('playPauseBtn').textContent = '▶ 再生';
+  }
+}
+
+function restartAnim() {
+  if (document.getElementById('animOn').checked) {
+    stopAnim();
+    createInstances();
+    startAnimLoop();
+    document.getElementById('playPauseBtn').textContent = '⏸ 一時停止';
+  }
+}
+
+function stopAnim() {
+  if (animId) { cancelAnimationFrame(animId); animId = null; }
+}
+
+// =================== TILE CONTROLS ===================
+function toggleTile() {
+  tileMode = document.getElementById('tileOn').checked;
+  document.getElementById('tileCfg').style.display = tileMode ? 'block' : 'none';
+  if (tileMode) {
+    stopAnim();
+    document.getElementById('animOn').checked = false;
+    document.getElementById('animCfg').style.display = 'none';
+    document.getElementById('aind').classList.add('off');
+  }
+  gen();
+}
+
+function setTile(sz, el) {
+  tileSize = sz;
+  tileCache = null;
+  document.querySelectorAll('#tileCfg .chip').forEach(c => c.classList.remove('active2'));
+  el.classList.add('active2');
+  gen();
+}
+
+// =================== GEN ROUTER ===================
+// 図形・色・設定が変わったとき → キャッシュ破棄して完全再生成
+function genNew() {
+  tileCache = null;
+  effectCache = null;
+  if (document.getElementById('animOn').checked) {
+    createInstances();
+    startAnimLoop();
+    document.getElementById('playPauseBtn').textContent = '⏸ 一時停止';
+  } else {
+    gen();
+  }
+}
+
+// 配置方法・キャンバスサイズ変更など → タイルキャッシュを使い回す
+function gen() {
+  if (document.getElementById('animOn').checked) return;
+  stopAnim();
+  if (tileMode) genTile();
+  else { tileCache=null; genStatic(); }
+}
+
+// =================== STATIC ===================
+function genStatic() {
+  const dn  = parseInt(document.getElementById('density').value);
+  const gsz = parseInt(document.getElementById('gsize').value);
+  const vl  = parseInt(document.getElementById('svar').value);
+  const rl  = parseInt(document.getElementById('rot').value);
+  const am  = parseInt(document.getElementById('opac').value)/100;
+  const active = SHAPES.filter(s=>s.on);
+  if(!active.length) return;
+  const pool = buildPool(active);
+
+  gctx = ctx;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=bgColor; ctx.fillRect(0,0,W,H);
+
+  for(let i=0;i<dn;i++){
+    const x=Math.random()*W, y=Math.random()*H;
+    const sh=pool[Math.floor(Math.random()*pool.length)];
+    let s=gsz*(sh.sm||1);
+    if(vl===1) s*=.5+Math.random();
+    if(vl===2) s*=.2+Math.random()*1.8;
+    const col=sh.color||colors[Math.floor(Math.random()*colors.length)];
+    let rot=0;
+    if(rl===1) rot=(Math.random()-.5)*Math.PI*.5;
+    if(rl===2) rot=Math.random()*Math.PI*2;
+    drawAt(ctx,sh,s,x,y,rot,am*(.5+Math.random()*.5),col);
+  }
+  compositeEffects();
+  updateMobPreview();
+}
+
+// =================== TILE ===================
+function genTile() {
+  const T = tileSize;
+
+  // キャッシュがなければタイルを生成
+  if (!tileCache || tileCache.width !== T) {
+    const dn  = parseInt(document.getElementById('density').value);
+    const gsz = parseInt(document.getElementById('gsize').value);
+    const vl  = parseInt(document.getElementById('svar').value);
+    const rl  = parseInt(document.getElementById('rot').value);
+    const am  = parseInt(document.getElementById('opac').value)/100;
+    const active = SHAPES.filter(s=>s.on);
+    if(!active.length) return;
+    const pool = buildPool(active);
+
+    const tc = document.createElement('canvas');
+    tc.width=T; tc.height=T;
+    const tctx = tc.getContext('2d');
+    tctx.fillStyle=bgColor; tctx.fillRect(0,0,T,T);
+
+    const count = Math.max(15, Math.round(dn * T*T / (800*600)));
+    for(let i=0;i<count;i++){
+      const x=Math.random()*T, y=Math.random()*T;
+      const sh=pool[Math.floor(Math.random()*pool.length)];
+      let s=gsz*(sh.sm||1);
+      if(vl===1) s*=.5+Math.random();
+      if(vl===2) s*=.2+Math.random()*1.8;
+      const col=sh.color||colors[Math.floor(Math.random()*colors.length)];
+      let rot=0;
+      if(rl===1) rot=(Math.random()-.5)*Math.PI*.5;
+      if(rl===2) rot=Math.random()*Math.PI*2;
+      const a = am*(.5+Math.random()*.5);
+      for(let dx=-T;dx<=T;dx+=T)
+        for(let dy=-T;dy<=T;dy+=T)
+          drawAt(tctx,sh,s,x+dx,y+dy,rot,a,col);
+    }
+    tileCache = tc;
+  }
+
+  const tc = tileCache;
+
+  // タイルを配置
+  gctx = ctx;
+  ctx.clearRect(0,0,W,H);
+  const arrange = document.getElementById('tileArrange').value;
+  const rows = Math.ceil(H/T)+2;
+  const cols = Math.ceil(W/T)+3;
+
+  if(arrange === 'grid') {
+    // 通常グリッド
+    const pat = ctx.createPattern(tc,'repeat');
+    ctx.fillStyle=pat; ctx.fillRect(0,0,W,H);
+  } else if(arrange === 'brick') {
+    // レンガ積み：奇数行をT/2ずらす
+    for(let r=-1;r<rows;r++){
+      const yp = r*T;
+      const shift = Math.abs(r%2)===1 ? Math.floor(T/2) : 0;
+      for(let c=-1;c<cols;c++)
+        ctx.drawImage(tc, c*T - shift, yp);
+    }
+  } else if(arrange === 'diagonal') {
+    // 斜めずらし：行ごとにT/3ずつずらす
+    const step = Math.floor(T/3);
+    for(let r=-1;r<rows;r++){
+      const yp = r*T;
+      const shift = ((r * step) % T + T) % T;
+      for(let c=-2;c<cols+1;c++)
+        ctx.drawImage(tc, c*T - shift, yp);
+    }
+  }
+  compositeEffects();
+  updateMobPreview();
+}
+
+// =================== ANIMATION ===================
+function createInstances() {
+  const dn  = parseInt(document.getElementById('density').value);
+  const gsz = parseInt(document.getElementById('gsize').value);
+  const vl  = parseInt(document.getElementById('svar').value);
+  const am  = parseInt(document.getElementById('opac').value)/100;
+  const spd = parseFloat(document.getElementById('animSpeed').value);
+  const type = document.getElementById('animType').value;
+  const active = SHAPES.filter(s=>s.on);
+  if(!active.length) return;
+  const pool = buildPool(active);
+
+  instances = [];
+  for(let i=0;i<dn;i++){
+    const sh=pool[Math.floor(Math.random()*pool.length)];
+    let s=gsz*(sh.sm||1);
+    if(vl===1) s*=.5+Math.random();
+    if(vl===2) s*=.2+Math.random()*1.8;
+    const col=sh.color||colors[Math.floor(Math.random()*colors.length)];
+    const ang=Math.random()*Math.PI*2;
+    const speed=spd*(0.3+Math.random()*0.7);
+
+    const inst = {
+      sh,s,col,
+      x:Math.random()*W,
+      y:Math.random()*H,
+      vx:0,vy:0,
+      rot:Math.random()*Math.PI*2,
+      vrot:0,
+      phase:Math.random()*Math.PI*2,
+      vphase:0,
+      alpha:am*(.5+Math.random()*.5),
+      waveT:0, waveAmp:0, waveFreq:0,
+    };
+
+    if(type==='float'||type==='all'){
+      inst.vx=Math.cos(ang)*speed*.5;
+      inst.vy=Math.sin(ang)*speed*.5;
+    }
+    if(type==='rotate'||type==='all'){
+      inst.vrot=(Math.random()-.5)*0.04*spd;
+      if(type==='rotate') { inst.vx=0; inst.vy=0; }
+    }
+    if(type==='pulse'||type==='all'){
+      inst.vphase=(0.02+Math.random()*0.03)*spd;
+      if(type==='pulse') { inst.vx=0; inst.vy=0; inst.vrot=0; }
+    }
+    if(type==='wave'){
+      inst.waveT=Math.random()*Math.PI*2;
+      inst.waveAmp=20+Math.random()*30;
+      inst.waveFreq=(0.01+Math.random()*0.02)*spd;
+      inst.baseX=inst.x;
+      inst.vx=0; inst.vy=0;
+    }
+
+    instances.push(inst);
+  }
+}
+
+function startAnimLoop() {
+  stopAnim();
+  animId = requestAnimationFrame(animFrame);
+}
+
+function animFrame() {
+  gctx = ctx;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=bgColor; ctx.fillRect(0,0,W,H);
+  const type = document.getElementById('animType').value;
+
+  instances.forEach(inst => {
+    // update
+    if(type==='wave'){
+      inst.waveT += inst.waveFreq;
+      inst.x = inst.baseX + Math.sin(inst.waveT)*inst.waveAmp;
+      inst.y += 0.3;
+      if(inst.y > H+100){ inst.y=-100; inst.baseX=Math.random()*W; }
+    } else {
+      inst.x += inst.vx;
+      inst.y += inst.vy;
+    }
+    inst.rot += inst.vrot;
+    inst.phase += inst.vphase;
+
+    // wrap
+    if(inst.x < -100) inst.x=W+100;
+    if(inst.x > W+100) inst.x=-100;
+    if(inst.y < -100) inst.y=H+100;
+    if(inst.y > H+100) inst.y=-100;
+
+    const pulse = 1+(inst.vphase>0 ? Math.sin(inst.phase)*0.25 : 0);
+    drawAt(ctx,inst.sh,inst.s*pulse,inst.x,inst.y,inst.rot,inst.alpha,inst.col);
+  });
+
+  compositeEffects();
+  // モバイルプレビューを3フレームに1回更新
+  if(!animFrame._tick) animFrame._tick=0;
+  if(++animFrame._tick % 3 === 0) updateMobPreview();
+
+  animId = requestAnimationFrame(animFrame);
+}
+
+// =================== DRAW HELPERS ===================
+function buildPool(active) {
+  const pool=[];
+  active.forEach(sh=>{ for(let i=0;i<(sh.fr||1);i++) pool.push(sh); });
+  return pool;
+}
+
+function drawAt(c, sh, s, x, y, rot, alpha, col) {
+  c.save();
+  c.translate(x,y); c.rotate(rot);
+  c.globalAlpha=alpha;
+  c.fillStyle=col; c.strokeStyle=col;
+  c.lineWidth=Math.max(1.5,s*(sh.wt||.1));
+  c.lineCap='round'; c.lineJoin='round';
+  gctx=c;
+  drawShape(sh,s);
+  c.restore();
+}
+
+function drawShape(sh,s){
+  switch(sh.id){
+    case 'tri':
+      gctx.beginPath();gctx.moveTo(0,-s*.55);gctx.lineTo(s*.5,s*.45);gctx.lineTo(-s*.5,s*.45);
+      gctx.closePath();gctx.fill();break;
+    case 'triout':
+      gctx.beginPath();gctx.moveTo(0,-s*.55);gctx.lineTo(s*.5,s*.45);gctx.lineTo(-s*.5,s*.45);
+      gctx.closePath();gctx.stroke();break;
+    case 'cir':
+      gctx.beginPath();gctx.arc(0,0,s*.5,0,Math.PI*2);gctx.fill();break;
+    case 'cirout':
+      gctx.beginPath();gctx.arc(0,0,s*.5,0,Math.PI*2);gctx.stroke();break;
+    case 'rect': case 'rectout':{
+      const rw=s*1.3,rh=s*.75;
+      const rx=sh.rd?Math.min(s*sh.rd,Math.min(rw,rh)/2):0;
+      gctx.beginPath();rrect(-rw/2,-rh/2,rw,rh,rx);
+      sh.ln?gctx.stroke():gctx.fill();break;
+    }
+    case 'dot':
+      gctx.beginPath();gctx.arc(0,0,s*.5,0,Math.PI*2);gctx.fill();break;
+    case 'line':
+      gctx.beginPath();gctx.moveTo(-s*.6,0);gctx.lineTo(s*.6,0);gctx.stroke();break;
+    case 'dash':
+      gctx.beginPath();gctx.moveTo(-s*.3,0);gctx.lineTo(s*.3,0);gctx.stroke();break;
+    case 'zz':{
+      const zw=s*.9,zh=s*.28,seg=4;
+      gctx.beginPath();gctx.moveTo(-zw/2,zh/2);
+      for(let k=1;k<=seg;k++) gctx.lineTo(-zw/2+(zw/seg)*k,k%2===0?zh/2:-zh/2);
+      gctx.stroke();break;
+    }
+    case 'wave':
+      gctx.beginPath();gctx.moveTo(-s*.5,0);
+      gctx.bezierCurveTo(-s*.25,-s*.3,0,-s*.3,s*.25,0);
+      gctx.bezierCurveTo(s*.5,s*.3,s*.75,s*.3,s,0);
+      gctx.stroke();break;
+    case 'sqg':{
+      const sw=s,wc=5;
+      gctx.beginPath();gctx.moveTo(-sw/2,0);
+      for(let k=0;k<wc;k++){
+        const x0=-sw/2+k*(sw/wc),x1=x0+sw/wc,d=k%2===0?-1:1;
+        gctx.bezierCurveTo(x0+sw/wc*.3,d*s*.2,x1-sw/wc*.3,d*s*.2,x1,0);
+      }
+      gctx.stroke();break;
+    }
+    case 'semi':
+      gctx.beginPath();gctx.arc(0,0,s*.5,Math.PI,0);gctx.closePath();gctx.fill();break;
+    case 'arc':
+      gctx.beginPath();gctx.arc(0,0,s*.45,Math.PI*1.15,Math.PI*1.85);gctx.stroke();break;
+    case 'donut':
+      gctx.beginPath();gctx.arc(0,0,s*.48,0,Math.PI*2);gctx.arc(0,0,s*.27,0,Math.PI*2,true);gctx.fill();break;
+    case 'dia':
+      gctx.beginPath();gctx.moveTo(0,-s*.5);gctx.lineTo(s*.32,0);gctx.lineTo(0,s*.5);gctx.lineTo(-s*.32,0);
+      gctx.closePath();gctx.fill();break;
+    case 'cross':{
+      const cw=s*.18;
+      gctx.fillRect(-s*.5,-cw/2,s,cw);gctx.fillRect(-cw/2,-s*.5,cw,s);break;
+    }
+    case 'star':{
+      const r1=s*.48,r2=s*.22;
+      gctx.beginPath();
+      for(let k=0;k<10;k++){const r=k%2===0?r1:r2,a=(k*Math.PI)/5-Math.PI/2;
+        k===0?gctx.moveTo(r*Math.cos(a),r*Math.sin(a)):gctx.lineTo(r*Math.cos(a),r*Math.sin(a));}
+      gctx.closePath();gctx.fill();break;
+    }
+    case 'heart':{
+      const sc=s/32;
+      gctx.beginPath();
+      for(let k=0;k<=64;k++){
+        const t=(k/64)*Math.PI*2;
+        const px=16*Math.pow(Math.sin(t),3)*sc;
+        const py=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*sc+2.75*sc;
+        k===0?gctx.moveTo(px,py):gctx.lineTo(px,py);
+      }
+      gctx.closePath();gctx.fill();break;
+    }
+    case 'spiral':{
+      const turns=2.5,steps=100;
+      gctx.beginPath();
+      for(let k=0;k<=steps;k++){
+        const t=(k/steps)*turns*Math.PI*2,r=(k/steps)*s*.48;
+        k===0?gctx.moveTo(r*Math.cos(t-Math.PI/2),r*Math.sin(t-Math.PI/2))
+             :gctx.lineTo(r*Math.cos(t-Math.PI/2),r*Math.sin(t-Math.PI/2));
+      }
+      gctx.stroke();break;
+    }
+    case 'arrow':{
+      const aw=s*.85,ah=s*.4,hw=s*.3;
+      gctx.beginPath();
+      gctx.moveTo(-aw/2,-ah/4);gctx.lineTo(aw/2-hw,-ah/4);gctx.lineTo(aw/2-hw,-ah/2);
+      gctx.lineTo(aw/2,0);gctx.lineTo(aw/2-hw,ah/2);gctx.lineTo(aw/2-hw,ah/4);
+      gctx.lineTo(-aw/2,ah/4);gctx.closePath();gctx.fill();break;
+    }
+    case 'cloud':{
+      const r=s*.22;
+      gctx.beginPath();
+      gctx.arc(-r*.8,r*.1,r*.9,Math.PI,Math.PI*1.8);
+      gctx.arc(r*.3,-r*.3,r*1.1,Math.PI*1.2,Math.PI*1.9);
+      gctx.arc(r*1.3,r*.1,r*.8,Math.PI*1.1,0);
+      gctx.arc(r*.3,r*.5,r*1.1,0,Math.PI);
+      gctx.closePath();gctx.fill();break;
+    }
+  }
+}
+
+function rrect(x,y,w,h,r){
+  if(r<=0){gctx.rect(x,y,w,h);return;}
+  gctx.moveTo(x+r,y);gctx.lineTo(x+w-r,y);gctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  gctx.lineTo(x+w,y+h-r);gctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  gctx.lineTo(x+r,y+h);gctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  gctx.lineTo(x,y+r);gctx.quadraticCurveTo(x,y,x+r,y);gctx.closePath();
+}
+
+// =================== DOWNLOAD ===================
+// 保存：スマホは共有メニュー（「画像を保存」「ビデオを保存」で写真に入る）、パソコンはダウンロード
+async function saveBlob(blob, name){
+  const file=new File([blob],name,{type:blob.type});
+  const touch=window.matchMedia('(pointer:coarse)').matches;
+  if(touch && navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file]}); return; }
+    catch(e){ if(e && e.name==='AbortError') return; }
+  }
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.download=name; a.href=url;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+function dlPNG(){
+  cv.toBlob(b=>{ if(b) saveBlob(b, `memphis-${W}x${H}.png`); },'image/png');
+}
+
+// 録画の形式：SNSにそのまま載せられる MP4 を優先（iPhoneのSafariや新しいChromeで使える）。だめなときだけ WebM
+function pickRecFormat(){
+  const list=[['video/mp4;codecs=avc1.42E01E','mp4'],['video/mp4','mp4'],['video/webm;codecs=vp9','webm'],['video/webm','webm']];
+  if(typeof MediaRecorder==='undefined') return null;
+  for(const [t,ext] of list){ if(MediaRecorder.isTypeSupported(t)) return {type:t,ext}; }
+  return null;
+}
+(function(){
+  const f=pickRecFormat(), n=document.getElementById('recNote');
+  if(n) n.textContent = f ? `${f.ext.toUpperCase()}形式で保存 · 録画中は自動でアニメON` : 'このブラウザでは録画できません（画像の保存はできます）';
+})();
+
+function rndHex(){ return '#'+Math.floor(Math.random()*0xFFFFFF).toString(16).padStart(6,'0'); }
+
+// =================== 動画録画 ===================
+let mediaRecorder = null;
+let recChunks = [];
+let recTimer = null;
+let pendingRec = null;  // スマホで録画が終わって、保存待ちの動画
+
+function startRecording() {
+  // 保存待ちの動画があれば、まず保存する
+  if (pendingRec) {
+    const r = pendingRec; pendingRec = null;
+    updateRecBtn(false, 0);
+    saveBlob(r.blob, r.name);
+    return;
+  }
+  // 録画中なら停止
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    stopRecording();
+    return;
+  }
+
+  const sec = parseInt(document.getElementById('recDuration').value);
+
+  // アニメーションが動いていなければ自動起動
+  if (!document.getElementById('animOn').checked) {
+    document.getElementById('animOn').checked = true;
+    toggleAnim();
+  }
+
+  const fmt = pickRecFormat();
+  if (!fmt) { alert('このブラウザでは録画ができません。パソコンのChromeか、iPhoneのSafariでお試しください。'); return; }
+  const mimeType = fmt.type;
+
+  recChunks = [];
+  mediaRecorder = new MediaRecorder(cv.captureStream(30), { mimeType, videoBitsPerSecond: 8_000_000 });
+
+  mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recChunks.push(e.data); };
+  mediaRecorder.onstop = () => {
+    const blob = new Blob(recChunks, { type: mimeType.split(';')[0] });
+    const name = `memphis-${W}x${H}.${fmt.ext}`;
+    if (window.matchMedia('(pointer:coarse)').matches) {
+      // スマホは「タップしてから保存」でないと保存メニューが開けないので、ボタンを保存用に切り替える
+      pendingRec = { blob, name };
+      updateRecBtn(false, 0, true);
+    } else {
+      updateRecBtn(false, 0);
+      saveBlob(blob, name);
+    }
+  };
+
+  mediaRecorder.start(100);
+
+  let remaining = sec;
+  updateRecBtn(true, remaining);
+  recTimer = setInterval(() => {
+    remaining = Math.max(0, remaining - 0.1);
+    if (remaining <= 0) {
+      clearInterval(recTimer); recTimer = null;
+      if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+    } else {
+      updateRecBtn(true, remaining);
+    }
+  }, 100);
+}
+
+function stopRecording() {
+  if (recTimer) { clearInterval(recTimer); recTimer = null; }
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+}
+
+function updateRecBtn(rec, sec, ready) {
+  const btn  = document.getElementById('recBtn');
+  const mBtn = document.getElementById('recBtnMob');
+  if (ready) {
+    if (btn)  { btn.style.cssText  = 'background:#2e7d32;color:#fff;flex:1;margin:0'; btn.textContent  = '💾 動画を保存'; }
+    if (mBtn) { mBtn.style.cssText = 'background:#2e7d32;color:#fff'; mBtn.textContent = '💾 動画を保存'; }
+  } else if (rec) {
+    if (btn)  { btn.style.cssText  = 'background:#e53935;color:#fff;flex:1;margin:0'; btn.textContent  = `⏹ 録画中 ${sec.toFixed(1)}s`; }
+    if (mBtn) { mBtn.style.cssText = 'background:#e53935;color:#fff'; mBtn.textContent = `⏹ ${sec.toFixed(1)}s`; }
+  } else {
+    if (btn)  { btn.style.cssText  = 'flex:1;margin:0'; btn.textContent  = '🎬 動画録画'; }
+    if (mBtn) { mBtn.style.cssText = 'background:#a57aff;color:#fff'; mBtn.textContent = '🎬 録画'; }
+  }
+}
+
+// =================== EFFECTS ===================
+function onEffectToggle(type, el) {
+  document.getElementById('glitterCfg').style.display = el.checked ? 'block' : 'none';
+  onEffectChange();
+}
+
+function onEffectChange() {
+  effectCache = null;
+  gen();
+}
+
+function setGlitterColor(col, el) {
+  glitterColor = col;
+  document.querySelectorAll('#glitterColorChips .chip').forEach(c => c.classList.remove('active2'));
+  el.classList.add('active2');
+  onEffectChange();
+}
+
+function compositeEffects() {
+  const glOn = document.getElementById('glitterOn').checked;
+  if (!glOn) return;
+  if (!effectCache || effectCache.width !== W || effectCache.height !== H) {
+    buildEffectCache();
+  }
+  ctx.save();
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(effectCache, 0, 0);
+  ctx.restore();
+}
+
+const GLITTER_COLS = {
+  gold:    ['#FFD700','#FFC107','#FFFACD','#FFB300','#FFE082'],
+  silver:  ['#E0E0E0','#F5F5F5','#FFFFFF','#BDBDBD','#EEEEEE'],
+  rainbow: ['#FF4444','#FF8800','#FFE000','#44CC44','#2288FF','#AA44FF','#FF44AA']
+};
+
+function buildEffectCache() {
+  const ec = document.createElement('canvas');
+  ec.width = W; ec.height = H;
+  const ec_ctx = ec.getContext('2d');
+
+  const count = parseInt(document.getElementById('glitterDensity').value);
+  const sz    = parseInt(document.getElementById('glitterSize').value);
+  for (let i = 0; i < count; i++) {
+    drawGlitter(ec_ctx, Math.random()*W, Math.random()*H, sz*(0.5+Math.random()*0.8));
+  }
+
+  effectCache = ec;
+}
+
+function drawGlitter(c, x, y, s) {
+  const cols = GLITTER_COLS[glitterColor] || GLITTER_COLS.gold;
+  const col  = cols[Math.floor(Math.random()*cols.length)];
+  c.save();
+  c.translate(x, y);
+  c.rotate(Math.random()*Math.PI*2);
+  c.globalAlpha = 0.65 + Math.random()*0.35;
+  c.shadowColor = col;
+  c.shadowBlur  = s * 2.5;
+  c.fillStyle   = col;
+  // 4-pointed sparkle
+  c.beginPath();
+  for (let k = 0; k < 8; k++) {
+    const r = k%2===0 ? s*0.5 : s*0.1;
+    const a = (k/8)*Math.PI*2 - Math.PI/2;
+    k===0 ? c.moveTo(r*Math.cos(a), r*Math.sin(a))
+          : c.lineTo(r*Math.cos(a), r*Math.sin(a));
+  }
+  c.closePath();
+  c.fill();
+  // White center dot
+  c.shadowBlur = 0;
+  c.fillStyle  = '#FFFFFF';
+  c.beginPath();
+  c.arc(0, 0, s*0.1, 0, Math.PI*2);
+  c.fill();
+  c.restore();
+}
+
+// =================== モバイルプレビュー ===================
+function togglePanel(){} // 互換性のため残す
+
+function updateMobPreview() {
+  if(window.innerWidth > 768) return;
+  const p = document.getElementById('prev-cv');
+  if(!p) return;
+  p.width = cv.width;
+  p.height = cv.height;
+  p.getContext('2d').drawImage(cv, 0, 0);
+}
+
+// =================== 画像からパレット抽出 ===================
+let uploadedImg = null;
+let extractedPalette = [];
+
+function onImageUpload(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      uploadedImg = img;
+      document.getElementById('prevImg').src = e.target.result;
+      document.getElementById('imgPreview').style.display = 'block';
+      doExtract(img);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function reExtract() {
+  if(uploadedImg) doExtract(uploadedImg);
+}
+
+function doExtract(img) {
+  const SIZE = 200;
+  const tc = document.createElement('canvas');
+  tc.width = tc.height = SIZE;
+  const tctx = tc.getContext('2d');
+  tctx.drawImage(img, 0, 0, SIZE, SIZE);
+  extractedPalette = extractDominantColors(tctx, SIZE, 7);
+  const ec = document.getElementById('extColors');
+  ec.innerHTML = extractedPalette.map(c =>
+    `<div style="flex:1;background:${c};cursor:pointer;title='${c}'" title="${c}"></div>`
+  ).join('');
+}
+
+function extractDominantColors(tctx, size, count) {
+  const data = tctx.getImageData(0, 0, size, size).data;
+  const bucketSize = 20; // 色の量子化単位
+  const freq = new Map();
+
+  for(let i=0; i<data.length; i+=4) {
+    if(data[i+3] < 200) continue; // 半透明スキップ
+    const r = Math.round(data[i]   / bucketSize) * bucketSize;
+    const g = Math.round(data[i+1] / bucketSize) * bucketSize;
+    const b = Math.round(data[i+2] / bucketSize) * bucketSize;
+    // ほぼ白・ほぼ黒・グレーは除外
+    const bright = (r+g+b)/3;
+    const sat = Math.max(r,g,b) - Math.min(r,g,b);
+    if(bright > 235 || bright < 20 || sat < 20) continue;
+    const key = (r<<16)|(g<<8)|b;
+    freq.set(key, (freq.get(key)||0)+1);
+  }
+
+  const sorted = [...freq.entries()].sort((a,b)=>b[1]-a[1]);
+  const result = [];
+  const used = [];
+
+  for(const [key] of sorted) {
+    if(result.length >= count) break;
+    const r=(key>>16)&0xFF, g=(key>>8)&0xFF, b=key&0xFF;
+    // 既存色との距離チェック（多様性を確保）
+    const near = used.some(([ur,ug,ub]) =>
+      Math.abs(r-ur)+Math.abs(g-ug)+Math.abs(b-ub) < 90
+    );
+    if(!near) {
+      result.push(`#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`);
+      used.push([r,g,b]);
+    }
+  }
+  return result;
+}
+
+function applyExtracted() {
+  if(!extractedPalette.length) return;
+  colors = [...extractedPalette];
+  renderPal();
+  genNew();
+}
+
+// =================== COLOR HARMONY ===================
+function hexToHSL(hex) {
+  let r=parseInt(hex.slice(1,3),16)/255, g=parseInt(hex.slice(3,5),16)/255, b=parseInt(hex.slice(5,7),16)/255;
+  const mx=Math.max(r,g,b), mn=Math.min(r,g,b);
+  let h,s,l=(mx+mn)/2;
+  if(mx===mn){h=s=0;}
+  else{
+    const d=mx-mn;
+    s=l>0.5?d/(2-mx-mn):d/(mx+mn);
+    switch(mx){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;}
+    h/=6;
+  }
+  return [h*360,s*100,l*100];
+}
+
+function hslToHex(h,s,l) {
+  h/=360;s/=100;l/=100;
+  let r,g,b;
+  if(s===0){r=g=b=l;}
+  else{
+    const q=l<0.5?l*(1+s):l+s-l*s, p=2*l-q;
+    const h2r=(p,q,t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;};
+    r=h2r(p,q,h+1/3);g=h2r(p,q,h);b=h2r(p,q,h-1/3);
+  }
+  return '#'+[r,g,b].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('');
+}
+
+function buildHarmony(baseHex, type) {
+  const [h,s,l]=hexToHSL(baseHex);
+  const hsl=(dh,ds=0,dl=0)=>hslToHex((h+dh+360)%360, Math.min(100,Math.max(0,s+ds)), Math.min(90,Math.max(10,l+dl)));
+  switch(type){
+    case 'complementary':
+      return [hsl(0),hsl(180),hsl(0,0,15),hsl(180,0,15),hsl(0,-15,-15),hsl(180,-15,-15)];
+    case 'analogous':
+      return [hsl(0),hsl(30),hsl(60),hsl(-30),hsl(-60),hsl(15,0,15)];
+    case 'triadic':
+      return [hsl(0),hsl(120),hsl(240),hsl(0,0,20),hsl(120,0,20),hsl(240,0,20)];
+    case 'tetradic':
+      return [hsl(0),hsl(90),hsl(180),hsl(270),hsl(0,0,20),hsl(90,0,20)];
+    case 'splitComp':
+      return [hsl(0),hsl(150),hsl(210),hsl(0,0,20),hsl(150,0,15),hsl(210,0,15)];
+    case 'monochromatic':
+      return [hsl(0,0,-30),hsl(0,0,-15),hsl(0),hsl(0,0,15),hsl(0,0,30),hsl(0,-20,10)];
+  }
+}
+
+function applyHarmony() {
+  const base=document.getElementById('harmonyBase').value;
+  const type=document.getElementById('harmonyType').value;
+  colors=buildHarmony(base,type);
+  renderPal();
+  updateHarmonyPreview();
+  gen();
+}
+
+function updateHarmonyPreview() {
+  const base=document.getElementById('harmonyBase').value;
+  const type=document.getElementById('harmonyType').value;
+  const prev=document.getElementById('harmonyPreview');
+  const palette=buildHarmony(base,type);
+  prev.innerHTML=palette.map(c=>`<div style="flex:1;background:${c}"></div>`).join('');
+}
+
+function genRandPalette() {
+  const h=Math.random()*360;
+  const types=['complementary','analogous','triadic','tetradic','splitComp'];
+  const type=types[Math.floor(Math.random()*types.length)];
+  const base=hslToHex(h,60+Math.random()*30,45+Math.random()*20);
+  document.getElementById('harmonyBase').value=base;
+  colors=buildHarmony(base,type);
+  const bg=hslToHex(h,10+Math.random()*15,90+Math.random()*8);
+  bgColor=bg;
+  document.getElementById('bgColor').value=bg;
+  document.getElementById('bgHex').textContent=bg.toUpperCase();
+  renderPal();
+  updateHarmonyPreview();
+  gen();
+}
+
+init();
+</script>
+</body>
+</html>
