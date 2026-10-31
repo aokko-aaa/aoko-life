@@ -160,6 +160,14 @@
   .flow .point{font-weight:700;color:var(--ink);font-size:15px;line-height:1.6;margin-top:2px;word-break:auto-phrase;text-wrap:pretty;}
   .flow p{font-size:14px;color:var(--muted);}
   .flow p+p{margin-top:6px;}
+  /* 数字から次の数字へ、黄緑の線が伸びる（画面に入ったときに伸びる） */
+  .flow li{position:relative;}
+  .flow li:not(:last-child)::after{
+    content:"";position:absolute;left:17px;top:42px;bottom:-20px;width:2px;
+    background:var(--accent);transform-origin:top;
+  }
+  .js .flow li.reveal:not(:last-child)::after{transform:scaleY(0);transition:transform .9s ease .45s;}
+  .js .flow li.reveal.is-in:not(:last-child)::after{transform:scaleY(1);}
 
   /* 05 料金 */
   .acc{border-top:1px solid var(--line);}
@@ -294,6 +302,7 @@
     .acc details[open] .acc-body{animation:none;}
     .more[open] .more-body{animation:none;}
     .more summary::after{transition:none;}
+    .js .flow li.reveal:not(:last-child)::after{transform:none;transition:none;}
     .onsite-acc summary::after{transition:none;}
     .onsite-acc[open] .onsite{animation:none;}
   }
