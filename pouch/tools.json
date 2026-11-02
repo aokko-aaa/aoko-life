@@ -1,5 +1,33 @@
 [
   {
+    "name": "CapCutつなぐセットアップ",
+    "slug": "capcut-setup",
+    "tsumari": "動画編集をClaudeに手伝ってほしいのに、|CapCutとのつなぎ方がわからない",
+    "summary": "ClaudeとCapCut（パソコン版）を、|一歩ずつ案内しながらつなぐスキル",
+    "description": "Mac の Claude Code が、CapCut とつなぐ準備を1ステップずつ案内します。つないだあとは、素材・台本・トンマナを渡すと、Claude が CapCut の下書きを作ったり直したりできるようになります。",
+    "image": "",
+    "app_url": "",
+    "skill_zip": "",
+    "skill_title": "Claude Code で使う方",
+    "skill_enjoy": false,
+    "skill_steps": [
+      "zipをダウンロードして、解凍します。",
+      "中の「capcut-setup」フォルダを、デスクトップなどに置きます。",
+      "Claude Codeで「デスクトップのcapcut-setupフォルダを、スキルとして ~/.claude/skills に入れて」と頼み、開き直してから「CapCutとつなぐセットアップをして」と話しかけます。"
+    ],
+    "skill_note": [
+      "Mac と Claude Code、CapCut のパソコン版（無料）が必要です。",
+      "有志が作った無料の道具「capcut-cli」を使う、|非公式のつなぎ方です。|CapCutのアップデートで、|急に動かなくなることがあります。",
+      "動画の書き出しと投稿は、|最後にご自身で CapCut から行います。"
+    ],
+    "tools": [
+      "Claude Code"
+    ],
+    "notes": [],
+    "date": "2026-11-02",
+    "published": true
+  },
+  {
     "name": "まとめてCOPIPE",
     "slug": "matometekopipe",
     "tsumari": "お店をLINEで送るたびに、GoogleマップとLINEを行ったり来たりしてしまう",

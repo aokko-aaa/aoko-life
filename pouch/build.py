@@ -303,7 +303,7 @@ def build_tool(t):
     if img:
         parts.append(f'    <img class="hero-img" src="{img}" alt="">')
     parts.append(f"""    <span class="tool-label">my pouch</span>
-    <h1>{escape(t['name'])}</h1>
+    <h1>{wb(t['name'])}</h1>
     <p class="tsumari">{wb(t['tsumari'])}</p>
     <p>{wb(t['description'])}</p>""")
 
@@ -320,6 +320,8 @@ def build_tool(t):
     note = t.get("skill_note") or []
     if isinstance(note, str):
         note = [note]
+    # 「仕様を好みに…」の一文は、アプリを作るスキルのときだけ（"skill_enjoy": false で隠す）
+    enjoy = "" if t.get("skill_enjoy") is False else f"      <p class=\"enjoy\">{wb('仕様を好みにカスタマイズしたり、デザインを変えたりして楽しんでください。')}</p>"
     skill_note = f'      <p class="skill-note">{"<br>".join(wb(x) for x in note)}</p>' if note else ""
     zip_ok = file_exists(t.get("skill_zip"))
     if zip_ok:
@@ -331,13 +333,13 @@ def build_tool(t):
         tools_line = f'<p class="tools">使えるツール：{escape("、".join(t["tools"]))}</p>'
     if show_skill:
       parts.append(f"""    <section>
-      <h2>自分で作りたい方</h2>
+      <h2>{escape(t.get('skill_title') or '自分で作りたい方')}</h2>
       <p>{wb('スキルは、AIに作り方を教えるための説明書のようなファイルです。')}</p>
       <ol class="steps">
 {steps}
       </ol>
 {skill_note}
-      <p class="enjoy">{wb('仕様を好みにカスタマイズしたり、デザインを変えたりして楽しんでください。')}</p>
+{enjoy}
       <div style="margin-top:16px">{dl}</div>
       {tools_line}
     </section>""")
