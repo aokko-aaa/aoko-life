@@ -709,6 +709,54 @@
   #profile-r .more summary.tri-only{justify-content:center;width:100%;}
   .fold summary::after{width:0;height:0;margin-top:-4px;right:22px;background:none;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid var(--brand);border-radius:0;}
   @media (prefers-reduced-motion: reduce){.more summary::after,.before summary::after{transition:none;}}
+
+  /* 02 の答えの補足 */
+  .answer small{display:block;font-size:14px;font-weight:400;color:var(--ink);line-height:1.8;margin-top:6px;}
+  /* ヒトイロの仕事：番号つきの流れ */
+  .route{counter-reset:r;}
+  .split .route li{counter-increment:r;padding-left:34px;}
+  .split .route li::before{content:counter(r);border:0;opacity:1;width:24px;height:24px;top:13px;left:0;border-radius:50%;background:var(--brand);color:var(--paper);font-size:12px;font-weight:700;display:grid;place-items:center;}
+  /* 事業者らしさ */
+  .own{margin-top:32px;padding:24px 0 0;border-top:1px solid rgba(255,255,255,.4);}
+  .own-title{font-size:20px;font-weight:700;line-height:1.4;margin-bottom:8px;}
+  .own p+p{line-height:1.8;}
+  @media (min-width: 900px){
+    .own{max-width:760px;margin-left:auto;margin-right:auto;text-align:center;}
+    .own-title{font-size:26px;}
+    .answer{flex-direction:column;}
+    .answer p{text-align:center;}
+  }
+
+  /* 07 名前：HITO × IRO */
+  .nm{display:grid;gap:8px;}
+  .nm-word{font-size:56px;font-weight:700;line-height:1;letter-spacing:.06em;color:var(--ink);}
+  .nm-iro .nm-word{color:var(--brand);}
+  .nm-yomi{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.4em;margin:8px 0 14px;}
+  .nm dl div{display:grid;grid-template-columns:5em 1fr;gap:12px;align-items:baseline;padding:12px 0;border-top:1px solid var(--line);}
+  .nm dl div:last-child{border-bottom:1px solid var(--line);}
+  .nm dt{font-weight:700;font-size:17px;line-height:1.4;}
+  .nm-iro dt{color:var(--brand);}
+  .nm dd{font-size:14px;line-height:1.6;}
+  .nm-x{font-size:32px;color:var(--gray);line-height:1;text-align:center;margin:12px 0;}
+  .strip{display:flex;height:16px;margin:44px 0 18px;}
+  .strip i{flex:1;background:#dcdcdf;}
+  .strip i:nth-child(2){background:#c9c9cd;}
+  .strip i:nth-child(3){background:#b8b8bd;}
+  .strip i:nth-child(4){background:#a6a6ac;}
+  .strip i:nth-child(5){background:#949494;}
+  .strip .add{flex:1.2;background:var(--brand);transform-origin:left;}
+  .js .strip.reveal{opacity:1;transform:none;}
+  .js .strip.reveal .add{transform:scaleX(0);transition:transform 1s cubic-bezier(.4,0,.2,1) .6s;}
+  .js .strip.reveal.is-in .add{transform:scaleX(1);}
+  @media (prefers-reduced-motion: reduce){.js .strip.reveal .add{transform:none;transition:none;}}
+  .names-close{font-size:17px;}
+  @media (min-width: 900px){
+    .nm{grid-template-columns:1fr auto 1fr;gap:48px;align-items:start;}
+    .nm-word{font-size:80px;}
+    .nm-x{margin:22px 0 0;font-size:40px;}
+    .strip{max-width:760px;margin:64px auto 20px;height:20px;}
+    .names-close{font-size:22px;}
+  }
 </style>
 </head>
 <body>
@@ -746,14 +794,14 @@
       <li><span class="wb">ちょっと</span><span class="wb">相談したい</span></li>
       <li><span class="wb">AIを使いたいけど…</span></li>
     </ul>
-    <div class="answer"><p><span class="wb">ひとりで抱えなくて、</span><span class="wb">大丈夫です！</span></p></div>
+    <div class="answer"><p><span class="wb">ひとりで抱えなくて、</span><span class="wb">大丈夫です！</span><small><span class="wb">お話をしながら、</span><span class="wb">一緒にボトルネックを</span><span class="wb">探っていきましょう。</span></small></p></div>
   </section>
 
   <!-- 03 思い -->
   <section class="purple">
     <span class="r-label">HITO IROの思い</span>
     <h2 class="r-h"><em>あなたにしか</em><br><span class="wb">できない仕事に、</span><br><em>あなたの時間</em>を。</h2>
-    <p class="ask"><span class="wb">お客さまが待っているのは、</span><span class="wb">あなたです。</span><small><span class="wb">あなたの言葉や判断こそが、</span><span class="wb">事業の価値。</span><span class="wb">その裏側の作業まで、</span><span class="wb">ひとりで抱えなくて大丈夫です。</span></small></p>
+    <p class="ask"><span class="wb">お客さまが待っているのは、</span><span class="wb">あなたです。</span><small><span class="wb">だからヒトイロは、</span><span class="wb">作業を代わるだけでなく、</span><span class="wb">事業の全体を一緒に見て、</span><span class="wb">あなたの時間を奪っている</span><span class="wb">ボトルネックを見つけ、</span><span class="wb">ほどいていきます。</span></small></p>
     <div class="split">
       <div class="you">
         <p class="role">あなたの仕事</p>
@@ -766,13 +814,13 @@
       </div>
       <div class="us">
         <p class="role">ヒトイロの仕事</p>
-        <p class="role-title"><span class="wb">裏側を整えて、</span><span class="wb">動かす。</span></p>
-        <ul>
-          <li><b>書類・事務</b><span>請求書・見積書・データの整理</span></li>
-          <li><b>調べもの・資料</b><span>比較表・提案資料づくり</span></li>
-          <li><b>発信の準備</b><span>SNS投稿・チラシなどの販促物</span></li>
-          <li><b>段取り・進行</b><span>スケジュール・リマインド</span></li>
-        </ul>
+        <p class="role-title"><span class="wb">全体を見て、</span><span class="wb">流れを整える。</span></p>
+        <ol class="route">
+          <li><b>全体を見わたす</b><span><span class="wb">業務の棚卸し、</span><span class="wb">時間の使い方の見える化</span></span></li>
+          <li><b>ボトルネックを見つける</b><span><span class="wb">止まっているところ、</span><span class="wb">詰まっているところを</span><span class="wb">一緒に探す</span></span></li>
+          <li><b>ほどいて、整える</b><span><span class="wb">手順や仕組み、</span><span class="wb">ツールの見直し</span></span></li>
+          <li><b>実務まで動く</b><span><span class="wb">事務・資料・発信など、</span><span class="wb">手を動かす部分も</span></span></li>
+        </ol>
       </div>
     </div>
     <ul class="gains">
@@ -780,6 +828,10 @@
       <li><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6v8M24 34v8M6 24h8M34 24h8"/><circle cx="24" cy="24" r="6" stroke="#b4ff3f"/></svg><span class="wb">新しい企画が</span><span class="wb">動く</span></li>
       <li><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 38l12-12 7 7 13-15"/><path d="M32 18h8v8" stroke="#b4ff3f"/></svg><span class="wb">事業が</span><span class="wb">前へ進む</span></li>
     </ul>
+    <div class="own">
+      <p class="own-title"><span class="wb">あなたの事業らしさは、</span><span class="wb">そのままに。</span></p>
+      <p><span class="wb">決まったやり方を押しつけず、</span><span class="wb">今ある色を活かしながら、</span><span class="wb">もうひといろを添えます。</span></p>
+    </div>
     <p class="chips-p"><span class="wb">採用の手間なく、</span><span class="wb">必要な分だけ、</span><span class="wb">小さく始められます。</span></p>
     <p class="private"><span class="wb">本業に集中できると、</span><span class="wb">プライベートにも</span><span class="wb">ゆとりが生まれます。</span></p>
   </section>
@@ -791,7 +843,7 @@
     <p class="motto-r">効率はAIで。彩りは人で。</p>
     <div class="svc">
       <div class="svc-card"><h3><i>A</i>頭の中の「あれこれ」</h3>
-        <ul class="tags"><li>壁打ち・相談</li><li>アイデアの言語化</li><li>優先順位の整理</li><li>やることリスト化</li></ul></div>
+        <ul class="tags"><li>業務の棚卸し</li><li>ボトルネック探し</li><li>壁打ち・相談</li><li>アイデアの言語化</li><li>優先順位の整理</li><li>やることリスト化</li></ul></div>
       <div class="svc-card"><h3><i>B</i>日々の仕事の「あれこれ」</h3>
         <ul class="tags"><li>事務サポート</li><li>リサーチ・比較資料</li><li>SNS運用</li><li>デザイン・文章</li><li>イラスト</li><li>進捗管理</li><li>マニュアル整備</li></ul></div>
       <div class="svc-card"><h3><i>C</i>AIで効率化</h3>
@@ -851,12 +903,26 @@
   <section>
     <span class="num">07</span>
     <h2 class="r-h"><span class="mk"><em>HITO IRO</em>という名前</span></h2>
-    <ul class="names">
-      <li><b>人 × 色</b><span><span class="wb">それぞれの個性を</span><span class="wb">大切に</span></span></li>
-      <li><b><span class="wb">ひとり ×</span><span class="wb">ひといろ</span></b><span><span class="wb">新しい視点と</span><span class="wb">彩りを</span></span></li>
-      <li><b>人の温度</b><span><span class="wb">AIを使っても、</span><span class="wb">温かさは失わない</span></span></li>
-      <li><b>彩る</b><span><span class="wb">塗り替えずに、</span><span class="wb">一色を添える</span></span></li>
-    </ul>
+    <div class="nm">
+      <div class="nm-col nm-hito">
+        <p class="nm-word">HITO</p><p class="nm-yomi">ヒト</p>
+        <dl>
+          <div><dt>人</dt><dd><span class="wb">人それぞれ、</span><span class="wb">会社それぞれの</span><span class="wb">個性を大切に</span></dd></div>
+          <div><dt>ひとり</dt><dd><span class="wb">もうひとり加わることで、</span><span class="wb">新しい視点を</span></dd></div>
+          <div><dt>人の温度</dt><dd><span class="wb">AIを使っても、</span><span class="wb">温かさは失わない</span></dd></div>
+        </dl>
+      </div>
+      <p class="nm-x" aria-hidden="true">×</p>
+      <div class="nm-col nm-iro">
+        <p class="nm-word">IRO</p><p class="nm-yomi">イロ</p>
+        <dl>
+          <div><dt>色</dt><dd><span class="wb">その事業だけが持つ、</span><span class="wb">今ある色</span></dd></div>
+          <div><dt>ひといろ</dt><dd><span class="wb">そこに加わる、</span><span class="wb">新しい彩り</span></dd></div>
+          <div><dt>彩る</dt><dd><span class="wb">塗り替えずに、</span><span class="wb">一色を添える</span></dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="add"></i></div>
     <p class="names-close"><span class="wb">事業の色を塗り替えない。</span><span class="wb">もうひといろを添える。</span></p>
   </section>
 
@@ -922,7 +988,7 @@
 </div>
 <script>
   (function(){
-    var targets = document.querySelectorAll('#hero > *, .page > section > .r-h, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');
+    var targets = document.querySelectorAll('#hero > *, .page > section > .r-h, .own, .nm-col, .strip, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');
     targets.forEach(function(el){
       el.classList.add('reveal');
       var i = Array.prototype.indexOf.call(el.parentNode.children, el);
