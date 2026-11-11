@@ -35,12 +35,12 @@ CSS = r'''
   .page > section.gray{background:#f6f6f7;}
   .page > section.purple{background:linear-gradient(160deg,#9064b5 0%,#7b4fa0 55%,#6a4290 100%);color:var(--paper);}
   .num{color:var(--brand);}
-  .purple .num{color:var(--accent);}
+  .purple .num{color:rgba(255,255,255,.75);}
 
   /* 見出し：キーワードだけ大きく紫、つなぎは小さく */
   .r-h{font-size:19px;font-weight:700;line-height:1.4;margin-bottom:28px;letter-spacing:.02em;}
   .r-h em{font-style:normal;font-size:28px;color:var(--brand);}
-  .purple .r-h em{color:var(--paper);background:linear-gradient(transparent 78%,rgba(180,255,63,.9) 78%);}
+  .purple .r-h em{color:var(--paper);}
   .r-lead{font-weight:700;line-height:1.6;margin:-12px 0 24px;}
 
   /* ボタン：ピル型＋右に丸い矢印 */
@@ -68,7 +68,7 @@ CSS = r'''
   .answer p{background:var(--brand);color:var(--paper);font-weight:700;line-height:1.6;border-radius:20px;padding:14px 20px;}
 
   /* 思い */
-  .r-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--brand);background:var(--accent);border-radius:999px;padding:0 12px;line-height:1.8;margin-bottom:16px;}
+  .r-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--brand);background:var(--paper);border-radius:999px;padding:0 12px;line-height:1.8;margin-bottom:16px;}
   .ask{font-size:17px;font-weight:700;line-height:1.6;margin-bottom:28px;}
   .ask small{display:block;font-size:14px;font-weight:400;line-height:1.8;margin-top:8px;opacity:.9;}
   .split{display:grid;gap:10px;}
@@ -107,6 +107,11 @@ CSS = r'''
   /* ステップ */
   .steps{counter-reset:s;display:grid;gap:10px;}
   .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;background:var(--paper);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);}
+  .steps li{position:relative;}
+  .steps li:not(:last-child)::after{content:"";position:absolute;z-index:1;left:35px;top:54px;height:calc(100% - 40px + 10px - 14px + 14px);width:2px;background:var(--accent);transform-origin:top;}
+  .js .steps li.reveal:not(:last-child)::after{transform:scaleY(0);transition:transform .9s ease .45s;}
+  .js .steps li.reveal.is-in:not(:last-child)::after{transform:scaleY(1);}
+  @media (prefers-reduced-motion: reduce){.js .steps li.reveal:not(:last-child)::after{transform:none;transition:none;}}
   .steps li::before{content:counter(s);width:40px;height:40px;border-radius:50%;border:2px solid var(--brand);color:var(--brand);font-weight:700;display:grid;place-items:center;}
   .steps b{display:block;color:var(--brand);line-height:1.6;}
   .steps span{font-size:13px;color:var(--muted);line-height:1.6;}
@@ -120,7 +125,7 @@ CSS = r'''
   .price b{font-size:56px;color:var(--brand);letter-spacing:-.03em;}
   .price span{font-size:15px;}
   .plan small{font-size:13px;line-height:1.6;color:var(--muted);display:block;}
-  .trial-r{margin-top:12px;background:var(--accent);color:var(--ink);border-radius:999px;text-align:center;font-weight:700;line-height:1.6;padding:10px 12px;font-size:14px;}
+  .trial-r{margin-top:12px;border:2px solid rgba(255,255,255,.7);color:var(--paper);border-radius:999px;text-align:center;font-weight:700;line-height:1.6;padding:10px 12px;font-size:14px;}
   .spot{background:var(--paper);color:var(--ink);border-radius:24px;padding:20px;margin-top:10px;}
   .spot > p{font-weight:700;color:var(--brand);margin-bottom:6px;}
   .spot li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.6;}
@@ -171,6 +176,10 @@ CSS = r'''
     .ways-r{max-width:640px;}
     .steps{grid-template-columns:repeat(5,1fr);}
     .steps li{grid-template-columns:1fr;justify-items:center;text-align:center;padding:24px 12px;}
+    .steps li:not(:last-child)::after{left:calc(50% + 22px);top:44px;height:2px;width:calc(100% + 16px - 44px);transform-origin:left;}
+    .js .steps li.reveal:not(:last-child)::after{transform:scaleX(0);}
+    .js .steps li.reveal.is-in:not(:last-child)::after{transform:scaleX(1);}
+    .steps{gap:16px;}
     .plans-r{grid-template-columns:1fr 1fr;gap:16px;}
     .price b{font-size:72px;}
     .spot ul{columns:2;column-gap:40px;}
@@ -204,17 +213,12 @@ BODY = f'''
     <p class="sub">事業のとなりに、もうひといろ。</p>
     {hero_visual}
     <a class="btn" href="{FORM}" target="_blank" rel="noopener">まずは相談する</a>
-    <div class="badges">
-      <div><small>はじめての相談</small><b>60</b><span>分無料</span></div>
-      <div><small>月額</small><b>6</b><span>万円〜</span></div>
-      <div><small>スポット</small><b>5,000</b><span>円〜</span></div>
-    </div>
   </section>
 
   <!-- 02 お悩み -->
   <section class="gray">
     <span class="num">02</span>
-    <h2 class="r-h">その<em>「あれこれ」</em>、<br>ひとりで<em>抱えて</em><span class="wb">いませんか？</span></h2>
+    <h2 class="r-h"><span class="mk">その<em>「あれこれ」</em>、<br>ひとりで<em>抱えて</em><span class="wb">いませんか？</span></span></h2>
     <ul class="bubbles">
       <li>{W("何から始めよう…")}</li>
       <li>{W("考えが、","形にならない")}</li>
@@ -247,7 +251,7 @@ BODY = f'''
   <!-- 04 できること -->
   <section class="has-before">
     <span class="num">04</span>
-    <h2 class="r-h"><em>できること</em>は、<br>大きく<em>3つ</em>。</h2>
+    <h2 class="r-h"><span class="mk"><em>できること</em>は、<br>大きく<em>3つ</em>。</span></h2>
     <p class="motto-r">効率はAIで。彩りは人で。</p>
     <div class="svc">
       <div class="svc-card"><h3><i>A</i>頭の中の「あれこれ」</h3>
@@ -265,7 +269,7 @@ BODY = f'''
   <!-- 05 ステップ -->
   <section class="gray">
     <span class="num">05</span>
-    <h2 class="r-h"><em>5つ</em>のステップで、<br><span class="wb">一緒に進めます。</span></h2>
+    <h2 class="r-h"><span class="mk"><em>5つ</em>のステップで、<br><span class="wb">一緒に進めます。</span></span></h2>
     <ol class="steps">
       <li><div><b>相談する</b><span>頭の中を、そのまま話す</span></div></li>
       <li><div><b>整理する</b><span>進む方向を見つける</span></div></li>
@@ -300,7 +304,7 @@ BODY = f'''
   <!-- 07 名前 -->
   <section>
     <span class="num">07</span>
-    <h2 class="r-h"><em>HITO IRO</em>という名前</h2>
+    <h2 class="r-h"><span class="mk"><em>HITO IRO</em>という名前</span></h2>
     <ul class="names">
       <li><b>人 × 色</b><span>{W("それぞれの個性を","大切に")}</span></li>
       <li><b><span class="wb">ひとり ×</span><span class="wb">ひといろ</span></b><span>{W("新しい視点と","彩りを")}</span></li>
@@ -313,7 +317,7 @@ BODY = f'''
   <!-- 08 プロフィール -->
   <section class="gray" id="profile-r">
     <span class="num">08</span>
-    <h2 class="r-h"><em>プロフィール</em></h2>
+    <h2 class="r-h"><span class="mk"><em>プロフィール</em></span></h2>
     <div class="prof-wrap">
       <div>
         <div class="prof-top">{portrait}<div><b>クリエイティブサポーター</b><span>{W("接客販売15年、","印刷会社、","オンライン秘書")}</span></div></div>
