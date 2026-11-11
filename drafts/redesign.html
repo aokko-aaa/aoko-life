@@ -757,6 +757,25 @@
     .strip{max-width:760px;margin:64px auto 20px;height:20px;}
     .names-close{font-size:22px;}
   }
+
+  /* 03 思い：薄いラベンダー → 紫へ、ふわっと色が変わる */
+  #omoi.purple{background:#eeeaf3;color:var(--ink);position:relative;isolation:isolate;transition:color 1.2s ease;}
+  #omoi::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:linear-gradient(160deg,#9064b5 0%,#7b4fa0 55%,#6a4290 100%);opacity:0;transition:opacity 1.2s ease;}
+  #omoi .r-h em, #omoi .split .you, #omoi .split .you li, #omoi .own, #omoi .r-label{transition:color 1.2s ease, border-color 1.2s ease;}
+  #omoi .r-h em{color:var(--brand);}
+  #omoi .r-label{color:var(--brand);}
+  #omoi .split .you{border-color:rgba(123,79,160,.35);}
+  #omoi .split .you li{border-top-color:rgba(123,79,160,.18);}
+  #omoi .own{border-top-color:rgba(123,79,160,.25);}
+  #omoi.lit::before, html:not(.js) #omoi::before{opacity:1;}
+  #omoi.lit, html:not(.js) #omoi.purple{color:var(--paper);}
+  #omoi.lit .r-h em, #omoi.lit .r-label{color:var(--paper);}
+  #omoi.lit .split .you{border-color:rgba(255,255,255,.55);}
+  #omoi.lit .split .you li{border-top-color:rgba(255,255,255,.25);}
+  #omoi.lit .own{border-top-color:rgba(255,255,255,.4);}
+  @media (prefers-reduced-motion: reduce){
+    #omoi.purple, #omoi::before, #omoi .r-h em, #omoi .split .you, #omoi .split .you li, #omoi .own, #omoi .r-label{transition:none;}
+  }
 </style>
 </head>
 <body>
@@ -797,8 +816,8 @@
     <div class="answer"><p><span class="wb">ひとりで抱えなくて、</span><span class="wb">大丈夫です！</span><small><span class="wb">お話をしながら、</span><span class="wb">一緒にボトルネックを</span><span class="wb">探っていきましょう。</span></small></p></div>
   </section>
 
-  <!-- 03 思い -->
-  <section class="purple">
+  <!-- 03 思い（スクロールすると、薄いラベンダーから紫へふわっと変わる） -->
+  <section class="purple" id="omoi">
     <span class="r-label">HITO IROの思い</span>
     <h2 class="r-h"><em>あなたにしか</em><br><span class="wb">できない仕事に、</span><br><em>あなたの時間</em>を。</h2>
     <p class="ask"><span class="wb">お客さまが待っているのは、</span><span class="wb">あなたです。</span><small><span class="wb">だからヒトイロは、</span><span class="wb">作業を代わるだけでなく、</span><span class="wb">事業の全体を一緒に見て、</span><span class="wb">あなたの時間を奪っている</span><span class="wb">ボトルネックを見つけ、</span><span class="wb">ほどいていきます。</span></small></p>
@@ -1051,6 +1070,20 @@
       };
       requestAnimationFrame(function(){ requestAnimationFrame(start); });
     }
+  })();
+</script>
+<script>
+  // 03 思い：セクションの上の端が画面の中ほどまで来たら紫に。上に戻ると薄い色に戻る
+  (function(){
+    var sec = document.getElementById('omoi');
+    if (!sec) return;
+    if (!('IntersectionObserver' in window)) { sec.classList.add('lit'); return; }
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) sec.classList.add('lit');
+        else if (e.boundingClientRect.top > 0) sec.classList.remove('lit');
+      });
+    }, { rootMargin: '0px 0px -55% 0px', threshold: 0 }).observe(sec);
   })();
 </script>
 </body>
