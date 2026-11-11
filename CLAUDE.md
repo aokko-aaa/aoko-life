@@ -34,6 +34,8 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 
 - ページの軸は「事業のとなりに、もうひといろ。」。キャッチは「あとひとり、一緒に動ける人がいたら。」（チラシの見出しとそろえた）
 - 03 のあとに紫の帯の「HITO IROの思い」（#life）を置く。軸は「本業（お客さま対応・商品づくり・次の一手）に集中して、事業を前へ」。プライベートの充実は一文で軽く触れる程度（重視しない）。お客さまの声としては書かない。キャッチ下の紫の一言は「本業にも、暮らしにも。」
+- 文言の洗い出しは Google スプレッドシート「HITO IRO トップページ文言一覧」（https://docs.google.com/spreadsheets/d/1xtsyWj5X4_QbWexh47wR-74aiPgZ8bTGSxlgN8X_fsI/edit）で行う。依頼者が黄色の「新しい文言」の列に書き、「文言を反映して」と言われたら、Google ドライブから CSV で読み取って、空欄でない行だけページに反映する（自動では反映しない）。一覧は `python3 drafts/export_copy.py` で見本（drafts/redesign.html）から作ったもの
+- 作り直しの見本は `drafts/redesign.html`（`python3 drafts/build_redesign.py` で今の index.html から作る。公開しない）
 - 診断ページ（あとひとり診断）は保留。下書きは `drafts/shindan.html`（`public/` に入れていないので公開されない）
 - 本名はページに出さない
 - 「社長」という言葉は使わない（「事業」と言う）
