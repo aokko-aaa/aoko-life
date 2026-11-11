@@ -72,19 +72,27 @@ CSS = r'''
   .ask{font-size:17px;font-weight:700;line-height:1.6;margin-bottom:28px;}
   .ask small{display:block;font-size:14px;font-weight:400;line-height:1.8;margin-top:8px;opacity:.9;}
   .split{display:grid;gap:10px;}
-  .split > div{border-radius:20px;padding:20px;}
+  .split > div{border-radius:24px;padding:24px 20px 20px;}
   .split .you{border:2px solid rgba(255,255,255,.55);}
-  .split .us{background:var(--paper);color:var(--ink);}
-  .split p{font-weight:700;line-height:1.6;margin-bottom:10px;}
-  .split .us p{color:var(--brand);}
-  .split li{display:inline-block;font-size:13px;font-weight:700;line-height:1.6;border-radius:999px;padding:4px 12px;margin:0 4px 6px 0;background:rgba(255,255,255,.16);}
-  .split .us li{background:var(--soft-purple);color:var(--brand);}
+  .split .us{background:var(--paper);color:var(--ink);box-shadow:var(--shadow-float);}
+  .split .role{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;line-height:1.8;border-radius:999px;padding:0 12px;background:rgba(255,255,255,.18);}
+  .split .us .role{background:var(--soft-purple);color:var(--brand);}
+  .split .role-title{font-size:22px;font-weight:700;line-height:1.4;margin:10px 0 14px;}
+  .split .us .role-title{color:var(--brand);}
+  .split li{position:relative;padding:12px 0 12px 22px;border-top:1px solid rgba(255,255,255,.25);}
+  .split .us li{border-top-color:var(--line);}
+  .split li::before{content:"";position:absolute;left:2px;top:19px;width:10px;height:10px;border-radius:50%;border:2px solid currentColor;opacity:.8;}
+  .split .us li::before{border-color:var(--brand);}
+  .split li b{display:block;font-size:15px;line-height:1.6;}
+  .split li span{display:block;font-size:13px;line-height:1.6;opacity:.85;}
+  .split .us li span{color:var(--muted);opacity:1;}
   .gains{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:28px;}
   .gains li{background:var(--paper);color:var(--ink);border-radius:16px;padding:16px 6px 14px;text-align:center;font-size:12px;font-weight:700;line-height:1.6;}
   .gains svg{width:36px;height:36px;color:var(--brand);display:block;margin:0 auto 6px;}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
   .chips li{font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.6);border-radius:999px;padding:4px 12px;line-height:1.6;}
-  .private{margin-top:20px;font-size:13px;line-height:1.8;opacity:.9;}
+  .chips-p{margin-top:24px;font-weight:700;line-height:1.6;}
+  .private{margin-top:12px;font-size:13px;line-height:1.8;opacity:.9;}
 
   /* できること */
   .motto-r{display:inline-block;font-weight:700;line-height:1.6;background:var(--soft-purple);color:var(--brand);border-radius:999px;padding:6px 16px;margin:-8px 0 24px;}
@@ -130,9 +138,20 @@ CSS = r'''
   .spot > p{font-weight:700;color:var(--brand);margin-bottom:6px;}
   .spot li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.6;}
   .spot li:last-child{border-bottom:0;}
-  .spot li b{color:var(--brand);white-space:nowrap;}
-  .first{margin-top:16px;text-align:center;font-weight:700;line-height:1.6;}
+  .spot li b{color:var(--brand);white-space:nowrap;text-align:right;}
+  .first{margin:0 0 20px;font-weight:700;line-height:1.6;}
+  .fold{margin-top:10px;}
+  .fold summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:60px;background:var(--paper);color:var(--brand);border-radius:20px;padding:14px 56px 14px 20px;position:relative;box-shadow:var(--shadow-float);}
+  .fold summary::-webkit-details-marker{display:none;}
+  .fold summary span{font-weight:700;font-size:16px;line-height:1.6;}
+  .fold summary small{display:block;width:100%;font-size:12px;color:var(--muted);line-height:1.6;}
+  .fold summary::after{content:"";position:absolute;right:16px;top:50%;width:28px;height:28px;margin-top:-14px;border-radius:50%;background:var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat;transition:transform .3s;}
+  .fold[open] summary::after{transform:rotate(180deg);}
+  .fold-body{padding-top:10px;}
+  .fold .spot{margin-top:0;}
+  @media (prefers-reduced-motion: reduce){.fold summary::after{transition:none;}}
   .first b{font-size:30px;}
+  .purple .first{text-align:left;}
 
   /* 名前 */
   .names{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
@@ -153,6 +172,7 @@ CSS = r'''
   /* 相談 */
   #contact-r{text-align:center;}
   #contact-r .r-h{margin-bottom:12px;}
+  #contact-r .btn{margin-top:28px;}
 
   @media (min-width: 900px){
     .page{padding:10px 10px 0;}
@@ -168,7 +188,9 @@ CSS = r'''
     .bubbles li,.bubbles li:nth-child(even){justify-self:stretch;max-width:none;width:auto;border-radius:24px 24px 24px 4px;}
     .answer{justify-content:center;}
     .ask{font-size:22px;}
-    .split{grid-template-columns:1fr 1fr;gap:16px;}
+    .split{grid-template-columns:1fr 1fr;gap:16px;text-align:left;}
+    .split > div{padding:32px 32px 24px;}
+    .split .role-title{font-size:28px;}
     .gains{gap:16px;}
     .gains li{font-size:15px;padding:28px 12px;}
     .gains svg{width:48px;height:48px;}
@@ -181,6 +203,8 @@ CSS = r'''
     .js .steps li.reveal.is-in:not(:last-child)::after{transform:scaleX(1);}
     .steps{gap:16px;}
     .plans-r{grid-template-columns:1fr 1fr;gap:16px;}
+    .fold{max-width:760px;margin-left:auto;margin-right:auto;}
+    .purple .first{text-align:center;}
     .price b{font-size:72px;}
     .spot ul{columns:2;column-gap:40px;}
     .spot li{break-inside:avoid;}
@@ -195,6 +219,50 @@ CSS = r'''
     .before summary{justify-content:center;}
     #contact-r .btn{width:360px;margin:32px auto 0;}
   }
+
+  /* ===== 角丸・札・影を減らして、落ち着いた見た目に ===== */
+  .page > section{border-radius:6px;}
+  .btn{box-shadow:none;}
+  .btn::after{background:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:18px;}
+  .btn-white::after{background-color:transparent;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='%237b4fa0' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
+  /* お悩み：吹き出し → 黄緑の線つきの一行 */
+  .bubbles{gap:0;}
+  .bubbles li, .bubbles li:nth-child(even){justify-self:stretch;width:auto;max-width:none;background:none;box-shadow:none;border-radius:0;padding:14px 0 14px 16px;border-left:3px solid var(--accent);border-bottom:1px solid var(--line);}
+  .answer p{background:none;color:var(--brand);padding:0;border-radius:0;font-size:17px;}
+  /* ラベル・札 → ふつうの文字 */
+  .r-label, .split .role, .split .us .role{background:none;border-radius:0;padding:0;color:inherit;opacity:.85;}
+  .split .us .role{color:var(--brand);}
+  .chips{gap:0;}
+  .chips li{border:0;border-radius:0;padding:0;}
+  .chips li+li::before{content:"／";margin:0 8px;opacity:.6;}
+  .motto-r{background:none;border-radius:0;padding:0 0 0 12px;border-left:3px solid var(--accent);}
+  .tags{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+  .tags li{background:none;border:0;border-top:1px solid var(--line);border-radius:0;padding:8px 0;font-weight:500;}
+  .svc-card h3 i{background:none;width:auto;height:auto;font-size:26px;border-radius:0;}
+  .ways-r li{border:0;border-top:2px solid var(--brand);border-radius:0;padding:10px 0 0;}
+  /* 箱：角丸を小さく、影なし */
+  .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg{border-radius:6px;box-shadow:none;}
+  .split .us{box-shadow:none;}
+  .trial-r{border:0;border-top:1px solid rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.5);border-radius:0;}
+  .fold summary{border-radius:6px;box-shadow:none;}
+  .fold summary::after{background-color:transparent;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%237b4fa0' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
+  /* 「続きを読む」など → 下線つきの文字 */
+  #profile-r .more summary{border:0;border-radius:0;padding:0;margin:0;justify-content:flex-start;min-height:44px;text-decoration:underline;text-underline-offset:6px;}
+  .tool{border-radius:4px !important;}
+  @media (min-width: 900px){
+    .page > section{border-radius:8px;}
+    .bubbles{grid-template-columns:repeat(3,1fr);gap:0 24px;}
+    .bubbles li, .bubbles li:nth-child(even){border-radius:0;}
+    .tags{grid-template-columns:1fr;}
+  }
+
+  /* 開閉の目印は、下向きの三角だけ */
+  .more summary::after, .before summary::after{width:0;height:0;border:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid currentColor;transform:none;transition:transform .25s ease;}
+  .more[open] summary::after, .before[open] summary::after{transform:rotate(180deg);}
+  #profile-r .more summary{text-decoration:none;color:var(--brand);gap:10px;}
+  #profile-r .more summary.tri-only{justify-content:center;width:100%;}
+  .fold summary::after{width:0;height:0;margin-top:-4px;right:22px;background:none;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid var(--brand);border-radius:0;}
+  @media (prefers-reduced-motion: reduce){.more summary::after,.before summary::after{transition:none;}}
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -234,17 +302,34 @@ BODY = f'''
   <section class="purple">
     <span class="r-label">HITO IROの思い</span>
     <h2 class="r-h"><em>あなたにしか</em><br><span class="wb">できない仕事に、</span><br><em>あなたの時間</em>を。</h2>
-    <p class="ask">{W("お客さまが待っているのは、","あなたです。")}<small>{W("請求書や調べものを","あなたがやったから","喜ぶお客さまは、","いるでしょうか。")}</small></p>
+    <p class="ask">{W("お客さまが待っているのは、","あなたです。")}<small>{W("あなたの言葉や判断こそが、","事業の価値。")}{W("その裏側の作業まで、","ひとりで抱えなくて大丈夫です。")}</small></p>
     <div class="split">
-      <div class="you"><p>あなたが向き合うこと</p><ul><li>お客さまとの対話</li><li>商品・サービスづくり</li><li>次の一手を決めること</li></ul></div>
-      <div class="us"><p>ヒトイロに任せること</p><ul><li>請求書・事務作業</li><li>リサーチ・資料づくり</li><li>SNS・販促の準備</li><li>進み具合の管理</li></ul></div>
+      <div class="you">
+        <p class="role">あなたの仕事</p>
+        <p class="role-title">{W("前に立って、","決める。")}</p>
+        <ul>
+          <li><b>お客さまとの対話</b><span>接客・提案・信頼づくり</span></li>
+          <li><b>商品・サービスを磨く</b><span>よりよくする・新しく生み出す</span></li>
+          <li><b>次の一手を決める</b><span>事業の方向・優先順位の判断</span></li>
+        </ul>
+      </div>
+      <div class="us">
+        <p class="role">ヒトイロの仕事</p>
+        <p class="role-title">{W("裏側を整えて、","動かす。")}</p>
+        <ul>
+          <li><b>書類・事務</b><span>請求書・見積書・データの整理</span></li>
+          <li><b>調べもの・資料</b><span>比較表・提案資料づくり</span></li>
+          <li><b>発信の準備</b><span>SNS投稿・チラシなどの販促物</span></li>
+          <li><b>段取り・進行</b><span>スケジュール・リマインド</span></li>
+        </ul>
+      </div>
     </div>
     <ul class="gains">
       <li>{talk}{W("信頼が","深まる")}</li>
       <li>{spark}{W("新しい企画が","動く")}</li>
       <li>{arrow}{W("事業が","前へ進む")}</li>
     </ul>
-    <ul class="chips"><li>採用の手間なし</li><li>必要な分だけ</li><li>小さく始められる</li></ul>
+    <p class="chips-p">{W("採用の手間なく、","必要な分だけ、","小さく始められます。")}</p>
     <p class="private">{W("本業に集中できると、","プライベートにも","ゆとりが生まれます。")}</p>
   </section>
 
@@ -284,21 +369,31 @@ BODY = f'''
     <span class="num">06</span>
     <h2 class="r-h"><em>プラン</em></h2>
     <p class="plan-note">{W("すべて税込・目安です。","内容や量に応じて、","ご相談のうえ決めます。")}</p>
+    <p class="first">はじめての相談は <b>60</b>分無料</p>
+    <details class="fold">
+      <summary><span>月額でお任せ</span><small>スタンダード・フルサポート</small></summary>
+      <div class="fold-body">
     <div class="plans-r">
       <div class="plan"><p>スタンダード</p><p class="price"><b>6</b><span>万円/月</span></p><small>思考の整理から実務まで、まるごと</small></div>
       <div class="plan"><p>フルサポート</p><p class="price"><b>9</b><span>万円/月</span></p><small>{W("現場でのお手伝いも。","（西三河/名古屋方面のみ）")}</small></div>
     </div>
     <p class="trial-r">{W("はじめての方は、","1ヶ月だけ3.5万円で","お試しOK（1回限り）")}</p>
-    <div class="spot"><p>スポット（これだけ頼みたい）</p>
+      </div>
+    </details>
+    <details class="fold">
+      <summary><span>スポット</span><small>これだけ頼みたいとき</small></summary>
+      <div class="fold-body">
+    <div class="spot">
       <ul>
         <li><span>リサーチ・比較資料</span><b>1万5,000円〜</b></li>
         <li><span>販促物の作成（印刷費別）</span><b>1万円〜</b></li>
         <li><span>イラスト制作</span><b>5,000円〜</b></li>
         <li><span>SNS運用サポート</span><b>3万5,000円〜</b></li>
-        <li><span>AI使い方相談（1対1）</span><b>1時間5,000円〜</b></li>
+        <li><span>AI使い方相談（1対1）</span><b>1時間5,000円〜<br>3時間まで10,000円</b></li>
       </ul>
     </div>
-    <p class="first">はじめての相談は <b>60</b>分無料</p>
+      </div>
+    </details>
   </section>
 
   <!-- 07 名前 -->
@@ -322,9 +417,9 @@ BODY = f'''
       <div>
         <div class="prof-top">{portrait}<div><b>クリエイティブサポーター</b><span>{W("接客販売15年、","印刷会社、","オンライン秘書")}</span></div></div>
         <p class="prof-msg">{W("「やりたい」が","いつも頭の中で大渋滞。")}{W("わたし自身がそんなタイプだから、","アイデアを抱える方の気持ちが","よくわかります。")}</p>
-        <details class="more"><summary><span class="more-open">続きを読む</span><span class="more-close">閉じる</span></summary>{more_body}</details>
+        <details class="more"><summary class="tri-only" aria-label="続きを読む"></summary>{more_body}</details>
       </div>
-      <details class="more more-career"><summary><span class="more-open">経歴・利用ツールを見る</span><span class="more-close">閉じる</span></summary>{career}</details>
+      <details class="more more-career"><summary>経歴・利用ツール</summary>{career}</details>
     </div>
   </section>
 
