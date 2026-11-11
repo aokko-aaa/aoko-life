@@ -759,9 +759,9 @@
   }
 
   /* 03 思い：薄いラベンダー → 紫へ、ふわっと色が変わる */
-  #omoi.purple{background:#eeeaf3;color:var(--ink);position:relative;isolation:isolate;transition:color 1.2s ease;}
+  #omoi.purple{background:#eeeaf3;color:var(--ink);position:relative;isolation:isolate;transition:color .8s ease .15s;}
   #omoi::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:linear-gradient(160deg,#9064b5 0%,#7b4fa0 55%,#6a4290 100%);opacity:0;transition:opacity 1.2s ease;}
-  #omoi .r-h em, #omoi .split .you, #omoi .split .you li, #omoi .own, #omoi .r-label{transition:color 1.2s ease, border-color 1.2s ease;}
+  #omoi .r-h em, #omoi .split .you, #omoi .split .you li, #omoi .own, #omoi .r-label{transition:color .8s ease .15s, border-color .8s ease .15s;}
   #omoi .r-h em{color:var(--brand);}
   #omoi .r-label{color:var(--brand);}
   #omoi .split .you{border-color:rgba(123,79,160,.35);}
