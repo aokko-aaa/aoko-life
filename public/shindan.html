@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あとひとり診断｜HITO IRO（ヒトイロ）</title>
+<meta name="description" content="あなたが手放せる仕事は？ YES／NOで答える「あとひとり診断」。HITO IRO（ヒトイロ）あれこれサポート">
+<meta property="og:title" content="あとひとり診断｜HITO IRO（ヒトイロ）">
+<meta property="og:description" content="あなたが手放せる仕事は？ YES／NOで答える「あとひとり診断」。">
+<meta property="og:url" content="https://life.aokoworks.workers.dev/shindan">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* 色・行間はトップページ（index.html）と同じ決まりにそろえる */
+  :root{
+    --ink:#333333; --paper:#fff; --line:#dcdcdc; --muted:#666; --soft:#f4f4f4;
+    --accent:#b4ff3f;   /* 黄緑：文字には使わず、帯や線だけ */
+    --brand:#7b4fa0;    /* 紫 */
+    --brand-soft:#f6f1fa;
+    --max:440px; --gutter:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--soft);color:var(--ink);line-height:1.8;font-size:15px;-webkit-text-size-adjust:100%;}
+  .page{max-width:var(--max);margin:0 auto;background:var(--paper);min-height:100vh;border-top:8px solid var(--accent);}
+  .wb{display:inline-block;}
+  ul{list-style:none;}
+  section{padding:48px var(--gutter);border-bottom:1px solid var(--line);}
+  h1{font-size:24px;font-weight:700;line-height:1.4;margin-bottom:16px;}
+  h2{font-size:22px;font-weight:700;line-height:1.4;margin-bottom:12px;}
+  h3{font-size:14px;font-weight:700;line-height:1.6;color:var(--brand);margin-bottom:6px;}
+  .mk{background:linear-gradient(transparent 62%, rgba(180,255,63,.8) 62%, rgba(180,255,63,.8) 92%, transparent 92%);}
+  .btn{display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px 20px;background:var(--brand);color:var(--paper);font-weight:700;font-size:15px;letter-spacing:.08em;text-decoration:none;border-radius:999px;border:0;font-family:inherit;cursor:pointer;width:100%;}
+  .btn-line{background:var(--paper);color:var(--brand);border:2px solid var(--brand);}
+  .dots li{position:relative;padding-left:16px;}
+  .dots li::before{content:"";position:absolute;left:0;top:.75em;width:6px;height:6px;border-radius:50%;background:var(--brand);}
+
+  .topnav{display:flex;align-items:center;padding:6px var(--gutter);border-bottom:1px solid var(--line);}
+  .topnav a{display:inline-flex;align-items:center;gap:8px;min-height:48px;text-decoration:none;}
+  .topnav img{width:96px;height:auto;display:block;}
+  .topnav span{font-size:11px;color:var(--muted);line-height:1.4;}
+
+  /* はじめのあいさつ */
+  .label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--paper);background:var(--brand);border-radius:999px;padding:0 12px;margin-bottom:12px;}
+  .lead{line-height:1.8;}
+  .types{display:grid;grid-template-columns:1fr;gap:8px;margin-top:20px;}
+  .type-btn{display:flex;flex-direction:row;align-items:center;gap:14px;min-height:52px;padding:6px 16px;border:2px solid var(--brand);border-radius:8px;text-decoration:none;color:var(--brand);font-size:15px;font-weight:700;line-height:1.4;}
+  .type-btn b{font-size:22px;line-height:1.4;width:1em;text-align:center;}
+
+  /* その場で診断 */
+  #quiz{background:var(--brand-soft);}
+  .quiz-card{background:var(--paper);border-radius:12px;padding:24px 20px;margin-top:16px;text-align:center;}
+  .q-no{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--brand);}
+  .q-text{font-size:18px;font-weight:700;line-height:1.6;margin:8px 0 20px;min-height:3.2em;}
+  .yn{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .quiz-sub{display:flex;justify-content:space-between;margin-top:14px;font-size:13px;}
+  .quiz-sub button{background:none;border:0;color:var(--muted);font-family:inherit;font-size:13px;min-height:44px;cursor:pointer;text-decoration:underline;}
+  .quiz-sub button[hidden]{display:none;}
+  .result .q-text{min-height:0;}
+  .result-type{font-size:40px;font-weight:700;color:var(--brand);line-height:1.4;}
+
+  /* タイプごとの説明 */
+  .type-tag{font-size:13px;font-weight:700;color:var(--brand);letter-spacing:.08em;}
+  .type-tag b{font-size:28px;margin-right:4px;}
+  .one{font-weight:700;line-height:1.6;margin-bottom:16px;}
+  .box{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-top:10px;font-size:14px;}
+  .box.step{border:2px solid var(--brand);}
+  .kari{display:inline-block;font-size:10px;font-weight:700;color:#b35c00;border:1px dashed #b35c00;border-radius:4px;padding:0 4px;margin-left:4px;vertical-align:middle;line-height:1.6;}
+  .family{margin:20px 0;padding:14px 16px;border-left:4px solid var(--accent);background:var(--soft);font-size:14px;}
+  .back{display:flex;justify-content:center;align-items:center;min-height:44px;margin-top:8px;font-size:13px;color:var(--muted);}
+
+  #end{text-align:center;border-bottom:none;}
+  #end p{margin-bottom:20px;}
+  footer{padding:24px var(--gutter);text-align:center;font-size:12px;color:var(--muted);border-top:1px solid var(--line);}
+  footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44px;}
+
+  @media (min-width: 900px){
+    :root{--max:760px;--gutter:56px;}
+    body{font-size:16px;}
+    h1{font-size:32px;} h2{font-size:28px;}
+    #intro, #quiz, #end{text-align:center;}
+    .types{grid-template-columns:repeat(5,1fr);}
+    .type-btn{flex-direction:column;justify-content:center;gap:0;font-size:12px;min-height:88px;padding:6px 2px;}
+    .quiz-card{max-width:520px;margin:20px auto 0;}
+    .btn{max-width:420px;margin-left:auto;margin-right:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="topnav">
+    <a href="/" aria-label="HITO IRO のトップへ"><img src="/pouch/hitoiro-logo.webp" alt="hitoiro" width="360" height="105"><span>あれこれサポート<br>トップへ</span></a>
+  </nav>
+
+  <!-- はじめのあいさつ（チラシのQR：/shindan?from=flyer からも同じ表示） -->
+  <section id="intro">
+    <span class="label">あとひとり診断</span>
+    <h1><span class="wb">チラシの診断、</span><span class="wb">おつかれさまでした！</span></h1>
+    <p class="lead"><span class="wb">あなたは</span><span class="wb">どのタイプでしたか？</span><br><span class="wb">タイプを押すと、</span><span class="wb">くわしい説明に進みます。</span></p>
+    <div class="types" id="types">
+      <a class="type-btn" href="#type-A"><b>A</b>発信おまかせ</a>
+      <a class="type-btn" href="#type-B"><b>B</b>仕組みづくり</a>
+      <a class="type-btn" href="#type-C"><b>C</b>整理・壁打ち</a>
+      <a class="type-btn" href="#type-D"><b>D</b>まるごと右腕</a>
+      <a class="type-btn" href="#type-E"><b>E</b>いまは順調</a>
+    </div>
+  </section>
+
+  <!-- その場で診断（チラシを持っていない方向け） -->
+  <section id="quiz">
+    <h2><span class="mk"><span class="wb">ここで</span><span class="wb">診断してみる</span></span></h2>
+    <p><span class="wb">チラシをお持ちでない方も、</span><span class="wb">YES／NOで答えてみてください。</span></p>
+    <div class="quiz-card" id="quiz-card" aria-live="polite">
+      <div id="quiz-q">
+        <p class="q-no" id="q-no">Q1</p>
+        <p class="q-text" id="q-text"></p>
+        <div class="yn">
+          <button class="btn" type="button" data-ans="0">YES</button>
+          <button class="btn btn-line" type="button" data-ans="1">NO</button>
+        </div>
+      </div>
+      <div class="result" id="quiz-result" hidden>
+        <p class="q-no">あなたは</p>
+        <p class="result-type" id="r-type"></p>
+        <p class="q-text" id="r-name"></p>
+        <a class="btn" id="r-link" href="#">くわしい説明を見る</a>
+      </div>
+      <div class="quiz-sub">
+        <button type="button" id="q-back" hidden>ひとつ前に戻る</button>
+        <button type="button" id="q-reset">最初からやり直す</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="type" id="type-A">
+    <p class="type-tag"><b>A</b>タイプ</p>
+    <h2><span class="mk">発信おまかせ</span></h2>
+    <p class="one"><span class="wb">手放せるのは「投稿づくり」。</span><span class="wb">話すのはあなた、</span><span class="wb">形にするのはヒトイロ。</span></p>
+    <div class="box">
+      <h3>こんな状態かも <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <p><span class="wb">伝えたいことはあるのに、</span><span class="wb">投稿にする時間がとれない。</span><br><span class="wb">気づけば、</span><span class="wb">前回の投稿から日があいている。</span></p>
+    </div>
+    <div class="box">
+      <h3>手放せる仕事 <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <ul class="dots">
+        <li><span class="wb">投稿文づくり</span></li>
+        <li><span class="wb">投稿画像づくり</span></li>
+        <li><span class="wb">予約投稿</span></li>
+        <li><span class="wb">コメント・メッセージの一次返信</span></li>
+        <li><span class="wb">投稿ネタの整理とカレンダーづくり</span></li>
+      </ul>
+    </div>
+    <div class="box step">
+      <h3>まずやってみること</h3>
+      <p><span class="wb">投稿のネタを、</span><span class="wb">1週間メモしてみる</span></p>
+    </div>
+    <p class="family"><span class="wb">夜のスマホ作業が減って、</span><span class="wb">子どもの話を</span><span class="wb">ゆっくり聞ける夜に。</span></p>
+    <a class="btn" href="https://forms.gle/UdpYn5shPJjUKRza7" target="_blank" rel="noopener">このタイプで相談する</a>
+    <a class="back" href="#types">タイプの一覧へ戻る</a>
+  </section>
+  <section class="type" id="type-B">
+    <p class="type-tag"><b>B</b>タイプ</p>
+    <h2><span class="mk">仕組みづくり</span></h2>
+    <p class="one"><span class="wb">手放せるのは「くり返し」。</span><span class="wb">毎回あなたがやらなくても、</span><span class="wb">仕組みが代わりに動きます。</span></p>
+    <div class="box">
+      <h3>こんな状態かも <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <p><span class="wb">同じ説明や同じ入力を、</span><span class="wb">毎週のようにくり返している。</span><br><span class="wb">自分がいないと</span><span class="wb">回らない作業がある。</span></p>
+    </div>
+    <div class="box">
+      <h3>手放せる仕事 <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <ul class="dots">
+        <li><span class="wb">よくある質問の答えの型づくり</span></li>
+        <li><span class="wb">予約・申込の受付フォーム</span></li>
+        <li><span class="wb">LINEの自動返信・あいさつ文</span></li>
+        <li><span class="wb">見積書や請求書のひな形</span></li>
+        <li><span class="wb">毎回の入力作業の自動化</span></li>
+      </ul>
+    </div>
+    <div class="box step">
+      <h3>まずやってみること</h3>
+      <p><span class="wb">よく聞かれる質問を、</span><span class="wb">5つ書き出してみる</span></p>
+    </div>
+    <p class="family"><span class="wb">夕方の作業がなくなれば、</span><span class="wb">みんなで晩ごはんを囲める日が</span><span class="wb">増えます。</span></p>
+    <a class="btn" href="https://forms.gle/UdpYn5shPJjUKRza7" target="_blank" rel="noopener">このタイプで相談する</a>
+    <a class="back" href="#types">タイプの一覧へ戻る</a>
+  </section>
+  <section class="type" id="type-C">
+    <p class="type-tag"><b>C</b>タイプ</p>
+    <h2><span class="mk">整理・壁打ち</span></h2>
+    <p class="one"><span class="wb">手放せるのは「ひとりで悩む時間」。</span><span class="wb">考えることも、</span><span class="wb">実は人に頼めます。</span></p>
+    <div class="box">
+      <h3>こんな状態かも <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <p><span class="wb">考えることが多すぎて、</span><span class="wb">何から手をつけるか決められない。</span><br><span class="wb">ひとりで考えて、</span><span class="wb">同じところをぐるぐるしている。</span></p>
+    </div>
+    <div class="box">
+      <h3>手放せる仕事 <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <ul class="dots">
+        <li><span class="wb">頭の中のアイデアの言語化</span></li>
+        <li><span class="wb">やることの優先順位づけ</span></li>
+        <li><span class="wb">新しい企画の壁打ち</span></li>
+        <li><span class="wb">目標や計画の整理</span></li>
+        <li><span class="wb">判断に必要な調べもの・比較</span></li>
+      </ul>
+    </div>
+    <div class="box step">
+      <h3>まずやってみること</h3>
+      <p><span class="wb">やりたいことを全部書き出して、</span><span class="wb">3つに絞ってみる</span></p>
+    </div>
+    <p class="family"><span class="wb">頭の中が片づくと、</span><span class="wb">休みの日に</span><span class="wb">仕事のことを考えずにすみます。</span></p>
+    <a class="btn" href="https://forms.gle/UdpYn5shPJjUKRza7" target="_blank" rel="noopener">このタイプで相談する</a>
+    <a class="back" href="#types">タイプの一覧へ戻る</a>
+  </section>
+  <section class="type" id="type-D">
+    <p class="type-tag"><b>D</b>タイプ</p>
+    <h2><span class="mk">まるごと右腕</span></h2>
+    <p class="one"><span class="wb">手放せるのは「手を動かす部分」。</span><span class="wb">決めるのはあなた、</span><span class="wb">動くのはヒトイロ。</span></p>
+    <div class="box">
+      <h3>こんな状態かも <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <p><span class="wb">やることは決まっているのに、</span><span class="wb">手が足りない。</span><br><span class="wb">本業の合間に作業を詰めこんで、</span><span class="wb">休む時間が削れている。</span></p>
+    </div>
+    <div class="box">
+      <h3>手放せる仕事 <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <ul class="dots">
+        <li><span class="wb">事務作業・書類の整理</span></li>
+        <li><span class="wb">調べもの・資料づくり</span></li>
+        <li><span class="wb">SNSやLINEの更新</span></li>
+        <li><span class="wb">チラシなど販促物の制作</span></li>
+        <li><span class="wb">進み具合の管理・リマインド</span></li>
+      </ul>
+    </div>
+    <div class="box step">
+      <h3>まずやってみること</h3>
+      <p><span class="wb">今週の作業のうち、</span><span class="wb">「自分でなくてもいいもの」に</span><span class="wb">印をつけてみる</span></p>
+    </div>
+    <p class="family"><span class="wb">週末の作業を任せて、</span><span class="wb">子どもの試合や行事に</span><span class="wb">行ける日に。</span></p>
+    <a class="btn" href="https://forms.gle/UdpYn5shPJjUKRza7" target="_blank" rel="noopener">このタイプで相談する</a>
+    <a class="back" href="#types">タイプの一覧へ戻る</a>
+  </section>
+  <section class="type" id="type-E">
+    <p class="type-tag"><b>E</b>タイプ</p>
+    <h2><span class="mk">いまは順調</span></h2>
+    <p class="one"><span class="wb">ひとつ手放すと、</span><span class="wb">新しいことに使える時間が</span><span class="wb">生まれます。</span></p>
+    <div class="box">
+      <h3>こんな状態かも <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <p><span class="wb">今の仕事は、</span><span class="wb">ちゃんと回っている。</span><br><span class="wb">だからこそ、</span><span class="wb">新しいことに使う時間が</span><span class="wb">なかなかとれない。</span></p>
+    </div>
+    <div class="box">
+      <h3>手放せる仕事 <span class="kari">仮</span></h3><!-- 仮：依頼者に確認 -->
+      <ul class="dots">
+        <li><span class="wb">マニュアルや資料の整備</span></li>
+        <li><span class="wb">新しい取り組みの下調べ</span></li>
+        <li><span class="wb">ちょっとした販促物づくり</span></li>
+        <li><span class="wb">SNSやLINEの見直し</span></li>
+        <li><span class="wb">「いつかやりたい」の整理</span></li>
+      </ul>
+    </div>
+    <div class="box step">
+      <h3>まずやってみること</h3>
+      <p><span class="wb">手放せそうな仕事を、</span><span class="wb">1つだけ選んでみる</span></p>
+    </div>
+    <p class="family"><span class="wb">その余裕を、</span><span class="wb">家族との予定を</span><span class="wb">ひとつ増やすことに</span><span class="wb">使ってみませんか。</span></p>
+    <a class="btn" href="https://forms.gle/UdpYn5shPJjUKRza7" target="_blank" rel="noopener">このタイプで相談する</a>
+    <a class="back" href="#types">タイプの一覧へ戻る</a>
+  </section>
+
+  <section id="end">
+    <h2><span class="mk"><span class="wb">迷ったら、</span><span class="wb">そのままどうぞ</span></span></h2>
+    <p><span class="wb">どのタイプか迷った方も、</span><span class="wb">そのまま相談してください。</span><br><span class="wb">はじめての相談は60分無料です。</span></p>
+    <a class="btn" href="https://forms.gle/UdpYn5shPJjUKRza7" target="_blank" rel="noopener">まずは相談する</a>
+  </section>
+
+  <footer>
+    <p><a href="/">HITO IRO（あれこれサポート）</a></p>
+    <p>© AOKOWORKS</p>
+  </footer>
+</div>
+<script>
+  (function(){
+    var Q={"Q1": ["最近、本業以外のことに時間を取られている？", "Q2", "Q3"], "Q2": ["SNSやLINEの投稿、「やらなきゃ」と思いながら止まっている？", "Q4", "Q5"], "Q3": ["「いつかやりたい」が、半年以上そのままになっている？", "Q6", "Q7"], "Q4": ["伝えたいことやネタは、頭の中にはある？", "A", "C"], "Q5": ["同じ説明や同じ入力を、今週もくり返した？", "B", "D"], "Q6": ["やることの順番は、もう決まっている？", "D", "C"], "Q7": ["家族旅行で1週間休んでも、仕事はまわる？", "E", "B"]};
+    var NAMES={"A": "発信おまかせ", "B": "仕組みづくり", "C": "整理・壁打ち", "D": "まるごと右腕", "E": "いまは順調"};
+    var cur='Q1', hist=[];
+    var $=function(id){return document.getElementById(id);};
+    function show(){
+      if(Q[cur]){
+        $('quiz-q').hidden=false; $('quiz-result').hidden=true;
+        $('q-no').textContent=cur; $('q-text').textContent=Q[cur][0];
+      }else{
+        $('quiz-q').hidden=true; $('quiz-result').hidden=false;
+        $('r-type').textContent=cur+'タイプ'; $('r-name').textContent=NAMES[cur];
+        $('r-link').href='#type-'+cur;
+      }
+      $('q-back').hidden=hist.length===0;
+    }
+    document.querySelectorAll('[data-ans]').forEach(function(b){
+      b.addEventListener('click',function(){ hist.push(cur); cur=Q[cur][1+Number(b.dataset.ans)]; show(); });
+    });
+    $('q-back').addEventListener('click',function(){ if(hist.length){cur=hist.pop(); show();} });
+    $('q-reset').addEventListener('click',function(){ cur='Q1'; hist=[]; show(); });
+    show();
+  })();
+</script>
+</body>
+</html>
