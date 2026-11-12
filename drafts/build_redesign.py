@@ -28,6 +28,7 @@ _head = re.search(r'<img class="crow-head" src="([^"]+)"', src).group(1)
 FLOWER = f'<div class="cflower" aria-hidden="true"><img class="cf-stem" src="{_stem}" alt=""><img class="cf-head" src="{_head}" alt=""></div>'
 career = career.replace('<dd><span class="tool">Microsoft Excel</span></dd>', '<dd><span class="tool">Google系ツール各種</span><span class="tool">Microsoft Excel</span></dd>')
 more_body = block(src.index('<div class="more-body">'))
+more_body = more_body.replace('「もうひとりの右腕」', '「右腕」')
 
 FORM = 'https://forms.gle/UdpYn5shPJjUKRza7'
 
@@ -680,8 +681,7 @@ BODY = f'''
     <div class="splash" aria-hidden="true"><i class="blob"></i><i class="drop" style="--a:-20deg"></i><i class="drop" style="--a:35deg"></i><i class="drop" style="--a:95deg"></i><i class="drop" style="--a:150deg"></i><i class="drop" style="--a:200deg"></i><i class="drop" style="--a:255deg"></i><i class="drop" style="--a:310deg"></i></div>
     {FLOWER}
     <h2 class="r-h">その<em>「あれこれ」</em>、<br><span class="wb">聞かせてください。</span></h2>
-    <p>まとまっていなくても大丈夫です。</p>
-    <a class="btn btn-white" href="{FORM}" target="_blank" rel="noopener">相談フォームへ<small class="btn-sub">仮名OK</small></a>
+    <a class="btn btn-white" href="{FORM}" target="_blank" rel="noopener">相談フォームへ</a>
   </section>
 
 {footer}
