@@ -341,6 +341,33 @@ CSS = r'''
 
   /* ボタンの中の小さな添え書き（匿名OK） */
   .btn-sub{font-size:12px;font-weight:700;letter-spacing:.04em;margin-left:10px;opacity:.85;}
+
+  /* ===== つなぎ目のない1枚のページに ===== */
+  .page{padding:0;}
+  .page > section, .page > section.gray, .page > section.purple{border-radius:0;margin-bottom:0;}
+  /* 最初の画面：カラスとロゴはいちばん下。絵の下の端は、ぼかして次のセクションに溶けこませる */
+  #hero{padding-bottom:0;}
+  #hero .btn{margin-top:28px;}
+  #hero .hero-visual{margin:12px 0 0;}
+  #hero .crow{
+    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 14%), linear-gradient(to bottom, #000 72%, transparent 100%);
+    -webkit-mask-composite:source-in;
+            mask-image:linear-gradient(to right, transparent 0, #000 14%), linear-gradient(to bottom, #000 72%, transparent 100%);
+            mask-composite:intersect;
+  }
+  @media (min-width: 900px){
+    #hero{display:block;position:relative;min-height:min(760px, calc(100vh - 0px));padding:140px 64px 140px max(64px, calc((100% - 1152px) / 2));}
+    #hero > *{max-width:520px;position:relative;z-index:2;}
+    #hero .hero-visual{position:absolute;right:0;bottom:0;width:min(60%, 820px);max-width:none;margin:0;z-index:1;}
+    #hero .crow{width:56%;margin-right:0;}
+    #hero .btn{margin-top:44px;}
+  }
+
+  /* 大きく見せる言葉の中の、補助のひらがなは小さく（まわりの文字と同じくらい） */
+  em .s{font-size:.68em;}
+
+  /* グレーのセクションは、上の端を白からなめらかにグレーへ（前の白いセクションとの境目をなくす） */
+  .page > section.gray{background:linear-gradient(var(--paper) 0, #f6f6f7 140px);}
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -355,16 +382,16 @@ BODY = f'''
   <!-- 01 ファーストビュー -->
   <section id="hero">
     <p class="service-label">あれこれサポート<span>HITO IRO（ヒトイロ）</span></p>
-    <h1 class="catch"><em>あとひとり</em>、<br>一緒に<em>動ける人</em>が<span class="wb">いたら。</span></h1>
+    <h1 class="catch"><em>あとひとり</em>、<br>一緒に<em>動<span class="s">ける</span>人</em>が<span class="wb">いたら。</span></h1>
     <p class="sub">事業のとなりに、もうひといろ。</p>
-    {hero_visual}
     <a class="btn" href="{FORM}" target="_blank" rel="noopener">まずは話してみる</a>
+    {hero_visual}
   </section>
 
   <!-- 02 お悩み -->
   <section class="gray">
     <span class="num">02</span>
-    <h2 class="r-h"><span class="mk">その<em>「あれこれ」</em>、<br>ひとりで<em>抱えて</em><span class="wb">いませんか？</span></span></h2>
+    <h2 class="r-h"><span class="mk">その<em>「あれこれ」</em>、<br>ひとりで<em>抱<span class="s">えて</span></em><span class="wb">いませんか？</span></span></h2>
     <ul class="bubbles">
       <li>{W("何から始めよう…")}</li>
       <li>{W("考えが、","形にならない")}</li>
@@ -379,7 +406,7 @@ BODY = f'''
   <!-- 03 思い（スクロールすると、薄いラベンダーから紫へふわっと変わる） -->
   <section class="purple" id="omoi">
     <span class="r-label">HITO IROの思い</span>
-    <h2 class="r-h"><em>あなたにしか</em><br><span class="wb">できない仕事に、</span><br><em>あなたの時間</em>を。</h2>
+    <h2 class="r-h"><em>あなた<span class="s">にしか</span></em><br><span class="wb">できない仕事に、</span><br><em>あなた<span class="s">の</span>時間</em>を。</h2>
     <p class="ask">{W("お客さまが待っているのは、","あなたです。")}<small>{W("だからヒトイロは、","作業を代わるだけでなく、")}{W("事業の全体を一緒に見て、","あなたの時間を奪っている","ボトルネックを見つけ、","ほどいていきます。")}</small></p>
     <div class="split">
       <div class="you">
@@ -418,7 +445,7 @@ BODY = f'''
   <!-- 04 できること -->
   <section class="has-before">
     <span class="num">04</span>
-    <h2 class="r-h"><span class="mk"><em>できること</em>は、<br>大きく<em>3つ</em>。</span></h2>
+    <h2 class="r-h"><span class="mk"><em>できること</em>は、<br>大きく<em>3<span class="s">つ</span></em>。</span></h2>
     <p class="motto-r">効率はAIで。彩りは人で。</p>
     <div class="svc">
       <div class="svc-card"><h3><i>A</i>頭の中の「あれこれ」</h3>
@@ -436,7 +463,7 @@ BODY = f'''
   <!-- 05 ステップ -->
   <section class="gray">
     <span class="num">05</span>
-    <h2 class="r-h"><span class="mk"><em>5つ</em>のステップで、<br><span class="wb">一緒に進めます。</span></span></h2>
+    <h2 class="r-h"><span class="mk"><em>5<span class="s">つ</span></em>のステップで、<br><span class="wb">一緒に進めます。</span></span></h2>
     <ol class="steps">
       <li><div><b>話す</b><span>頭の中を、そのまま話す</span></div></li>
       <li><div><b>整理する</b><span>進む方向を見つける</span></div></li>

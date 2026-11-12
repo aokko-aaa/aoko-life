@@ -19,7 +19,7 @@ def is_inline(t):
         return True
     if t.name in INLINE:
         return all(is_inline(c) for c in t.children)
-    if t.name == 'span' and set(t.get('class') or []) & {'wb', 'mk'} and not (set(t.get('class') or []) - {'wb', 'mk'}):
+    if t.name == 'span' and set(t.get('class') or []) & {'wb', 'mk', 's'} and not (set(t.get('class') or []) - {'wb', 'mk', 's'}):
         return all(is_inline(c) for c in t.children)
     return False
 
