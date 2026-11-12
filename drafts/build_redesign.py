@@ -202,6 +202,12 @@ CSS = r'''
     .steps li:not(:last-child)::after{left:calc(50% + 22px);top:44px;height:2px;width:calc(100% + 16px - 44px);transform-origin:left;}
     .js .steps li.reveal:not(:last-child)::after{transform:scaleX(0);}
     .js .steps li.reveal.is-in:not(:last-child)::after{transform:scaleX(1);}
+    /* 1→5へ順番に：1本ずつ、左から右へつながって走る */
+    .js .steps li.reveal:not(:last-child)::after{transition:transform .45s linear .5s;}
+    .js .steps li.reveal:nth-child(2):not(:last-child)::after{transition-delay:.95s;}
+    .js .steps li.reveal:nth-child(3):not(:last-child)::after{transition-delay:1.4s;}
+    .js .steps li.reveal:nth-child(4):not(:last-child)::after{transition-delay:1.85s;}
+    @media (prefers-reduced-motion: reduce){.js .steps li.reveal:not(:last-child)::after{transform:none;transition:none;}}
     .steps{gap:16px;}
     .plans-r{grid-template-columns:1fr 1fr;gap:16px;}
     .fold{max-width:760px;margin-left:auto;margin-right:auto;}
