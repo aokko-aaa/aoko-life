@@ -22,6 +22,7 @@ portrait = re.search(r'<img class="portrait"[^>]*>', src).group(0)
 footer = src[src.index('  <footer>'):src.index('</footer>') + len('</footer>')]
 _s = src.rindex('<script>'); script = src[_s:src.index('</script>', _s) + len('</script>')]
 career = block(src.index('<div class="career">'))
+career = career.replace('<dd><span class="tool">Microsoft Excel</span></dd>', '<dd><span class="tool">Google系ツール各種</span><span class="tool">Microsoft Excel</span></dd>')
 more_body = block(src.index('<div class="more-body">'))
 
 FORM = 'https://forms.gle/UdpYn5shPJjUKRza7'
@@ -330,6 +331,9 @@ CSS = r'''
   @media (prefers-reduced-motion: reduce){
     #omoi.purple, #omoi::before, #omoi .r-h em, #omoi .split .you, #omoi .split .you li, #omoi .own, #omoi .r-label{transition:none;}
   }
+
+  /* ボタンの中の小さな添え書き（匿名OK） */
+  .btn-sub{font-size:12px;font-weight:700;letter-spacing:.04em;margin-left:10px;opacity:.85;}
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -347,7 +351,7 @@ BODY = f'''
     <h1 class="catch"><em>あとひとり</em>、<br>一緒に<em>動ける人</em>が<span class="wb">いたら。</span></h1>
     <p class="sub">事業のとなりに、もうひといろ。</p>
     {hero_visual}
-    <a class="btn" href="{FORM}" target="_blank" rel="noopener">まずは相談する</a>
+    <a class="btn" href="{FORM}" target="_blank" rel="noopener">まずは話してみる</a>
   </section>
 
   <!-- 02 お悩み -->
@@ -401,7 +405,7 @@ BODY = f'''
       <p>{W("決まったやり方を押しつけず、","今ある色を活かしながら、","もうひといろを添えます。")}</p>
     </div>
     <p class="chips-p">{W("採用の手間なく、","必要な分だけ、","小さく始められます。")}</p>
-    <p class="private">{W("本業に集中できると、","プライベートにも","ゆとりが生まれます。")}</p>
+    <p class="private">{W("本来の業務に集中して、","事業の成長に","力を注ぐことができるように。")}</p>
   </section>
 
   <!-- 04 できること -->
@@ -419,7 +423,7 @@ BODY = f'''
     </div>
     <ul class="ways-r"><li>{W("まるっと","お任せ")}</li><li>{W("自分たちで","回せるように")}</li></ul>
     <details class="before"><summary>ご依頼の前に</summary>
-      <p>{W("本格的なホームページ制作や","システム構築は、","専門の方に委託して進めます。")}{W("日常的な現場のお手伝いは、","たまになら喜んで。")}</p></details>
+      <p>{W("本格的なホームページ制作や","システム構築は、","専門の方に委託して","進めることもあります。")}{W("日常的な現場のお手伝いは、","たまになら喜んで。")}</p></details>
   </section>
 
   <!-- 05 ステップ -->
@@ -427,7 +431,7 @@ BODY = f'''
     <span class="num">05</span>
     <h2 class="r-h"><span class="mk"><em>5つ</em>のステップで、<br><span class="wb">一緒に進めます。</span></span></h2>
     <ol class="steps">
-      <li><div><b>相談する</b><span>頭の中を、そのまま話す</span></div></li>
+      <li><div><b>話す</b><span>頭の中を、そのまま話す</span></div></li>
       <li><div><b>整理する</b><span>進む方向を見つける</span></div></li>
       <li><div><b>段取りを組む</b><span>具体的な行動に変える</span></div></li>
       <li><div><b>実行する</b><span>実務まで引き受ける</span></div></li>
@@ -439,8 +443,8 @@ BODY = f'''
   <section class="purple">
     <span class="num">06</span>
     <h2 class="r-h"><em>プラン</em></h2>
-    <p class="plan-note">{W("すべて税込・目安です。","内容や量に応じて、","ご相談のうえ決めます。")}</p>
-    <p class="first">はじめての相談は <b>60</b>分無料</p>
+    <p class="plan-note">{W("目安です。","内容や量に応じて、","ご相談のうえ決定します。")}</p>
+    <p class="first">相談は <b>無料</b></p>
     <details class="fold">
       <summary><span>月額でお任せ</span><small>スタンダード・フルサポート</small></summary>
       <div class="fold-body">
@@ -512,7 +516,7 @@ BODY = f'''
   <section class="purple" id="contact-r">
     <h2 class="r-h">その<em>「あれこれ」</em>、<br><span class="wb">聞かせてください。</span></h2>
     <p>まとまっていなくても大丈夫です。</p>
-    <a class="btn btn-white" href="{FORM}" target="_blank" rel="noopener">相談フォームへ</a>
+    <a class="btn btn-white" href="{FORM}" target="_blank" rel="noopener">相談フォームへ<small class="btn-sub">匿名OK</small></a>
   </section>
 
 {footer}
