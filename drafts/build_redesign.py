@@ -1,9 +1,9 @@
 # 見本ページ（drafts/redesign.html）を、今の public/index.html から作る
 # 色・フォント・ロゴ・カラス・似顔絵は今のヒトイロのまま。構成と見せ方だけ変えた見本。
-# 実行：python3 drafts/build_redesign.py
+# 実行：python3 drafts/build_redesign.py（見本）／ python3 drafts/build_redesign.py --publish（公開用の public/index.html）
 import re, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-src = open(os.path.join(ROOT, 'public/index.html'), encoding='utf-8').read()
+src = open(os.path.join(ROOT, 'drafts/base-index.html'), encoding='utf-8').read()  # 作り直す前のページ（画像やロゴの動きをここから取り出す）
 
 def W(*xs):
     return ''.join(f'<span class="wb">{x}</span>' for x in xs)
@@ -527,9 +527,11 @@ js = script.replace(
     script[script.index("document.querySelectorAll(\n"):script.index(");", script.index("document.querySelectorAll(\n")) + 2],
     "document.querySelectorAll('#hero > *, .page > section > .r-h, .own, .nm-col, .strip, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');")
 
-title = '<title>【見本】HITO IRO（ヒトイロ）｜あれこれサポート</title>'
-head = re.sub(r'<title>.*?</title>', title, head)
-head = head.replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)
+import sys
+PUBLISH = '--publish' in sys.argv  # 付けると public/index.html（公開用）に書き出す。付けないと見本（drafts/redesign.html）
+if not PUBLISH:
+    head = re.sub(r'<title>(.*?)</title>', r'<title>【見本】\1</title>', head, count=1)
+    head = head.replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)
 OMOI_JS = r'''
 <script>
   // 03 思い：セクションの上の端が画面の中ほどまで来たら紫に。上に戻ると薄い色に戻る
@@ -546,5 +548,6 @@ OMOI_JS = r'''
   })();
 </script>'''
 out = head + CSS + '</style>\n</head>\n<body>' + BODY + js + OMOI_JS + '\n</body>\n</html>\n'
-open(os.path.join(ROOT, 'drafts/redesign.html'), 'w', encoding='utf-8').write(out)
-print('書き出しました：drafts/redesign.html', len(out))
+dest = 'public/index.html' if PUBLISH else 'drafts/redesign.html'
+open(os.path.join(ROOT, dest), 'w', encoding='utf-8').write(out)
+print('書き出しました：' + dest, len(out))
