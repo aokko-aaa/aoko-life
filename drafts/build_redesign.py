@@ -364,6 +364,8 @@ CSS = r'''
     #hero > *{max-width:520px;position:relative;z-index:2;}
     #hero .hero-visual{position:absolute;right:0;bottom:0;width:min(60%, 820px);max-width:none;margin:0;z-index:1;}
     #hero .crow{width:56%;margin-right:0;}
+    /* ロゴはカラスに重ねすぎない：少し小さくして左へ（カラスとは端が少し重なるくらい） */
+    #hero .logo-write{left:-14%;width:72%;top:40%;}
     #hero .btn{margin-top:44px;}
   }
 
