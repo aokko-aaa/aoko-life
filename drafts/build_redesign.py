@@ -628,7 +628,7 @@ BODY = f'''
     <h2 class="r-h"><span class="mk"><em>プロフィール</em></span></h2>
     <div class="prof-wrap">
       <div>
-        <div class="prof-top">{portrait}<div><b>クリエイティブサポーター</b><span>{W("接客販売15年、","印刷会社、","オンライン秘書")}</span></div></div>
+        <div class="prof-top">{portrait}<div><b>クリエイティブサポーター</b></div></div>
         <p class="prof-msg">{W("「やりたい」が","いつも頭の中で大渋滞。")}{W("わたし自身がそんなタイプだから、","アイデアを抱える方の気持ちが","よくわかります。")}</p>
         <details class="more"><summary class="tri-only" aria-label="続きを読む"></summary>{more_body}</details>
       </div>
