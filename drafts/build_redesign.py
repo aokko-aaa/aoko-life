@@ -437,13 +437,34 @@ CSS = r'''
     #hero .catch em{font-size:60px;}
     #hero .btn{width:300px;min-height:54px;font-size:16px;}
   }
+
+  /* 03 思いのアイコン：カードが表示されたら、時間差で動く（左から順に） */
+  .gains li:nth-child(1){--o:.35s;} .gains li:nth-child(2){--o:.75s;} .gains li:nth-child(3){--o:1.15s;}
+  .js .gains li.reveal .ia{transform-box:fill-box;}
+  .js .gains li.reveal .b1{transform-origin:20% 100%;transform:scale(0);}
+  .js .gains li.reveal .b2{transform-origin:80% 100%;transform:scale(0);}
+  .js .gains li.reveal.is-in .b1{animation:ico-pop .55s cubic-bezier(.3,1.7,.5,1) var(--o) forwards;}
+  .js .gains li.reveal.is-in .b2{animation:ico-pop .55s cubic-bezier(.3,1.7,.5,1) calc(var(--o) + .35s) forwards;}
+  .js .gains li.reveal .dot{transform-origin:50% 50%;transform:scale(0);}
+  .js .gains li.reveal .ray{stroke-dasharray:1;stroke-dashoffset:1;}
+  .js .gains li.reveal.is-in .dot{animation:ico-pop .5s cubic-bezier(.3,1.7,.5,1) var(--o) forwards;}
+  .js .gains li.reveal.is-in .ray{animation:ico-draw .45s ease-out calc(var(--o) + .35s) forwards;}
+  .js .gains li.reveal .line{stroke-dasharray:1;stroke-dashoffset:1;}
+  .js .gains li.reveal .head{transform-origin:100% 0;transform:scale(0);}
+  .js .gains li.reveal.is-in .line{animation:ico-draw .8s ease-in-out var(--o) forwards;}
+  .js .gains li.reveal.is-in .head{animation:ico-pop .45s cubic-bezier(.3,1.7,.5,1) calc(var(--o) + .75s) forwards;}
+  @keyframes ico-pop{to{transform:scale(1);}}
+  @keyframes ico-draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion: reduce){
+    .js .gains li.reveal .ia{transform:none;stroke-dashoffset:0;animation:none !important;}
+  }
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
                   'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>')
-talk = ICON('<path d="M8 12h22v14H18l-6 5v-5H8z"/><path d="M30 18h10v13h-3v5l-6-5h-9" stroke="#b4ff3f"/>')
-spark = ICON('<path d="M24 6v8M24 34v8M6 24h8M34 24h8"/><circle cx="24" cy="24" r="6" stroke="#b4ff3f"/>')
-arrow = ICON('<path d="M8 38l12-12 7 7 13-15"/><path d="M32 18h8v8" stroke="#b4ff3f"/>')
+talk = ICON('<path class="ia b1" d="M8 12h22v14H18l-6 5v-5H8z"/><path class="ia b2" d="M30 18h10v13h-3v5l-6-5h-9" stroke="#b4ff3f"/>')
+spark = ICON('<path class="ia ray" pathLength="1" d="M24 14V6"/><path class="ia ray" pathLength="1" d="M24 34v8"/><path class="ia ray" pathLength="1" d="M14 24H6"/><path class="ia ray" pathLength="1" d="M34 24h8"/><circle class="ia dot" cx="24" cy="24" r="6" stroke="#b4ff3f"/>')
+arrow = ICON('<path class="ia line" pathLength="1" d="M8 38l12-12 7 7 13-15"/><path class="ia head" d="M32 18h8v8" stroke="#b4ff3f"/>')
 
 BODY = f'''
 <div class="page">
