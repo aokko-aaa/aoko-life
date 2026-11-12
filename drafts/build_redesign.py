@@ -458,6 +458,27 @@ CSS = r'''
   @media (prefers-reduced-motion: reduce){
     .js .gains li.reveal .ia{transform:none;stroke-dashoffset:0;animation:none !important;}
   }
+
+  /* 03 思い：人を雇う場合との比較（軽く） */
+  .vs{margin-top:32px;}
+  .vs-title{font-size:15px;font-weight:700;line-height:1.6;margin-bottom:12px;}
+  .vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .vs-grid > div{border-radius:6px;padding:14px 12px;}
+  .vs-hire{border:1px solid rgba(123,79,160,.3);transition:border-color 1.6s ease .3s;}
+  #omoi.lit .vs-hire{border-color:rgba(255,255,255,.45);}
+  .vs-us{background:var(--paper);color:var(--ink);}
+  .vs-grid p{font-size:13px;font-weight:700;line-height:1.6;margin-bottom:6px;}
+  .vs-us p{color:var(--brand);}
+  .vs-grid li{font-size:12px;line-height:1.6;padding:6px 0;border-top:1px solid rgba(127,127,127,.25);}
+  .vs-hire li{opacity:.9;}
+  @media (min-width: 900px){
+    .vs{max-width:760px;margin:44px auto 0;}
+    .vs-title{text-align:center;font-size:17px;margin-bottom:16px;}
+    .vs-grid{gap:16px;text-align:left;}
+    .vs-grid > div{padding:20px 24px;}
+    .vs-grid p{font-size:15px;}
+    .vs-grid li{font-size:14px;}
+  }
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -528,7 +549,21 @@ BODY = f'''
       <p class="own-title">{W("あなたの事業らしさは、","そのままに。")}</p>
       <p>{W("決まったやり方を押しつけず、","今ある色を活かしながら、","もうひといろを添えます。")}</p>
     </div>
-    <p class="chips-p">{W("採用の手間なく、","必要な分だけ、","小さく始められます。")}</p>
+    <div class="vs">
+      <p class="vs-title">{W("人を雇うのと、","くらべると")}</p>
+      <div class="vs-grid">
+        <div class="vs-hire"><p>人を増やすと</p><ul>
+          <li>{W("求人・面接・教育に、","時間と手間がかかる")}</li>
+          <li>{W("仕事が少ない月も、","人件費は毎月かかる")}</li>
+          <li>{W("一度雇うと、","気軽には減らせない")}</li>
+        </ul></div>
+        <div class="vs-us"><p>ヒトイロなら</p><ul>
+          <li>{W("採用の手間をかけずに、","相談できる")}</li>
+          <li>{W("必要な仕事から、","小さく頼める")}</li>
+          <li>{W("手が空いた分、","本来の仕事に","集中できる")}</li>
+        </ul></div>
+      </div>
+    </div>
     <p class="private">{W("本来の業務に集中して、","事業の成長に","力を注ぐことができるように。")}</p>
   </section>
 
@@ -651,7 +686,7 @@ BODY = f'''
 
 js = script.replace(
     script[script.index("document.querySelectorAll(\n"):script.index(");", script.index("document.querySelectorAll(\n")) + 2],
-    "document.querySelectorAll('#hero > *, .page > section > .r-h, .own, .nm-col, .strip, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');")
+    "document.querySelectorAll('#hero > *, .page > section > .r-h, .own, .vs, .nm-col, .strip, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');")
 
 import sys
 PUBLISH = '--publish' in sys.argv  # 付けると public/index.html（公開用）に書き出す。付けないと見本（drafts/redesign.html）

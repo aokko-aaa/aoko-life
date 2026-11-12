@@ -898,6 +898,27 @@
   @media (prefers-reduced-motion: reduce){
     .js .gains li.reveal .ia{transform:none;stroke-dashoffset:0;animation:none !important;}
   }
+
+  /* 03 思い：人を雇う場合との比較（軽く） */
+  .vs{margin-top:32px;}
+  .vs-title{font-size:15px;font-weight:700;line-height:1.6;margin-bottom:12px;}
+  .vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .vs-grid > div{border-radius:6px;padding:14px 12px;}
+  .vs-hire{border:1px solid rgba(123,79,160,.3);transition:border-color 1.6s ease .3s;}
+  #omoi.lit .vs-hire{border-color:rgba(255,255,255,.45);}
+  .vs-us{background:var(--paper);color:var(--ink);}
+  .vs-grid p{font-size:13px;font-weight:700;line-height:1.6;margin-bottom:6px;}
+  .vs-us p{color:var(--brand);}
+  .vs-grid li{font-size:12px;line-height:1.6;padding:6px 0;border-top:1px solid rgba(127,127,127,.25);}
+  .vs-hire li{opacity:.9;}
+  @media (min-width: 900px){
+    .vs{max-width:760px;margin:44px auto 0;}
+    .vs-title{text-align:center;font-size:17px;margin-bottom:16px;}
+    .vs-grid{gap:16px;text-align:left;}
+    .vs-grid > div{padding:20px 24px;}
+    .vs-grid p{font-size:15px;}
+    .vs-grid li{font-size:14px;}
+  }
 </style>
 </head>
 <body>
@@ -973,7 +994,21 @@
       <p class="own-title"><span class="wb">あなたの事業らしさは、</span><span class="wb">そのままに。</span></p>
       <p><span class="wb">決まったやり方を押しつけず、</span><span class="wb">今ある色を活かしながら、</span><span class="wb">もうひといろを添えます。</span></p>
     </div>
-    <p class="chips-p"><span class="wb">採用の手間なく、</span><span class="wb">必要な分だけ、</span><span class="wb">小さく始められます。</span></p>
+    <div class="vs">
+      <p class="vs-title"><span class="wb">人を雇うのと、</span><span class="wb">くらべると</span></p>
+      <div class="vs-grid">
+        <div class="vs-hire"><p>人を増やすと</p><ul>
+          <li><span class="wb">求人・面接・教育に、</span><span class="wb">時間と手間がかかる</span></li>
+          <li><span class="wb">仕事が少ない月も、</span><span class="wb">人件費は毎月かかる</span></li>
+          <li><span class="wb">一度雇うと、</span><span class="wb">気軽には減らせない</span></li>
+        </ul></div>
+        <div class="vs-us"><p>ヒトイロなら</p><ul>
+          <li><span class="wb">採用の手間をかけずに、</span><span class="wb">相談できる</span></li>
+          <li><span class="wb">必要な仕事から、</span><span class="wb">小さく頼める</span></li>
+          <li><span class="wb">手が空いた分、</span><span class="wb">本来の仕事に</span><span class="wb">集中できる</span></li>
+        </ul></div>
+      </div>
+    </div>
     <p class="private"><span class="wb">本来の業務に集中して、</span><span class="wb">事業の成長に</span><span class="wb">力を注ぐことができるように。</span></p>
   </section>
 
@@ -1131,7 +1166,7 @@
 </div>
 <script>
   (function(){
-    var targets = document.querySelectorAll('#hero > *, .page > section > .r-h, .own, .nm-col, .strip, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');
+    var targets = document.querySelectorAll('#hero > *, .page > section > .r-h, .own, .vs, .nm-col, .strip, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');
     targets.forEach(function(el){
       el.classList.add('reveal');
       var i = Array.prototype.indexOf.call(el.parentNode.children, el);
