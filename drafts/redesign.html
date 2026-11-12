@@ -562,11 +562,12 @@
   .steps{counter-reset:s;display:grid;gap:10px;}
   .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;background:var(--paper);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);}
   .steps li{position:relative;}
-  .steps li:not(:last-child)::after{content:"";position:absolute;z-index:1;left:35px;top:54px;height:calc(100% - 40px + 10px - 14px + 14px);width:2px;background:var(--accent);transform-origin:top;}
+  /* 線は丸の中心から次の丸の中心まで引き、丸の後ろに回す（丸と丸のあいだだけ見える） */
+  .steps li:not(:last-child)::after{content:"";position:absolute;z-index:1;left:35px;top:50%;height:calc(100% + 10px);width:2px;background:var(--accent);transform-origin:top;}
   .js .steps li.reveal:not(:last-child)::after{transform:scaleY(0);transition:transform .9s ease .45s;}
   .js .steps li.reveal.is-in:not(:last-child)::after{transform:scaleY(1);}
   @media (prefers-reduced-motion: reduce){.js .steps li.reveal:not(:last-child)::after{transform:none;transition:none;}}
-  .steps li::before{content:counter(s);width:40px;height:40px;border-radius:50%;border:2px solid var(--brand);color:var(--brand);font-weight:700;display:grid;place-items:center;}
+  .steps li::before{content:counter(s);box-sizing:border-box;position:relative;z-index:2;background:var(--paper);width:40px;height:40px;border-radius:50%;border:2px solid var(--brand);color:var(--brand);font-weight:700;display:grid;place-items:center;}
   .steps b{display:block;color:var(--brand);line-height:1.6;}
   .steps span{font-size:13px;color:var(--muted);line-height:1.6;}
 
@@ -644,7 +645,7 @@
     .ways-r{max-width:640px;}
     .steps{grid-template-columns:repeat(5,1fr);}
     .steps li{grid-template-columns:1fr;justify-items:center;text-align:center;padding:24px 12px;}
-    .steps li:not(:last-child)::after{left:calc(50% + 22px);top:44px;height:2px;width:calc(100% + 16px - 44px);transform-origin:left;}
+    .steps li:not(:last-child)::after{left:50%;top:43px;height:2px;width:calc(100% + 16px);transform-origin:left;}
     .js .steps li.reveal:not(:last-child)::after{transform:scaleX(0);}
     .js .steps li.reveal.is-in:not(:last-child)::after{transform:scaleX(1);}
     /* 1→5へ順番に：1本ずつ、左から右へつながって走る */
