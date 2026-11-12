@@ -375,16 +375,60 @@ CSS = r'''
   /* グレーのセクションは、上の端を白からなめらかにグレーへ（前の白いセクションとの境目をなくす） */
   .page > section.gray{background:linear-gradient(var(--paper) 0, #f6f6f7 140px);}
 
-  /* 09 相談：花を添える（画面に入ると、芽が伸びて花が咲く） */
-  .cflower{position:relative;width:120px;aspect-ratio:260/232;margin:0 auto 12px;overflow:hidden;}
+  /* 09 相談：花を添える（動かさない。スマホは右上、パソコンは文字とボタンの右側） */
+  #contact-r{position:relative;}
+  .cflower{position:absolute;right:12px;top:20px;width:92px;aspect-ratio:260/232;margin:0;overflow:hidden;}
   .cflower img{position:absolute;left:-113.85%;top:-3.45%;width:230.77%;height:auto;max-width:none;}
   .cflower{-webkit-mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);}
+  @media (min-width: 900px){.cflower{left:calc(50% + 230px);right:auto;top:auto;bottom:90px;width:170px;}}
   .js .cflower .cf-stem{clip-path:inset(40% 0 0 0);transform:scale(.25);transform-origin:66% 38%;}
   .js .cflower .cf-head{transform:scale(0) rotate(-40deg);opacity:0;transform-origin:69% 21%;}
   .js .cflower.grow .cf-stem{animation:sprout 2.8s cubic-bezier(.3,.6,.3,1) .3s forwards;}
   .js .cflower.grow .cf-head{animation:bloom 1.6s cubic-bezier(.3,1.4,.5,1) 2.9s forwards;}
   @media (prefers-reduced-motion: reduce){.js .cflower .cf-stem,.js .cflower .cf-head{clip-path:none;transform:none;opacity:1;animation:none;}}
-  @media (min-width: 900px){.cflower{width:150px;margin-bottom:16px;}}
+
+  /* ===== 09 相談：縦幅をせまく／花が咲いたら、白い液体がはじけて色が反転する ===== */
+  .page > section#contact-r{padding-top:44px;padding-bottom:44px;overflow:hidden;isolation:isolate;}
+  #contact-r > *:not(.splash){position:relative;z-index:2;}
+  #contact-r .cflower{position:absolute;z-index:3;}
+  /* スマホ：文字は左寄せ、花は見出しの右 */
+  #contact-r{text-align:left;}
+  #contact-r .r-h{padding-right:96px;}
+  .cflower{right:16px;top:30px;width:88px;}
+  #contact-r .btn{margin-top:20px;}
+  /* はじける白い液体 */
+  .splash{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .splash .blob{position:absolute;left:var(--fx,80%);top:var(--fy,30%);width:var(--sz,300vmax);height:var(--sz,300vmax);margin:calc(var(--sz,300vmax) / -2) 0 0 calc(var(--sz,300vmax) / -2);
+    background:var(--paper);border-radius:43% 57% 54% 46% / 47% 41% 59% 53%;transform:scale(0);}
+  .splash .drop{position:absolute;left:var(--fx,80%);top:var(--fy,30%);width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--paper);opacity:0;}
+  .splash .drop:nth-child(odd){width:9px;height:9px;margin:-4.5px 0 0 -4.5px;}
+  #contact-r.pop .blob{animation:splash-blob 1.9s cubic-bezier(.55,.05,.3,1) forwards;}
+  #contact-r.pop .drop{animation:splash-drop 1.1s cubic-bezier(.2,.8,.3,1) .15s forwards;}
+  @keyframes splash-blob{
+    0%{transform:scale(0) rotate(0deg);}
+    35%{border-radius:62% 38% 46% 54% / 38% 60% 40% 62%;}
+    70%{border-radius:48% 52% 60% 40% / 56% 44% 56% 44%;}
+    100%{transform:scale(1) rotate(35deg);border-radius:50%;}
+  }
+  @keyframes splash-drop{
+    0%{opacity:1;transform:rotate(var(--a)) translateX(0) scale(1);}
+    100%{opacity:0;transform:rotate(var(--a)) translateX(150px) scale(.3);}
+  }
+  /* 色の反転（背景が白になるのに合わせて） */
+  #contact-r .r-h, #contact-r .r-h em, #contact-r > p{transition:color .7s ease .5s;}
+  #contact-r .btn{transition:background-color .7s ease .5s, color .7s ease .5s;}
+  #contact-r.pop .r-h{color:var(--ink);}
+  #contact-r.pop .r-h em{color:var(--brand);}
+  #contact-r.pop > p{color:var(--ink);}
+  #contact-r.pop .btn{background-color:var(--brand);color:var(--paper);}
+  #contact-r.pop .btn::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
+  @media (min-width: 900px){
+    .page > section#contact-r{padding-top:72px;padding-bottom:72px;}
+    #contact-r{text-align:center;}
+    #contact-r .r-h{padding-right:0;}
+    .cflower{left:calc(50% + 230px);right:auto;top:auto;bottom:56px;width:170px;}
+    #contact-r .btn{margin-top:28px;}
+  }
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -565,6 +609,7 @@ BODY = f'''
 
   <!-- 09 相談 -->
   <section class="purple" id="contact-r">
+    <div class="splash" aria-hidden="true"><i class="blob"></i><i class="drop" style="--a:-20deg"></i><i class="drop" style="--a:35deg"></i><i class="drop" style="--a:95deg"></i><i class="drop" style="--a:150deg"></i><i class="drop" style="--a:200deg"></i><i class="drop" style="--a:255deg"></i><i class="drop" style="--a:310deg"></i></div>
     {FLOWER}
     <h2 class="r-h">その<em>「あれこれ」</em>、<br><span class="wb">聞かせてください。</span></h2>
     <p>まとまっていなくても大丈夫です。</p>
@@ -586,17 +631,40 @@ if not PUBLISH:
     head = head.replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)
 OMOI_JS = r'''
 <script>
-  // 09 相談の花：画面に入ったら、芽が伸びて花が咲く（いちど咲いたらそのまま）
+  // 09 相談の花：画面に少しでも入ったら、絵の読み込みを待ってから、芽が伸びて花が咲く（いちど咲いたらそのまま）
   (function(){
     var f = document.querySelector('.cflower');
     if (!f) return;
-    if (!('IntersectionObserver' in window)) { f.classList.add('grow'); return; }
+    var started = false;
+    var start = function(){
+      if (started) return; started = true;
+      var imgs = Array.prototype.slice.call(f.querySelectorAll('img'));
+      Promise.all(imgs.map(function(img){
+        return img.decode ? img.decode().catch(function(){}) : Promise.resolve();
+      })).then(function(){ requestAnimationFrame(function(){
+        f.classList.add('grow');
+        var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (still) return;
+        setTimeout(function(){
+          var sec = document.getElementById('contact-r');
+          var r = f.getBoundingClientRect(), b = sec.getBoundingClientRect();
+          // 花の中心（花びらのあたり）から、はじける
+          sec.style.setProperty('--fx', (r.left - b.left + r.width * 0.3) + 'px');
+          sec.style.setProperty('--fy', (r.top - b.top + r.height * 0.3) + 'px');
+          // セクション全体をちょうど覆えるくらいの大きさ（大きすぎると一瞬で白くなるため）
+          sec.style.setProperty('--sz', (Math.hypot(b.width, b.height) * 2.3) + 'px');
+          sec.classList.add('pop');
+        }, 4300);
+      }); });
+    };
+    if (!('IntersectionObserver' in window)) { start(); return; }
     var io = new IntersectionObserver(function(es){
-      es.forEach(function(e){ if (e.isIntersecting) { f.classList.add('grow'); io.disconnect(); } });
-    }, { threshold: 0.6 });
+      es.forEach(function(e){ if (e.isIntersecting) { start(); io.disconnect(); } });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
     io.observe(f);
   })();
 </script>
+
 <script>
   // 03 思い：セクションの上の端が画面の中ほどまで来たら紫に。上に戻ると薄い色に戻る
   (function(){
