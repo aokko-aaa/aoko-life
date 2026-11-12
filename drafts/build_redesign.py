@@ -443,7 +443,7 @@ BODY = f'''
   <section class="purple">
     <span class="num">06</span>
     <h2 class="r-h"><em>プラン</em></h2>
-    <p class="plan-note">{W("目安です。","内容や量に応じて、","ご相談のうえ決定します。")}</p>
+    <p class="plan-note">{W("税込・目安です。","内容や量に応じて、","ご相談のうえ決定します。")}</p>
     <p class="first">相談は <b>無料</b></p>
     <details class="fold">
       <summary><span>月額でお任せ</span><small>スタンダード・フルサポート</small></summary>
@@ -516,7 +516,7 @@ BODY = f'''
   <section class="purple" id="contact-r">
     <h2 class="r-h">その<em>「あれこれ」</em>、<br><span class="wb">聞かせてください。</span></h2>
     <p>まとまっていなくても大丈夫です。</p>
-    <a class="btn btn-white" href="{FORM}" target="_blank" rel="noopener">相談フォームへ<small class="btn-sub">匿名OK</small></a>
+    <a class="btn btn-white" href="{FORM}" target="_blank" rel="noopener">相談フォームへ<small class="btn-sub">仮名OK</small></a>
   </section>
 
 {footer}
