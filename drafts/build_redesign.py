@@ -426,6 +426,17 @@ CSS = r'''
     .cflower{left:calc(50% + 230px);right:auto;top:auto;bottom:56px;width:170px;}
     #contact-r .btn{margin-top:28px;}
   }
+
+  /* ===== キャッチを大きく／最初の画面の相談ボタンを少し小さく ===== */
+  #hero .catch{font-size:min(24px, 6.4vw);}
+  #hero .catch em{font-size:min(36px, 9.6vw);}
+  #hero .btn{width:100%;max-width:300px;min-height:50px;font-size:15px;}
+  @media (min-width: 900px){
+    #hero > *{max-width:580px;}
+    #hero .catch{font-size:38px;}
+    #hero .catch em{font-size:60px;}
+    #hero .btn{width:300px;min-height:54px;font-size:16px;}
+  }
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
