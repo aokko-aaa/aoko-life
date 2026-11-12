@@ -22,6 +22,10 @@ portrait = re.search(r'<img class="portrait"[^>]*>', src).group(0)
 footer = src[src.index('  <footer>'):src.index('</footer>') + len('</footer>')]
 _s = src.rindex('<script>'); script = src[_s:src.index('</script>', _s) + len('</script>')]
 career = block(src.index('<div class="career">'))
+# 最後の相談セクションに添える花（最初の画面のカラスの頭の花と同じ絵）
+_stem = re.search(r'<img class="crow-stem" src="([^"]+)"', src).group(1)
+_head = re.search(r'<img class="crow-head" src="([^"]+)"', src).group(1)
+FLOWER = f'<div class="cflower" aria-hidden="true"><img class="cf-stem" src="{_stem}" alt=""><img class="cf-head" src="{_head}" alt=""></div>'
 career = career.replace('<dd><span class="tool">Microsoft Excel</span></dd>', '<dd><span class="tool">Google系ツール各種</span><span class="tool">Microsoft Excel</span></dd>')
 more_body = block(src.index('<div class="more-body">'))
 
@@ -368,6 +372,17 @@ CSS = r'''
 
   /* グレーのセクションは、上の端を白からなめらかにグレーへ（前の白いセクションとの境目をなくす） */
   .page > section.gray{background:linear-gradient(var(--paper) 0, #f6f6f7 140px);}
+
+  /* 09 相談：花を添える（画面に入ると、芽が伸びて花が咲く） */
+  .cflower{position:relative;width:120px;aspect-ratio:260/232;margin:0 auto 12px;overflow:hidden;}
+  .cflower img{position:absolute;left:-113.85%;top:-3.45%;width:230.77%;height:auto;max-width:none;}
+  .cflower{-webkit-mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);}
+  .js .cflower .cf-stem{clip-path:inset(40% 0 0 0);transform:scale(.25);transform-origin:66% 38%;}
+  .js .cflower .cf-head{transform:scale(0) rotate(-40deg);opacity:0;transform-origin:69% 21%;}
+  .js .cflower.grow .cf-stem{animation:sprout 2.8s cubic-bezier(.3,.6,.3,1) .3s forwards;}
+  .js .cflower.grow .cf-head{animation:bloom 1.6s cubic-bezier(.3,1.4,.5,1) 2.9s forwards;}
+  @media (prefers-reduced-motion: reduce){.js .cflower .cf-stem,.js .cflower .cf-head{clip-path:none;transform:none;opacity:1;animation:none;}}
+  @media (min-width: 900px){.cflower{width:150px;margin-bottom:16px;}}
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -548,6 +563,7 @@ BODY = f'''
 
   <!-- 09 相談 -->
   <section class="purple" id="contact-r">
+    {FLOWER}
     <h2 class="r-h">その<em>「あれこれ」</em>、<br><span class="wb">聞かせてください。</span></h2>
     <p>まとまっていなくても大丈夫です。</p>
     <a class="btn btn-white" href="{FORM}" target="_blank" rel="noopener">相談フォームへ<small class="btn-sub">仮名OK</small></a>
@@ -567,6 +583,18 @@ if not PUBLISH:
     head = re.sub(r'<title>(.*?)</title>', r'<title>【見本】\1</title>', head, count=1)
     head = head.replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)
 OMOI_JS = r'''
+<script>
+  // 09 相談の花：画面に入ったら、芽が伸びて花が咲く（いちど咲いたらそのまま）
+  (function(){
+    var f = document.querySelector('.cflower');
+    if (!f) return;
+    if (!('IntersectionObserver' in window)) { f.classList.add('grow'); return; }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) { f.classList.add('grow'); io.disconnect(); } });
+    }, { threshold: 0.6 });
+    io.observe(f);
+  })();
+</script>
 <script>
   // 03 思い：セクションの上の端が画面の中ほどまで来たら紫に。上に戻ると薄い色に戻る
   (function(){
