@@ -63,6 +63,9 @@ def walk(el, sec):
     if cls & {'num', 'hero-visual', 'crow', 'strip'} or el.get('aria-hidden') == 'true':
         return
     # まとめて1行にするもの
+    if el.name == 'a' and 'btn' in cls and el.find('small'):
+        rows.append([sec, 'ボタン', text_of([c for c in el.children if c.name != 'small']) + '\u3000' + text_of(el.find('small').children), '小さい添え書きは全角スペースのあと'])
+        return
     if el.name == 'i' and el.parent.name == 'h3':
         return
     if el.name == 'li' and el.find_parent(class_='spot'):
