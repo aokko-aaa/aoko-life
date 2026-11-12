@@ -391,9 +391,9 @@ CSS = r'''
   .page > section#contact-r{padding-top:44px;padding-bottom:44px;overflow:hidden;isolation:isolate;}
   #contact-r > *:not(.splash){position:relative;z-index:2;}
   #contact-r .cflower{position:absolute;z-index:3;}
-  /* スマホ：文字は中央揃え、花は見出しの左の空き */
+  /* スマホ：文字は中央揃え、花は見出しの右の空き */
   #contact-r{text-align:center;}
-  .cflower{left:6px;right:auto;top:26px;width:76px;}
+  .cflower{left:auto;right:6px;top:26px;width:76px;}
   #contact-r .btn{margin-top:20px;}
   /* はじける白い液体 */
   .splash{position:absolute;inset:0;z-index:1;pointer-events:none;}
@@ -423,7 +423,7 @@ CSS = r'''
   #contact-r.pop .btn::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
   @media (min-width: 900px){
     .page > section#contact-r{padding-top:72px;padding-bottom:72px;}
-    .cflower{left:auto;right:calc(50% + 230px);top:auto;bottom:56px;width:170px;}
+    .cflower{left:calc(50% + 230px);right:auto;top:auto;bottom:56px;width:170px;}
     #contact-r .btn{margin-top:28px;}
   }
 '''
