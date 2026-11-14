@@ -795,9 +795,9 @@
   #hero .btn{margin-top:28px;}
   #hero .hero-visual{margin:12px 0 0;}
   #hero .crow{
-    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 14%), linear-gradient(to bottom, #000 72%, transparent 100%);
+    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 14%), linear-gradient(to bottom, #000 var(--crow-fade,90%), transparent 100%);
     -webkit-mask-composite:source-in;
-            mask-image:linear-gradient(to right, transparent 0, #000 14%), linear-gradient(to bottom, #000 72%, transparent 100%);
+            mask-image:linear-gradient(to right, transparent 0, #000 14%), linear-gradient(to bottom, #000 var(--crow-fade,90%), transparent 100%);
             mask-composite:intersect;
   }
   @media (min-width: 900px){
@@ -927,6 +927,9 @@
   }
 
   .tag-note{display:block;font-size:11px;font-weight:400;color:var(--muted);line-height:1.6;}
+
+  /* カラスの下のぼかし：スマホは弱め（いちばん下だけ）、パソコンはこれまでどおり */
+  @media (min-width: 900px){#hero .crow{--crow-fade:72%;}}
 </style>
 </head>
 <body>
