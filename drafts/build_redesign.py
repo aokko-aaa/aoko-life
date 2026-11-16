@@ -527,6 +527,11 @@ CSS = r'''
   .svc-card .tags{padding:0 20px 18px;}
   @media (prefers-reduced-motion: reduce){.svc-card summary::after{transition:none;}}
   @media (min-width: 900px){.svc-card summary{padding:20px 24px;}.svc-card .tags{padding:0 24px 22px;}}
+
+  @media (min-width: 900px){
+    .svc-card summary{cursor:default;pointer-events:none;}
+    .svc-card summary::after{display:none;}
+  }
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -624,8 +629,8 @@ BODY = f'''
         <ul class="tags"><li>業務の棚卸し</li><li>ボトルネック探し</li><li>壁打ち・相談</li><li>アイデアの言語化</li><li>優先順位の整理</li><li>やることリスト化</li></ul></details>
       <details class="svc-card"><summary><h3><i>2.</i>日々の仕事の「あれこれ」</h3></summary>
         <ul class="tags"><li>事務サポート</li><li>リサーチ・比較資料</li><li>SNS運用</li><li>デザイン・文章</li><li>イラスト制作<small class="tag-note"><span class="wb">※デジタル</span><span class="wb">（生成AIは使いません）</span></small></li><li>進捗管理</li><li>マニュアル整備</li></ul></details>
-      <details class="svc-card"><summary><h3><i>3.</i>AIで効率化</h3></summary>
-        <ul class="tags"><li>下調べ・資料づくり</li><li>定型業務の見直し</li><li>ツール導入の一歩目</li></ul></details>
+      <details class="svc-card"><summary><h3><i>3.</i>AIを使った「あれこれ」</h3></summary>
+        <ul class="tags"><li>AIの使い方レクチャー</li><li><span class="wb">業務に合わせた</span><span class="wb">小さなアプリづくり</span></li><li>下調べ・資料づくり</li><li>定型業務の見直し</li><li>ツール導入の一歩目</li></ul></details>
     </div>
     <ul class="ways-r"><li>{W("まるっと","お任せ")}</li><li>{W("自分たちで","回せるように")}</li></ul>
     <details class="before"><summary>ご依頼の前に</summary>
@@ -741,6 +746,16 @@ if not PUBLISH:
     head = re.sub(r'<title>(.*?)</title>', r'<title>【見本】\1</title>', head, count=1)
     head = head.replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)
 OMOI_JS = r'''
+<script>
+  // 04 できること：パソコン（幅900px以上）では、3つとも開いた状態で見せる
+  (function(){
+    var mq = window.matchMedia('(min-width: 900px)');
+    var cards = document.querySelectorAll('.svc-card');
+    var set = function(){ cards.forEach(function(c){ if (mq.matches) c.open = true; else c.open = false; }); };
+    set();
+    if (mq.addEventListener) mq.addEventListener('change', set); else if (mq.addListener) mq.addListener(set);
+  })();
+</script>
 <script>
   // 09 相談の花：画面に少しでも入ったら、絵の読み込みを待ってから、芽が伸びて花が咲く（いちど咲いたらそのまま）
   (function(){
