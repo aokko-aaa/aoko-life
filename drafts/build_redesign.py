@@ -532,6 +532,9 @@ CSS = r'''
     .svc-card summary{cursor:default;pointer-events:none;}
     .svc-card summary::after{display:none;}
   }
+
+  /* 開閉ボタンを押したあとの青い枠は、マウス・指で押したときは出さない（キーボード操作では出す） */
+  summary:focus:not(:focus-visible){outline:none;}
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -716,7 +719,7 @@ BODY = f'''
     <div class="prof-wrap">
       <div>
         <div class="prof-top">{portrait}<div><b>クリエイティブサポーター</b></div></div>
-        <p class="prof-msg">{W("「やりたい」が","いつも頭の中で大渋滞。")}{W("わたし自身がそんなタイプだから、","アイデアを抱える方の気持ちが","よくわかります。")}</p>
+        <p class="prof-msg">{W("「やりたい」が","いつも頭の中で大渋滞。")}{W("実は、","わたし自身が","そんなタイプです。")}</p>
         <details class="more"><summary class="tri-only" aria-label="続きを読む"></summary>{more_body}</details>
       </div>
       <details class="more more-career"><summary>経歴・利用ツール</summary>{career}</details>
