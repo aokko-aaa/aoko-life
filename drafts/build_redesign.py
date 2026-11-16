@@ -720,9 +720,9 @@ BODY = f'''
       <div>
         <div class="prof-top">{portrait}<div><b>クリエイティブサポーター</b></div></div>
         <p class="prof-msg">{W("「やりたい」が","いつも頭の中で大渋滞。")}{W("実は、","わたし自身が","そんなタイプです。")}</p>
-        <details class="more"><summary class="tri-only" aria-label="続きを読む"></summary>{more_body}</details>
+        <details class="more"><summary class="tri-only" aria-label="続きと経歴・利用ツールを読む"></summary>{more_body}{career}</details>
       </div>
-      <details class="more more-career"><summary>経歴・利用ツール</summary>{career}</details>
+      
     </div>
   </section>
 
