@@ -620,11 +620,11 @@ BODY = f'''
     <h2 class="r-h"><span class="mk"><em>できること</em>は、<br>大きく<em>3<span class="s">つ</span></em>。</span></h2>
     <p class="motto-r">効率はAIで。彩りは人で。</p>
     <div class="svc">
-      <details class="svc-card"><summary><h3><i>1</i>頭の中の「あれこれ」</h3></summary>
+      <details class="svc-card"><summary><h3><i>1.</i>頭の中の「あれこれ」</h3></summary>
         <ul class="tags"><li>業務の棚卸し</li><li>ボトルネック探し</li><li>壁打ち・相談</li><li>アイデアの言語化</li><li>優先順位の整理</li><li>やることリスト化</li></ul></details>
-      <details class="svc-card"><summary><h3><i>2</i>日々の仕事の「あれこれ」</h3></summary>
+      <details class="svc-card"><summary><h3><i>2.</i>日々の仕事の「あれこれ」</h3></summary>
         <ul class="tags"><li>事務サポート</li><li>リサーチ・比較資料</li><li>SNS運用</li><li>デザイン・文章</li><li>イラスト制作<small class="tag-note"><span class="wb">※デジタル</span><span class="wb">（生成AIは使いません）</span></small></li><li>進捗管理</li><li>マニュアル整備</li></ul></details>
-      <details class="svc-card"><summary><h3><i>3</i>AIで効率化</h3></summary>
+      <details class="svc-card"><summary><h3><i>3.</i>AIで効率化</h3></summary>
         <ul class="tags"><li>下調べ・資料づくり</li><li>定型業務の見直し</li><li>ツール導入の一歩目</li></ul></details>
     </div>
     <ul class="ways-r"><li>{W("まるっと","お任せ")}</li><li>{W("自分たちで","回せるように")}</li></ul>
