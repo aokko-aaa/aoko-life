@@ -394,7 +394,7 @@ CSS = r'''
   #contact-r .cflower{position:absolute;z-index:3;}
   /* スマホ：文字は中央揃え、花は見出しの右の空き */
   #contact-r{text-align:center;}
-  .cflower{left:auto;right:6px;top:26px;width:76px;}
+  .cflower{left:auto;right:4px;top:6px;width:58px;}
   #contact-r .btn{margin-top:20px;}
   /* はじける白い液体 */
   .splash{position:absolute;inset:0;z-index:1;pointer-events:none;}
@@ -498,6 +498,18 @@ CSS = r'''
   @media (min-width: 900px){
     #hero .hero-visual{position:absolute;top:auto;bottom:-90px;margin:0;}
     #hero .crow{--crow-fade:86%;}
+  }
+
+  /* ===== 見出しとキャッチを、もっと太く大きく ===== */
+  #hero .catch{font-size:min(24px, 6.2vw);font-weight:900;}
+  #hero .catch em{font-size:min(38px, 9.8vw);font-weight:900;}
+  .r-h{font-size:21px;font-weight:900;}
+  .r-h em{font-size:34px;font-weight:900;}
+  @media (min-width: 900px){
+    #hero .catch{font-size:40px;}
+    #hero .catch em{font-size:64px;}
+    .r-h{font-size:34px;}
+    .r-h em{font-size:52px;}
   }
 '''
 
@@ -706,6 +718,7 @@ js = script.replace(
     script[script.index("document.querySelectorAll(\n"):script.index(");", script.index("document.querySelectorAll(\n")) + 2],
     "document.querySelectorAll('#hero > *, .page > section > .r-h, .own, .vs, .nm-col, .strip, .bubbles li, .answer, .split > div, .gains li, .svc-card, .steps li, .plan, .spot, .names li, .prof-msg, #contact-r > p, #contact-r .btn');")
 
+head = head.replace('Noto+Sans+JP:wght@400;500;700', 'Noto+Sans+JP:wght@400;500;700;900')
 import sys
 PUBLISH = '--publish' in sys.argv  # 付けると public/index.html（公開用）に書き出す。付けないと見本（drafts/redesign.html）
 if not PUBLISH:

@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   /* 色はここだけ差し替えればOK（名刺の黄緑・グレー・紫に合わせています） */
   :root{
@@ -834,7 +834,7 @@
   #contact-r .cflower{position:absolute;z-index:3;}
   /* スマホ：文字は中央揃え、花は見出しの右の空き */
   #contact-r{text-align:center;}
-  .cflower{left:auto;right:6px;top:26px;width:76px;}
+  .cflower{left:auto;right:4px;top:6px;width:58px;}
   #contact-r .btn{margin-top:20px;}
   /* はじける白い液体 */
   .splash{position:absolute;inset:0;z-index:1;pointer-events:none;}
@@ -938,6 +938,18 @@
   @media (min-width: 900px){
     #hero .hero-visual{position:absolute;top:auto;bottom:-90px;margin:0;}
     #hero .crow{--crow-fade:86%;}
+  }
+
+  /* ===== 見出しとキャッチを、もっと太く大きく ===== */
+  #hero .catch{font-size:min(24px, 6.2vw);font-weight:900;}
+  #hero .catch em{font-size:min(38px, 9.8vw);font-weight:900;}
+  .r-h{font-size:21px;font-weight:900;}
+  .r-h em{font-size:34px;font-weight:900;}
+  @media (min-width: 900px){
+    #hero .catch{font-size:40px;}
+    #hero .catch em{font-size:64px;}
+    .r-h{font-size:34px;}
+    .r-h em{font-size:52px;}
   }
 </style>
 </head>
