@@ -515,6 +515,18 @@ CSS = r'''
   /* ===== 「」、。のまわりの空きを詰める（ページ全体） ===== */
   body{font-feature-settings:"palt" 1;text-spacing-trim:trim-start;}
   .r-h, #hero .catch{letter-spacing:.01em;}
+
+  /* 04 できること：見出しだけ見せて、押すと中身が開く（スマホ・パソコン共通） */
+  .svc{align-items:start;}
+  .svc-card{padding:0;}
+  .svc-card summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px;padding:16px 20px;}
+  .svc-card summary::-webkit-details-marker{display:none;}
+  .svc-card summary h3{margin:0;}
+  .svc-card summary::after{content:"";flex:none;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--brand);transition:transform .25s ease;}
+  .svc-card[open] summary::after{transform:rotate(180deg);}
+  .svc-card .tags{padding:0 20px 18px;}
+  @media (prefers-reduced-motion: reduce){.svc-card summary::after{transition:none;}}
+  @media (min-width: 900px){.svc-card summary{padding:20px 24px;}.svc-card .tags{padding:0 24px 22px;}}
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
@@ -608,12 +620,12 @@ BODY = f'''
     <h2 class="r-h"><span class="mk"><em>できること</em>は、<br>大きく<em>3<span class="s">つ</span></em>。</span></h2>
     <p class="motto-r">効率はAIで。彩りは人で。</p>
     <div class="svc">
-      <div class="svc-card"><h3><i>1</i>頭の中の「あれこれ」</h3>
-        <ul class="tags"><li>業務の棚卸し</li><li>ボトルネック探し</li><li>壁打ち・相談</li><li>アイデアの言語化</li><li>優先順位の整理</li><li>やることリスト化</li></ul></div>
-      <div class="svc-card"><h3><i>2</i>日々の仕事の「あれこれ」</h3>
-        <ul class="tags"><li>事務サポート</li><li>リサーチ・比較資料</li><li>SNS運用</li><li>デザイン・文章</li><li>イラスト制作<small class="tag-note"><span class="wb">※デジタル</span><span class="wb">（生成AIは使いません）</span></small></li><li>進捗管理</li><li>マニュアル整備</li></ul></div>
-      <div class="svc-card"><h3><i>3</i>AIで効率化</h3>
-        <ul class="tags"><li>下調べ・資料づくり</li><li>定型業務の見直し</li><li>ツール導入の一歩目</li></ul></div>
+      <details class="svc-card"><summary><h3><i>1</i>頭の中の「あれこれ」</h3></summary>
+        <ul class="tags"><li>業務の棚卸し</li><li>ボトルネック探し</li><li>壁打ち・相談</li><li>アイデアの言語化</li><li>優先順位の整理</li><li>やることリスト化</li></ul></details>
+      <details class="svc-card"><summary><h3><i>2</i>日々の仕事の「あれこれ」</h3></summary>
+        <ul class="tags"><li>事務サポート</li><li>リサーチ・比較資料</li><li>SNS運用</li><li>デザイン・文章</li><li>イラスト制作<small class="tag-note"><span class="wb">※デジタル</span><span class="wb">（生成AIは使いません）</span></small></li><li>進捗管理</li><li>マニュアル整備</li></ul></details>
+      <details class="svc-card"><summary><h3><i>3</i>AIで効率化</h3></summary>
+        <ul class="tags"><li>下調べ・資料づくり</li><li>定型業務の見直し</li><li>ツール導入の一歩目</li></ul></details>
     </div>
     <ul class="ways-r"><li>{W("まるっと","お任せ")}</li><li>{W("自分たちで","回せるように")}</li></ul>
     <details class="before"><summary>ご依頼の前に</summary>
