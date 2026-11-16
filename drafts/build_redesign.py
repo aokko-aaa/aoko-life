@@ -511,6 +511,10 @@ CSS = r'''
     .r-h{font-size:34px;}
     .r-h em{font-size:52px;}
   }
+
+  /* ===== 「」、。のまわりの空きを詰める（ページ全体） ===== */
+  body{font-feature-settings:"palt" 1;text-spacing-trim:trim-start;}
+  .r-h, #hero .catch{letter-spacing:.01em;}
 '''
 
 ICON = lambda d: ('<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" '
