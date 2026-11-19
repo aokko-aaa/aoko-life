@@ -8,7 +8,9 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 - 公開URL：https://life.aokoworks.workers.dev
 - ホスティング：Cloudflare Workers（Worker名 `life`）
 - **このURLは名刺に印刷済み。Worker名とサブドメインは絶対に変更しないこと**
-- 現在の公開方法：Cloudflare の管理画面で `life` を開き「新規展開」から `public/` フォルダの中身を全部まとめて手動アップロードしている（GitHubとは自動ではつながっていない）
+- 公開方法：GitHub の `main` に保存すると、Cloudflare（Workers のビルド機能）が自動で `life` に公開する（ビルドコマンドなし、デプロイコマンド `npx wrangler deploy`。設定は `wrangler.jsonc`。Worker名 `life` は変えない）
+  - **`main` に保存した瞬間に公開される**。直している途中は下書き用のブランチ `claude/shindan-draft` にだけ保存し、依頼者が「OK」と言ったものだけ `main` に保存する
+  - Cloudflare とつなぐ前（または自動公開が止まっているとき）は、今までどおり `public/` の中身を zip にまとめて渡し、管理画面の「新規展開」で手動アップロードしてもらう
 
 ## 作業する人について
 
@@ -27,7 +29,7 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 - `public/favicon.ico`・`public/apple-touch-icon.png`：ブックマークやタブに出るアイコン（ロゴの頭文字「Hi」の部分）。index.html と movie.html の `<head>` で読み込んでいる
 - `public/pouch/`：自作の道具を配る「my pouch」（https://life.aokoworks.workers.dev/pouch/）。中の html は `pouch/tools.json`（道具のデータ）から `python3 pouch/build.py` で自動で作る。手で直さない。道具の足し方は `pouch/README.md`
 - トップページから my pouch への入口は、フッターのいちばん下にある小さな「my pouch」の文字リンク1つだけ（目立たせない）。my pouch の各ページからは、上のロゴと下の案内から HITO IRO へ飛べるようにしている
-- **公開するときは `public/` フォルダの中身を毎回まとめて全部アップロードする**（新規展開はサイト全体を入れ替えるので、1つでも抜けるとそのファイルがサイトから消える）
+- 手動で公開するときは `public/` フォルダの中身を毎回まとめて全部アップロードする（新規展開はサイト全体を入れ替えるので、1つでも抜けるとそのファイルがサイトから消える）
 - `design/form-header.png`：Googleフォームのヘッダー画像（サイトには載せない素材）
 - `src/worker.js`・`public/style.css`・`public/thanks.html`・`public/sorry.html`・`SETUP.md`：以前の自作フォーム用。今は相談をGoogleフォームで受けているので使っていない
 
@@ -74,7 +76,7 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 ## 進め方
 
 - 変更したら、スマホ幅のスクリーンショットで依頼者に確認してもらう
-- 公開は依頼者が管理画面からアップロードする。公開後は https://life.aokoworks.workers.dev で表示を確認してもらう
+- 直したら見本で確認してもらい、「OK」が出たら `python3 drafts/build_redesign.py --publish` で公開用を作って `main` に保存する（自動で公開される）。公開後は https://life.aokoworks.workers.dev で表示を確認してもらう
 
 ## 次の更新でやること（依頼者からのメモ）
 
