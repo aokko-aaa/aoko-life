@@ -660,7 +660,7 @@ BODY = f'''
     <p class="plan-note">{W("税込・目安です。","内容や量に応じて、","ご相談のうえ決定します。")}</p>
     <p class="first">相談は <b>無料</b></p>
     <details class="fold">
-      <summary><span>月額でお任せ</span><small>スタンダード・フルサポート</small></summary>
+      <summary><span>月額でお任せ</span></summary>
       <div class="fold-body">
     <div class="plans-r">
       <div class="plan"><p>スタンダード</p><p class="price"><b>6</b><span>万円/月</span></p><small>思考の整理から実務まで、まるごと</small></div>
