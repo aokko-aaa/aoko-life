@@ -678,6 +678,7 @@ BODY = f'''
         <li><span>販促物の作成（印刷費別）</span><b>1万円〜</b></li>
         <li><span>イラスト制作</span><b>5,000円〜</b></li>
         <li><span>イラスト生成（AI生成）</span><b>要相談</b></li>
+        <li><span>動画編集（AI作成）</span><b>要相談</b></li>
         <li><span>SNS運用サポート</span><b>3万5,000円〜</b></li>
         <li><span>AI使い方相談（1対1）</span><b>1時間5,000円〜<br>3時間まで10,000円</b></li>
       </ul>
