@@ -631,7 +631,7 @@ BODY = f'''
       <details class="svc-card"><summary><h3><i>1.</i>頭の中の「あれこれ」</h3></summary>
         <ul class="tags"><li>業務の棚卸し</li><li>ボトルネック探し</li><li>壁打ち・相談</li><li>アイデアの言語化</li><li>優先順位の整理</li><li>やることリスト化</li></ul></details>
       <details class="svc-card"><summary><h3><i>2.</i>日々の仕事の「あれこれ」</h3></summary>
-        <ul class="tags"><li>事務サポート</li><li>リサーチ・比較資料</li><li>SNS運用</li><li>デザイン・文章</li><li>イラスト制作<small class="tag-note"><span class="wb">※デジタル</span><span class="wb">（生成AIは使いません）</span></small></li><li>進捗管理</li><li>マニュアル整備</li></ul></details>
+        <ul class="tags"><li>事務サポート</li><li>リサーチ・比較資料</li><li>SNS運用</li><li>デザイン・文章</li><li>イラスト制作</li><li>進捗管理</li><li>マニュアル整備</li></ul></details>
       <details class="svc-card"><summary><h3><i>3.</i>AIを使った「あれこれ」</h3></summary>
         <ul class="tags"><li>AIの使い方レクチャー</li><li><span class="wb">業務に合わせた</span><span class="wb">小さなアプリづくり</span></li><li>下調べ・資料づくり</li><li>定型業務の見直し</li><li>ツール導入の一歩目</li></ul></details>
     </div>
@@ -676,7 +676,7 @@ BODY = f'''
       <ul>
         <li><span>リサーチ・比較資料</span><b>1万5,000円〜</b></li>
         <li><span>販促物の作成（印刷費別）</span><b>1万円〜</b></li>
-        <li><span>イラスト制作<small class="tag-note"><span class="wb">※デジタル</span><span class="wb">（生成AIは使いません）</span></small></span><b>5,000円〜</b></li>
+        <li><span>イラスト制作</span><b>5,000円〜</b></li>
         <li><span>SNS運用サポート</span><b>3万5,000円〜</b></li>
         <li><span>AI使い方相談（1対1）</span><b>1時間5,000円〜<br>3時間まで10,000円</b></li>
       </ul>
