@@ -31,7 +31,7 @@ AOKOWORKS が運営するサービス「HITO IRO（ヒトイロ）｜あれこ�
 - トップページから my pouch への入口は、フッターのいちばん下にある小さな「my pouch」の文字リンク1つだけ（目立たせない）。my pouch の各ページからは、上のロゴと下の案内から HITO IRO へ飛べるようにしている
 - 手動で公開するときは `public/` フォルダの中身を毎回まとめて全部アップロードする（新規展開はサイト全体を入れ替えるので、1つでも抜けるとそのファイルがサイトから消える）
 - `design/form-header.png`：Googleフォームのヘッダー画像（サイトには載せない素材）
-- `src/worker.js`・`public/style.css`・`public/thanks.html`・`public/sorry.html`・`SETUP.md`：以前の自作フォーム用。今は相談をGoogleフォームで受けているので使っていない
+- `src/worker.js`・`public/style.css`・`public/thanks.html`・`public/sorry.html`・`SETUP.md`：以前の自作フォーム用。今は相談をGoogleフォームで受けているので使っていない（`wrangler.jsonc` からも外してあり、`src/worker.js` は公開されない）
 
 ## 書き方・決定事項
 
